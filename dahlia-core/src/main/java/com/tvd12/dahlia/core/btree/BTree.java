@@ -22,7 +22,7 @@ public class BTree {
 		if(root == null) {
 			root = new Node(maxDegree);
 			root.entries[0] = entry;
-			++ root.entryCount;
+			root.entryCount = 1;
 		}
 		else {
 			insertToNode(root, entry);
@@ -62,7 +62,7 @@ public class BTree {
 				break;
 			++ childIndex;
 		}
-		return node.children[node.entryCount];
+		return node.children[childIndex];
 	}
 	
 	private void postInsert(Node node) {
@@ -83,10 +83,10 @@ public class BTree {
 		
 		if(node.parent != null) {
 			Node parent = node.parent;
-			int childrenSplitIndex = getParentChildrenSplitIndex(node);
-			moveNodeItemsToRight(parent, childrenSplitIndex);
-			insertRisingEntry(parent, risingEntry, childrenSplitIndex);
-			node.children[childrenSplitIndex + 1] = rightNode;
+			int beforeIndexOfNode = beforeIndexOfNodeInParent(node);
+			moveNodeItemsToRight(parent, beforeIndexOfNode);
+			insertRisingEntry(parent, risingEntry, beforeIndexOfNode);
+			parent.children[beforeIndexOfNode + 1] = rightNode;
 			rightNode.parent = parent;
 		}
 		
@@ -104,17 +104,17 @@ public class BTree {
 		return rightNode;
 	}
 	
-	private int getParentChildrenSplitIndex(Node node) {
+	private int beforeIndexOfNodeInParent(Node node) {
 		Node currentParent = node.parent;
-		int splitIndex = 0;
+		int index = 0;
 		int childCount = currentParent.entryCount + 1;
-		while(splitIndex < childCount &&
-				currentParent.children[splitIndex] != node) {
-			++ splitIndex;
+		while(index < childCount &&
+				currentParent.children[index] != node) {
+			++ index;
 		}
-		if(splitIndex == childCount)
+		if(index == childCount)
 			throw new IllegalStateException("hmm!!!, this a magic error");
-		return splitIndex;
+		return index;
 	}
 	
 	private void moveNodeItemsToRight(Node node, int nodeSplitIndex) {
@@ -151,11 +151,16 @@ public class BTree {
 		Node newRoot = new Node(maxDegree);
 		newRoot.leaf = false;
 		newRoot.entries[0] = risingEntry;
+		newRoot.entryCount = 1;
 		newRoot.children[0] = leftNode;
 		newRoot.children[1] = rightNode;
 		leftNode.parent = newRoot;
 		rightNode.parent = newRoot;
 		return newRoot;
+	}
+	
+	public void accept(BTreeVisitor visitor) {
+		visitor.visit(new BTreeProxy(this));
 	}
 	
 	public static class Node {
