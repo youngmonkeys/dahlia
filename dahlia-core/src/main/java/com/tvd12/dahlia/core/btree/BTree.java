@@ -83,10 +83,10 @@ public class BTree {
 		
 		if(node.parent != null) {
 			Node parent = node.parent;
-			int beforeIndexOfNode = beforeIndexOfNodeInParent(node);
-			moveNodeItemsToRight(parent, beforeIndexOfNode);
-			insertRisingEntry(parent, risingEntry, beforeIndexOfNode);
-			parent.children[beforeIndexOfNode + 1] = rightNode;
+			int indexOfNode = indexOfNodeInParent(node);
+			moveItemsToRight(parent, indexOfNode);
+			insertRisingEntry(parent, risingEntry, indexOfNode);
+			parent.children[indexOfNode + 1] = rightNode;
 			rightNode.parent = parent;
 		}
 		
@@ -104,7 +104,7 @@ public class BTree {
 		return rightNode;
 	}
 	
-	private int beforeIndexOfNodeInParent(Node node) {
+	private int indexOfNodeInParent(Node node) {
 		Node currentParent = node.parent;
 		int index = 0;
 		int childCount = currentParent.entryCount + 1;
@@ -117,10 +117,17 @@ public class BTree {
 		return index;
 	}
 	
-	private void moveNodeItemsToRight(Node node, int nodeSplitIndex) {
+	private void moveItemsToRight(Node node, int nodeSplitIndex) {
+		moveChildrenToRight(node, nodeSplitIndex);
+		moveEntriesToRight(node, nodeSplitIndex);
+	}
+	
+	private void moveChildrenToRight(Node node, int nodeSplitIndex) {
 		for(int i = node.entryCount ; i > nodeSplitIndex ; --i)
 			node.children[i + 1] = node.children[i];
-
+	}
+	
+	private void moveEntriesToRight(Node node, int nodeSplitIndex) {
 		for(int i = node.entryCount ; i > nodeSplitIndex ; --i)
 			node.entries[i] = node.entries[i - 1];
 	}
@@ -157,6 +164,171 @@ public class BTree {
 		leftNode.parent = newRoot;
 		rightNode.parent = newRoot;
 		return newRoot;
+	}
+	
+	public void delete(int key) {
+		deleteFromNode(root, key);
+		if(this.root.entryCount == 0) {
+			root = root.children[0];
+			root.parent = null;
+		}
+	}
+	
+	private void deleteFromNode(Node node, int key) {
+		if(node == null)
+			return;
+		int entryIndex = findEntryIndex(node, key);
+		if(entryIndex == node.entryCount) {
+			if(node.leaf)
+				return;
+			deleteFromNode(node.children[node.entryCount], key);
+		}
+		else if(node.entries[entryIndex] > key) {
+			if(node.leaf)
+				return;
+			deleteFromNode(node.children[entryIndex], key);
+		}
+		else {
+			if(node.leaf) {
+				moveEntriesToLeft(node, entryIndex);
+				-- node.entryCount;
+				postDelete(node);
+			}
+			else {
+				Node maxNode = getMaxLeafNode(node.children[entryIndex]);
+				node.entries[entryIndex] = maxNode.entries[maxNode.entryCount - 1];
+				-- node.entryCount;
+				postDelete(maxNode);
+			}
+		}
+	}
+	
+	private int findEntryIndex(Node node, int key) {
+		int index = 0;
+		while(index < node.entryCount && node.entries[index] < key)
+			++ index;
+		return index;
+	}
+	
+	private void moveItemsToLeft(Node node, int leftIndex) {
+		moveChildrenToLeft(node, leftIndex);
+		moveEntriesToLeft(node, leftIndex - 1);
+	}
+	
+	private void moveChildrenToLeft(Node node, int leftIndex) {
+		for(int i = leftIndex ; i < node.entryCount ; ++i)
+			node.children[i] = node.children[i + 1];
+	}
+	
+	private void moveEntriesToLeft(Node node, int leftIndex) {
+		int maxIndex = node.entryCount - 1;
+		for(int i = leftIndex ; i < maxIndex ; ++i)
+			node.entries[i] = node.entries[i + 1];
+	}
+	
+	private Node getMaxLeafNode(Node node) {
+		Node maxNode = node;
+		while(!maxNode.leaf)
+			maxNode = maxNode.children[maxNode.entryCount];
+		return maxNode;
+	}
+	
+	private void postDelete(Node node) {
+		if(node.entryCount >= minEntry)
+			return;
+		if(node.parent == null) {
+			if(node.entryCount == 0) {
+				root = root.children[0];
+				if(root != null)
+					root.parent = null;
+			}
+		}
+		else {
+			Node parentNode = node.parent;
+			int indexOfNode = indexOfNodeInParent(node);
+			if(indexOfNode > 0 && 
+					parentNode.children[indexOfNode - 1].entryCount > minEntry) {
+				stealFromLeft(node, indexOfNode);
+			}
+			else if(indexOfNode < parentNode.entryCount &&
+					parentNode.children[indexOfNode + 1].entryCount > minEntry) {
+				stealFromRight(node, indexOfNode);
+			}
+			else if(indexOfNode == 0) {
+				Node nextNode = mergeRight(node);
+				postDelete(nextNode);
+			}
+			else {
+				Node nextNode = mergeRight(parentNode.children[indexOfNode - 1]);
+				postDelete(nextNode.parent);
+			}
+		}
+	}
+	
+	private void stealFromLeft(Node node, int indexOfNodeInParent) {
+		moveEntriesToRight(node, 0);
+		++ node.entryCount;
+
+		Node parentNode = node.parent;
+		Node leftSib = parentNode.children[indexOfNodeInParent - 1];
+		
+		if(!leftSib.leaf) {
+			moveChildrenToRight(node, 0);
+			node.children[0] = leftSib.children[leftSib.entryCount];
+			leftSib.children[leftSib.entryCount] = null;
+			node.children[0].parent = node;
+		}
+		
+		node.entries[0] = parentNode.entries[indexOfNodeInParent - 1];
+		parentNode.entries[indexOfNodeInParent - 1] = leftSib.entries[leftSib.entryCount - 1];
+		-- leftSib.entryCount;
+	}
+	
+	private void stealFromRight(Node node, int indexOfNodeInParent) {
+		Node parentNode = node.parent;
+		Node rightSib = parentNode.children[indexOfNodeInParent + 1];
+		++ node.entryCount;
+		node.entries[node.entryCount - 1] = parentNode.entries[indexOfNodeInParent];
+		parentNode.entries[indexOfNodeInParent] = rightSib.entries[0];
+		if(!node.leaf) {
+			node.children[node.entryCount] = rightSib.children[0];
+			node.children[node.entryCount].parent = node;
+			moveChildrenToLeft(rightSib, 0);
+		}
+		moveEntriesToLeft(parentNode, 0);
+		-- rightSib.entryCount;
+	}
+	
+	private Node mergeRight(Node node) {
+		Node parentNode = node.parent;
+		int indexOfNode = indexOfNodeInParent(node);
+		Node rightSib = parentNode.children[indexOfNode + 1];
+		
+		node.entries[node.entryCount] = parentNode.entries[indexOfNode];
+		copyEntries(rightSib, node, node.entryCount + 1);
+		
+		if(node.leaf)
+			copyChildren(rightSib, node, node.entryCount + 1);
+		
+		moveItemsToLeft(parentNode, indexOfNode + 1);
+		-- parentNode.entryCount;
+		node.entryCount = node.entryCount + rightSib.entryCount + 1;
+		
+		return node;
+	}
+	
+	private void copyEntries(Node from, Node to, int toStartIndex) {
+		for(int i = 0 ; i < to.entryCount ; ++i)
+			to.entries[toStartIndex + i] = from.entries[i];
+	}
+	
+	private void copyChildren(Node from, Node to, int toStartIndex) {
+		int childCount = from.entryCount + 1;
+		for(int i = 0 ; i < childCount ; ++i) {
+			int index = toStartIndex + i;
+			to.children[index] = from.children[i];
+			to.children[index].parent = to;
+		}
 	}
 	
 	public void accept(BTreeVisitor visitor) {

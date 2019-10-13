@@ -52,4 +52,24 @@ public class ArrayTest {
 		array[0] = toInsert;
 	}
 	
+	
+	@Test
+	public void test3() {
+		int[] array = new int[] {1, 2, 3, 4, 5};
+		moveChildrenToLeft1(array, 0);
+		System.out.println(Arrays.toString(array));
+		array = new int[] {1, 2, 3, 4, 5};
+		moveChildrenToLeft2(array, 1);
+		System.out.println(Arrays.toString(array));
+	}
+	
+	private void moveChildrenToLeft1(int[] array, int leftIndex) {
+		for(int i = leftIndex ; i < array.length - 1 ; ++i)
+			array[i] = array[i + 1];
+	}
+	
+	private void moveChildrenToLeft2(int[] array, int leftIndex) {
+		for(int i = leftIndex ; i < array.length ; ++i)
+			array[i - 1] = array[i];
+	}
 }
