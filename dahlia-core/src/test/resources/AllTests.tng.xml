@@ -4,6 +4,7 @@
 	<test name="All">
 		<packages>
 			<package name="com.tvd12.dahlia.core.test"></package>
+			<package name="com.tvd12.dahlia.core.test.btree"></package>
 		</packages>
 	</test>
 </suite>

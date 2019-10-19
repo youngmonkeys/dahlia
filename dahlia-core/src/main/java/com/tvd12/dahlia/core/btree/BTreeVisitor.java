@@ -4,4 +4,10 @@ public interface BTreeVisitor {
 
 	void visit(BTreeProxy tree);
 	
+	interface NodeVisitor{
+		
+		void visit(BTreeProxy.NodeProxy node);
+		
+	}
+	
 }

@@ -1,6 +1,10 @@
 package com.tvd12.dahlia.core.btree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.tvd12.dahlia.core.btree.BTree.Node;
+import com.tvd12.ezyfox.util.EzyEquals;
 
 public class BTreeProxy {
 
@@ -36,14 +40,27 @@ public class BTreeProxy {
 			this.node = node;
 		}
 		
+		public NodeProxy getParent() {
+			if(node.parent == null)
+				return null;
+			return new NodeProxy(node.parent);
+		}
+		
 		public int getEntryCount() {
 			return node.entryCount;
 		}
 		
-		public int getChildCount() {
-			if(node.entryCount == 0)
-				return 0;
-			return node.entryCount + 1;
+		public List<NodeProxy> getChildren() {
+			List<NodeProxy> children = new ArrayList<>();
+			for(int i = 0 ; i < node.children.length ; ++ i) {
+				Node child = node.children[i];
+				if(child == null)
+					break;
+				if(i > node.entryCount)
+					break;
+				children.add(new NodeProxy(child));
+			}
+			return children;
 		}
 		
 		public Integer getEntry(int index) {
@@ -52,22 +69,13 @@ public class BTreeProxy {
 			return node.entries[index];
 		}
 		
-		public NodeProxy getChildren(int index) {
-			if(node.children[index] == null)
-				return null;
-			return new NodeProxy(node.children[index]);
+		@Override
+		public boolean equals(Object obj) {
+			return new EzyEquals<NodeProxy>()
+					.function(t -> t.node)
+					.isEquals(this, obj);
 		}
 		
-		@Override
-		public String toString() {
-			StringBuilder builder = new StringBuilder();
-			for(int i = 0 ; i < node.entryCount ; ++i) {
-				builder.append(node.entries[i]);
-				if(i < node.entryCount - 1)
-					builder.append(" ");
-			}
-			return builder.toString();
-		}
 	}
 	
 }
