@@ -1,6 +1,5 @@
 package com.tvd12.dahlia.core.btree;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class BTree {
@@ -30,9 +29,7 @@ public class BTree {
 			root.entryCount = 1;
 		}
 		else {
-			System.out.println("before insert: " + entry + ", current:\n" + this);
 			insertToNode(root, entry);
-			System.out.println("after insert: " + entry + ", current:\n" + this);
 		}
 	}
 	
@@ -185,11 +182,7 @@ public class BTree {
 		deleteFromNode(root, key);
 	}
 	
-	private final AtomicInteger doDeleteCount = new AtomicInteger();
 	private void deleteFromNode(Node node, int key) {
-		int count = doDeleteCount.incrementAndGet();
-		System.out.println("============ start do delete: " + count + " =========");
-		System.out.println("tree: " + node + ", val: " + key + ", current:\n" + this);
 		if(node == null)
 			return;
 		int entryIndex = findEntryIndex(node, key);
@@ -216,8 +209,6 @@ public class BTree {
 				postDelete(maxNode);
 			}
 		}
-		System.out.println("do delete final current:\n" + this);
-		System.out.println("============ end do delete: " + count + " =========");
 	}
 	
 	private int findEntryIndex(Node node, int key) {
@@ -250,128 +241,84 @@ public class BTree {
 		return maxNode;
 	}
 	
-	AtomicInteger repairAfterDeleteCount = new AtomicInteger();
 	private void postDelete(Node node) {
-		int count = repairAfterDeleteCount.incrementAndGet();
-		System.out.println("========== start repairAfterDelete " + count + " ==============");
-		System.out.println("tree: " + node + ", current:\n" + this);
 		if(node.entryCount >= minEntry)
 			return;
-		System.out.println("1. tree.numKeys < this.min_keys: " + node.entryCount + " < " + this.minEntry);
 		if(node.parent == null) {
-			System.out.println("2. tree.parent == null");
 			if(node.entryCount == 0) {
-				System.out.println("3. tree.numKeys == 0");
 				root = root.children[0];
 				if(root != null)
 					root.parent = null;
-				System.out.println("4. this.treeRoot = " + this.root);
 			}
 		}
 		else {
-			System.out.println("5. else tree.parent != null");
 			Node parentNode = node.parent;
 			int indexOfNode = indexOfNodeInParent(node);
-			System.out.println("6. parentIndex: " + indexOfNode + ", parentNode: " + parentNode);
 			if(indexOfNode > 0 && 
 					parentNode.children[indexOfNode - 1].entryCount > minEntry) {
-				System.out.println("7. ");
 				stealFromLeft(node, indexOfNode);
 			}
 			else if(indexOfNode < parentNode.entryCount &&
 					parentNode.children[indexOfNode + 1].entryCount > minEntry) {
-				System.out.println("8. ");
 				stealFromRight(node, indexOfNode);
 			}
 			else if(indexOfNode == 0) {
-				System.out.println("9. ");
 				Node nextNode = mergeRight(node);
 				postDelete(nextNode.parent);
 			}
 			else {
-				System.out.println("10. ");
 				Node nextNode = mergeRight(parentNode.children[indexOfNode - 1]);
 				postDelete(nextNode.parent);
 			}
 		}
-		System.out.println("repairAfterDelete final current:\n" + this);
-		System.out.println("========== end repairAfterDelete " + count + " ==============");
 	}
 	
-	AtomicInteger stealFromLeftCount = new AtomicInteger();
 	private void stealFromLeft(Node node, int indexOfNodeInParent) {
-		int count = stealFromLeftCount.incrementAndGet();
-		System.out.println("========== start stealFromLeft " + count + " ==============");
 		Node parentNode = node.parent;
-		System.out.println("tree: " + node + ", parentIndex: " + indexOfNodeInParent + ", current:\n" + this);
 		moveEntriesToRight(node, 0);
 		++ node.entryCount;
 		
 		Node leftSib = parentNode.children[indexOfNodeInParent - 1];
 		
-		System.out.println("1. tree: " + node + ", parentNode: " + parentNode + ", leftSib: " + leftSib);
-		
 		if(!leftSib.leaf) {
 			moveChildrenToRight(node, node.entryCount - 1, 0);
-			System.out.println("2. tree: " + node);
 			node.children[0] = leftSib.children[leftSib.entryCount];
 			leftSib.children[leftSib.entryCount] = null;
 			node.children[0].parent = node;
-			System.out.println("3. tree: " + node + ", leftSib: " + leftSib);
 		}
 		
 		node.entries[0] = parentNode.entries[indexOfNodeInParent - 1];
 		parentNode.entries[indexOfNodeInParent - 1] = leftSib.entries[leftSib.entryCount - 1];
 		-- leftSib.entryCount;
-		System.out.println("stealFromLeft final current:\n" + this);
-		System.out.println("========== end stealFromLeft " + count + " ==============");
 	}
 	
-	AtomicInteger stealFromRightCount = new AtomicInteger();
 	private void stealFromRight(Node node, int indexOfNodeInParent) {
-		int count = stealFromRightCount.incrementAndGet();
-		System.out.println("========== start stealFromRight " + count + " ==============");
 		Node parentNode = node.parent;
 		Node rightSib = parentNode.children[indexOfNodeInParent + 1];
-		System.out.println("2. tree: " + node + ", parentNode: " + parentNode + ", parentIndex: " + indexOfNodeInParent + ", rightSib: " + rightSib);
 		++ node.entryCount;
 		node.entries[node.entryCount - 1] = parentNode.entries[indexOfNodeInParent];
 		parentNode.entries[indexOfNodeInParent] = rightSib.entries[0];
-		System.out.println("3. tree: " + node + ", parentNode: " + parentNode);
 		if(!node.leaf) {
 			node.children[node.entryCount] = rightSib.children[0];
 			node.children[node.entryCount].parent = node;
 			moveChildrenToLeft(rightSib, 0);
-			System.out.println("4. tree: " + node + ", rightSib: " + rightSib);
 		}
 		moveEntriesToLeft(rightSib, 0);
 		-- rightSib.entryCount;
-		System.out.println("5. tree: " + node + ", rightSib: " + rightSib);
-		System.out.println("stealFromRight final current:\n" + this);
-		System.out.println("========== end stealFromRight " + count + " ==============");
 	}
 	
-	AtomicInteger mergeRightCount = new AtomicInteger(); 
 	private Node mergeRight(Node node) {
-		int count = mergeRightCount.incrementAndGet();
-		System.out.println("================== start mergeRight " + count + " =============");
-		System.out.println("tree: " + node + ", current:\n" + this);
 		Node parentNode = node.parent;
 		int indexOfNode = indexOfNodeInParent(node);
-		System.out.println("tree: " + node + ", parentNode: " + parentNode + ", parentIndex: " + indexOfNode);
 		Node rightSib = parentNode.children[indexOfNode + 1];
 		node.entries[node.entryCount] = parentNode.entries[indexOfNode];
 		copyEntries(rightSib, node, node.entryCount + 1);
-		System.out.println("1. tree: " + node + ", rightSib: " + rightSib + ", parentNode: " + parentNode);
 		if(!node.leaf)
 			copyChildren(rightSib, node, node.entryCount + 1);
 		moveItemsToLeft(parentNode, indexOfNode + 1);
 		parentNode.children[parentNode.entryCount] = null;
 		-- parentNode.entryCount;
 		node.entryCount = node.entryCount + rightSib.entryCount + 1;
-		System.out.println("4. tree: " + node + ", parentNode: " + parentNode);
-		System.out.println("mergeRight final current:\n" + this.toString());
-		System.out.println("================== end mergeRight " + count + " =============");
 		return node;
 	}
 	
@@ -446,7 +393,6 @@ public class BTree {
 		visitor.visit(new BTreeProxy(this));
 	}
 	
-	// ====================== to string ===============
 	@Override
 	public String toString() {
 		BTreePrinter printer = new BTreePrinter();

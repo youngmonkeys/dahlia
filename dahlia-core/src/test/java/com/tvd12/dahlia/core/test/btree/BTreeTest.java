@@ -144,6 +144,7 @@ public class BTreeTest {
 		tree.delete(2);
 		tree.accept(printer);
 		System.out.append(printer.print());
+		System.out.println(tree);
 	}
 	
 	@Test
@@ -167,6 +168,7 @@ public class BTreeTest {
 	public void indexOfNodeInParentMagicCaseTest() {
 		BTree tree = new BTree();
 		BTree.Node node = new BTree.Node(1);
+		System.out.println(node);
 		BTree.Node parent = new BTree.Node(2);
 		FieldUtil.setFieldValue(parent, "entryCount", 2);
 		FieldUtil.setFieldValue(node, "parent", parent);
