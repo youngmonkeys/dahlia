@@ -386,6 +386,29 @@ public class BTree {
 		}
 	}
 	
+	public Integer search(int key) {
+		Integer value = findInNode(root, key);
+		return value;
+	}
+	
+	private Integer findInNode(Node node, int key) {
+		if(node == null)
+			return null;
+		int index = findEntryIndex(node, key);
+		if(index == node.entryCount) {
+			if(node.leaf)
+				return null;
+			return findInNode(node.children[node.entryCount], key);
+		}
+		if(node.entries[index] > key) {
+			if(node.leaf)
+				return null;
+			return findInNode(node.children[index], key);
+		}
+		Integer value = node.entries[index];
+		return value;
+	}
+	
 	public void accept(BTreeVisitor visitor) {
 		visitor.visit(new BTreeProxy(this));
 	}

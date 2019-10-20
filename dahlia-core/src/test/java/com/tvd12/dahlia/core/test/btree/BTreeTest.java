@@ -176,4 +176,13 @@ public class BTreeTest {
 			.method("indexOfNodeInParent")
 			.invoke();
 	}
+	
+	@Test
+	public void searchTest() {
+		BTree tree = new BTree();
+		assert tree.search(1) == null;
+		tree.insert(1);
+		assert tree.search(1) != null;
+		assert tree.search(2) == null;
+	}
 }
