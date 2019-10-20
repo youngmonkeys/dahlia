@@ -4,9 +4,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.testng.annotations.Test;
 
-import com.tvd12.dahlia.core.Tree;
-import com.tvd12.dahlia.core.TreeWalker;
 import com.tvd12.dahlia.core.btree.BTree;
+import com.tvd12.dahlia.core.tree.Tree;
+import com.tvd12.dahlia.core.tree.TreeWalker;
 
 public class BTreeSequentialAccessTest {
 

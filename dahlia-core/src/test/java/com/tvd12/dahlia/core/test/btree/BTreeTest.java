@@ -161,9 +161,17 @@ public class BTreeTest {
 	@Test
 	public void searchTest() {
 		BTree<Integer, Integer> tree = new BTree<>();
+		assert tree.isEmpty();
 		assert tree.search(1) == null;
 		tree.insert(1, 1);
+		assert !tree.isEmpty();
 		assert tree.search(1) != null;
 		assert tree.search(2) == null;
+	}
+	
+	@Test
+	public void constructorTest() {
+		BTree<Integer, Integer> tree = new BTree<>(null);
+		assert tree != null;
 	}
 }

@@ -3,8 +3,8 @@ package com.tvd12.dahlia.core.btree;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tvd12.dahlia.core.Tree;
 import com.tvd12.dahlia.core.btree.BTree.Node;
+import com.tvd12.dahlia.core.tree.Tree;
 import com.tvd12.ezyfox.util.EzyEquals;
 
 public class BTreeProxy<K, V> {

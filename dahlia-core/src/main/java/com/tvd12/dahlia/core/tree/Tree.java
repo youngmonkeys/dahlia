@@ -1,4 +1,4 @@
-package com.tvd12.dahlia.core;
+package com.tvd12.dahlia.core.tree;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +15,10 @@ import lombok.Getter;
 public abstract class Tree<K, V> implements Map<K, V> {
 
 	protected final Comparator<K> keyComparator;
+	
+	public Tree() {
+		this(null);
+	}
 	
 	// ======================= constructor ============
 	public Tree(Comparator<K> keyComparator) {
@@ -84,7 +88,7 @@ public abstract class Tree<K, V> implements Map<K, V> {
 	
 	@Override
 	public boolean isEmpty() {
-		AtomicBoolean empty = new AtomicBoolean();
+		AtomicBoolean empty = new AtomicBoolean(true);
 		walk(new TreeWalker<K, V>() {
 			@Override
 			public void accept(Entry<K, V> entry) {
@@ -111,12 +115,14 @@ public abstract class Tree<K, V> implements Map<K, V> {
 			@Override
 			public void accept(Entry<K, V> entry) {
 				V v = entry.getValue();
-				if(v == value)
+				if(v == null) {
+					if(value == null)
+						found.set(true);
+					
+				}
+				else if(v.equals(value)) {
 					found.set(true);
-				else if(v != null && v.equals(value))
-					found.set(true);
-				else if(value != null && value.equals(v))
-					found.set(true);
+				}
 			}
 			@Override
 			public boolean next() {

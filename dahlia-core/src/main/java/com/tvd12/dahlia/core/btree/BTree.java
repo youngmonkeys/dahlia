@@ -3,8 +3,8 @@ package com.tvd12.dahlia.core.btree;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.tvd12.dahlia.core.Tree;
-import com.tvd12.dahlia.core.TreeWalker;
+import com.tvd12.dahlia.core.tree.Tree;
+import com.tvd12.dahlia.core.tree.TreeWalker;
 
 @SuppressWarnings("unchecked")
 public class BTree<K, V> extends Tree<K, V> {
@@ -343,7 +343,7 @@ public class BTree<K, V> extends Tree<K, V> {
 	// ====================== map methods ===============
 	@Override
 	public boolean isEmpty() {
-		return root != null;
+		return root == null;
 	}
 	
 	// ====================== utilities ===============

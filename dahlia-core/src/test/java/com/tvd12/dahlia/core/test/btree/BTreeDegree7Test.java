@@ -23,6 +23,9 @@ public class BTreeDegree7Test {
 		
 		System.out.println("search result: " + tree.search(30));
 		System.out.println("search result: " + tree.search(20));
+		tree.clear();
+		assert tree.isEmpty();
+		tree.clear();
 	}
 	
 	@Test

@@ -1,4 +1,4 @@
-package com.tvd12.dahlia.core;
+package com.tvd12.dahlia.core.tree;
 
 public interface TreeWalker<K, V> {
 
