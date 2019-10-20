@@ -3,21 +3,22 @@ package com.tvd12.dahlia.core.btree;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tvd12.dahlia.core.Tree;
 import com.tvd12.dahlia.core.btree.BTree.Node;
 import com.tvd12.ezyfox.util.EzyEquals;
 
-public class BTreeProxy {
+public class BTreeProxy<K, V> {
 
-	protected final BTree tree;
+	protected final BTree<K, V> tree;
 	
-	public BTreeProxy(BTree tree) {
+	public BTreeProxy(BTree<K, V> tree) {
 		this.tree = tree;
 	}
 	
-	public NodeProxy getRoot() {
+	public NodeProxy<K, V> getRoot() {
 		if(tree.root == null)
 			return null;
-		return new NodeProxy(tree.root);
+		return new NodeProxy<>(tree.root);
 	}
 	
 	public int getMinEntry() {
@@ -32,38 +33,38 @@ public class BTreeProxy {
 		return tree.splitIndex;
 	}
 	
-	public static class NodeProxy {
+	public static class NodeProxy<K, V> {
 		
-		protected final Node node;
+		protected final Node<K, V> node;
 		
-		public NodeProxy(Node node) {
+		public NodeProxy(Node<K, V> node) {
 			this.node = node;
 		}
 		
-		public NodeProxy getParent() {
+		public NodeProxy<K, V> getParent() {
 			if(node.parent == null)
 				return null;
-			return new NodeProxy(node.parent);
+			return new NodeProxy<>(node.parent);
 		}
 		
 		public int getEntryCount() {
 			return node.entryCount;
 		}
 		
-		public List<NodeProxy> getChildren() {
-			List<NodeProxy> children = new ArrayList<>();
+		public List<NodeProxy<K, V>> getChildren() {
+			List<NodeProxy<K, V>> children = new ArrayList<>();
 			for(int i = 0 ;; ++ i) {
-				Node child = node.children[i];
+				Node<K, V> child = node.children[i];
 				if(child == null)
 					break;
 				if(i > node.entryCount)
 					break;
-				children.add(new NodeProxy(child));
+				children.add(new NodeProxy<K, V>(child));
 			}
 			return children;
 		}
 		
-		public Integer getEntry(int index) {
+		public Tree.Entry<K, V> getEntry(int index) {
 			if(node.entries[index] == null)
 				return null;
 			return node.entries[index];
@@ -71,7 +72,7 @@ public class BTreeProxy {
 		
 		@Override
 		public boolean equals(Object obj) {
-			return new EzyEquals<NodeProxy>()
+			return new EzyEquals<NodeProxy<K, V>>()
 					.function(t -> t.node)
 					.isEquals(this, obj);
 		}

@@ -1,10 +1,15 @@
 package com.tvd12.dahlia.core.btree;
 
+import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class BTree {
+import com.tvd12.dahlia.core.Tree;
+import com.tvd12.dahlia.core.TreeWalker;
 
-	protected Node root;
+@SuppressWarnings("unchecked")
+public class BTree<K, V> extends Tree<K, V> {
+
+	protected Node<K, V> root;
 	protected final int minEntry;
 	protected final int maxDegree;
 	protected final int splitIndex;
@@ -15,6 +20,15 @@ public class BTree {
 	}
 	
 	public BTree(int minDegree) {
+		this(minDegree, null);
+	}
+	
+	public BTree(Comparator<K> keyComparator) {
+		this(2, keyComparator);
+	}
+	
+	public BTree(int minDegree, Comparator<K> keyComparator) {
+		super(keyComparator);
 		this.root = null;
 		this.maxDegree = minDegree * 2 - 1;
 		this.minEntry = minDegree - 1;
@@ -22,9 +36,11 @@ public class BTree {
 	}
 	
 	// ====================== insert ===============
-	public void insert(int entry) {
+	@Override
+	public void insert(K key, V value) {
+		Entry<K, V> entry = new Tree.Entry<>(key, value);
 		if(root == null) {
-			root = new Node(maxDegree);
+			root = new Node<>(maxDegree);
 			root.entries[0] = entry;
 			root.entryCount = 1;
 		}
@@ -33,23 +49,23 @@ public class BTree {
 		}
 	}
 	
-	private void insertToNode(Node node, int entry) {
+	private void insertToNode(Node<K, V> node, Entry<K, V> entry) {
 		if(node.leaf) {
 			insertNewEntry(node, entry);
 			postInsert(node);
 		}
 		else {
-			Node childToInsert = findChildToInsert(node, entry);
+			Node<K, V> childToInsert = findChildToInsert(node, entry);
 			insertToNode(childToInsert, entry);
 		}
 	}
 	
-	private void insertNewEntry(Node node, int entry) {
+	private void insertNewEntry(Node<K, V> node, Entry<K, V> entry) {
 		int entryCount = node.entryCount;
 		++ node.entryCount;
 		for(int i = entryCount ; i > 0 ; --i) {
-			int prev = node.entries[i - 1];
-			if(prev <= entry) {
+			Entry<K, V> prev = node.entries[i - 1];
+			if(compareEntry(prev, entry) <= 0) {
 				node.entries[i] = entry;
 				return;
 			}
@@ -58,35 +74,34 @@ public class BTree {
 		node.entries[0] = entry;
 	}
 	
-	private Node findChildToInsert(Node node, int entry) {
+	private Node<K, V> findChildToInsert(Node<K, V> node, Entry< K, V> entry) {
 		int childIndex = 0;
 		while(childIndex < node.entryCount) {
-			int compareResult = entry - node.entries[childIndex];
-			if(compareResult <= 0)
+			if(compareEntry(entry, node.entries[childIndex]) <= 0)
 				break;
 			++ childIndex;
 		}
 		return node.children[childIndex];
 	}
 	
-	private void postInsert(Node node) {
+	private void postInsert(Node<K, V> node) {
 		if(node.entryCount < maxDegree)
 			return;
 		if(node.parent == null) {
 			root = splitNode(node);
 		}
 		else {
-			Node newNode = splitNode(node);
+			Node<K, V> newNode = splitNode(node);
 			postInsert(newNode);
 		}
 	}
 	
-	private Node splitNode(Node node) {
-		Node rightNode = newRightNode(node);
-		int risingEntry = node.entries[splitIndex];
+	private Node<K, V> splitNode(Node<K, V> node) {
+		Node<K, V> rightNode = newRightNode(node);
+		Entry<K, V> risingEntry = node.entries[splitIndex];
 		
 		if(node.parent != null) {
-			Node parent = node.parent;
+			Node<K, V> parent = node.parent;
 			int indexOfNode = indexOfNodeInParent(node);
 			moveItemsToRight(parent, indexOfNode);
 			insertRisingEntry(parent, risingEntry, indexOfNode);
@@ -99,24 +114,24 @@ public class BTree {
 		node.entryCount = splitIndex;
 		if(node.parent != null)
 			return node.parent;
-		Node newRoot = createNewRoot(node, rightNode, risingEntry);
+		Node<K, V> newRoot = createNewRoot(node, rightNode, risingEntry);
 		return newRoot;
 	}
 	
-	private Node newRightNode(Node node) {
-		Node rightNode = new Node(maxDegree);
+	private Node<K, V> newRightNode(Node<K, V> node) {
+		Node<K, V> rightNode = new Node<>(maxDegree);
 		rightNode.entryCount = node.entryCount - splitIndex - 1;
 		return rightNode;
 	}
 	
-	private void insertRisingEntry(Node node, int risingEntry, int splitIndex) {
+	private void insertRisingEntry(Node<K, V> node, Entry<K, V> risingEntry, int splitIndex) {
 		node.entries[splitIndex] = risingEntry;
 		++ node.entryCount;
 	}
 	
-	private Node createNewRoot(Node node, Node rightNode, int risingEntry) {
-		Node leftNode = node;
-		Node newRoot = new Node(maxDegree);
+	private Node<K, V> createNewRoot(Node<K, V> node, Node<K, V> rightNode, Entry<K, V> risingEntry) {
+		Node<K, V> leftNode = node;
+		Node<K, V> newRoot = new Node<>(maxDegree);
 		newRoot.leaf = false;
 		newRoot.entries[0] = risingEntry;
 		newRoot.entryCount = 1;
@@ -128,47 +143,52 @@ public class BTree {
 	}
 	
 	// ====================== delete ===============
-	public void delete(int key) {
-		deleteFromNode(root, key);
+	@Override
+	public V delete(K key) {
+		V deletedValue = deleteFromNode(root, key);
+		return deletedValue;
 	}
 	
-	private void deleteFromNode(Node node, int key) {
+	private V deleteFromNode(Node<K, V> node, K key) {
 		if(node == null)
-			return;
+			return null;
 		int entryIndex = findEntryIndex(node, key);
 		if(entryIndex == node.entryCount) {
 			if(node.leaf)
-				return;
-			deleteFromNode(node.children[node.entryCount], key);
+				return null;
+			return deleteFromNode(node.children[node.entryCount], key);
 		}
-		else if(node.entries[entryIndex] > key) {
+		else if(compareEntryKey(node.entries[entryIndex], key) > 0) {
 			if(node.leaf)
-				return;
-			deleteFromNode(node.children[entryIndex], key);
+				return null;
+			return deleteFromNode(node.children[entryIndex], key);
 		}
 		else {
+			Entry<K, V> deletedEntry = node.entries[entryIndex];
 			if(node.leaf) {
 				moveEntriesToLeft(node, entryIndex);
 				-- node.entryCount;
 				postDelete(node);
 			}
 			else {
-				Node maxNode = getMaxLeafNode(node.children[entryIndex]);
+				Node<K, V> maxNode = getMaxLeafNode(node.children[entryIndex]);
 				node.entries[entryIndex] = maxNode.entries[maxNode.entryCount - 1];
 				-- maxNode.entryCount;
 				postDelete(maxNode);
 			}
+			V value = deletedEntry.getValue();
+			return value;
 		}
 	}
 	
-	private Node getMaxLeafNode(Node node) {
-		Node maxNode = node;
+	private Node<K, V> getMaxLeafNode(Node<K, V> node) {
+		Node<K, V> maxNode = node;
 		while(!maxNode.leaf)
 			maxNode = maxNode.children[maxNode.entryCount];
 		return maxNode;
 	}
 	
-	private void postDelete(Node node) {
+	private void postDelete(Node<K, V> node) {
 		if(node.entryCount >= minEntry)
 			return;
 		if(node.parent == null) {
@@ -179,7 +199,7 @@ public class BTree {
 			}
 		}
 		else {
-			Node parentNode = node.parent;
+			Node<K, V> parentNode = node.parent;
 			int indexOfNode = indexOfNodeInParent(node);
 			if(indexOfNode > 0 && 
 					parentNode.children[indexOfNode - 1].entryCount > minEntry) {
@@ -190,22 +210,22 @@ public class BTree {
 				stealFromRight(node, indexOfNode);
 			}
 			else if(indexOfNode == 0) {
-				Node nextNode = mergeRight(node);
+				Node<K, V> nextNode = mergeRight(node);
 				postDelete(nextNode.parent);
 			}
 			else {
-				Node nextNode = mergeRight(parentNode.children[indexOfNode - 1]);
+				Node<K, V> nextNode = mergeRight(parentNode.children[indexOfNode - 1]);
 				postDelete(nextNode.parent);
 			}
 		}
 	}
 	
-	private void stealFromLeft(Node node, int indexOfNodeInParent) {
-		Node parentNode = node.parent;
+	private void stealFromLeft(Node<K, V> node, int indexOfNodeInParent) {
+		Node<K, V> parentNode = node.parent;
 		moveEntriesToRight(node, 0);
 		++ node.entryCount;
 		
-		Node leftSib = parentNode.children[indexOfNodeInParent - 1];
+		Node<K, V> leftSib = parentNode.children[indexOfNodeInParent - 1];
 		
 		if(!leftSib.leaf) {
 			moveChildrenToRight(node, node.entryCount - 1, 0);
@@ -219,9 +239,9 @@ public class BTree {
 		-- leftSib.entryCount;
 	}
 	
-	private void stealFromRight(Node node, int indexOfNodeInParent) {
-		Node parentNode = node.parent;
-		Node rightSib = parentNode.children[indexOfNodeInParent + 1];
+	private void stealFromRight(Node<K, V> node, int indexOfNodeInParent) {
+		Node<K, V> parentNode = node.parent;
+		Node<K, V> rightSib = parentNode.children[indexOfNodeInParent + 1];
 		++ node.entryCount;
 		node.entries[node.entryCount - 1] = parentNode.entries[indexOfNodeInParent];
 		parentNode.entries[indexOfNodeInParent] = rightSib.entries[0];
@@ -234,10 +254,10 @@ public class BTree {
 		-- rightSib.entryCount;
 	}
 	
-	private Node mergeRight(Node node) {
-		Node parentNode = node.parent;
+	private Node<K, V> mergeRight(Node<K, V> node) {
+		Node<K, V> parentNode = node.parent;
 		int indexOfNode = indexOfNodeInParent(node);
-		Node rightSib = parentNode.children[indexOfNode + 1];
+		Node<K, V> rightSib = parentNode.children[indexOfNode + 1];
 		node.entries[node.entryCount] = parentNode.entries[indexOfNode];
 		copyEntries(rightSib, node, node.entryCount + 1);
 		if(!node.leaf)
@@ -250,12 +270,12 @@ public class BTree {
 	}
 	
 	// ====================== search ===============
-	public Integer search(int key) {
-		Integer value = searchInNode(root, key);
-		return value;
+	public Entry<K, V> search(K key) {
+		Entry<K, V> entry = searchInNode(root, key);
+		return entry;
 	}
 	
-	private Integer searchInNode(Node node, int key) {
+	private Entry<K, V> searchInNode(Node<K, V> node, K key) {
 		if(node == null)
 			return null;
 		int index = findEntryIndex(node, key);
@@ -264,21 +284,22 @@ public class BTree {
 				return null;
 			return searchInNode(node.children[node.entryCount], key);
 		}
-		if(node.entries[index] > key) {
+		if(compareEntryKey(node.entries[index], key) > 0) {
 			if(node.leaf)
 				return null;
 			return searchInNode(node.children[index], key);
 		}
-		Integer value = node.entries[index];
-		return value;
+		Entry<K, V> entry = node.entries[index];
+		return entry;
 	}
 	
 	// ====================== sequential access ===============
-	public void walk(BTreeWalker walker) {
+	@Override
+	public void walk(TreeWalker<K, V> walker) {
 		walkInNode(root, walker);
 	}
 	
-	private void walkInNode(Node node, BTreeWalker walker) {
+	private void walkInNode(Node<K, V> node, TreeWalker<K, V> walker) {
 		if(node == null)
 			return;
 		
@@ -301,14 +322,38 @@ public class BTree {
 		}
 	}
 	
+	// ====================== clear ===============
+	@Override
+	public void clear() {
+		this.clearNode(root);
+		this.root = null;
+	}
+	
+	private void clearNode(Node<K, V> node) {
+		if (node != null) {
+			if (!node.leaf) {
+				for (int i = 0; i <= node.entryCount; i++) {
+					this.clearNode(node.children[i]);
+					node.children[i].clear();
+				}
+			}
+		}
+	}
+	
+	// ====================== map methods ===============
+	@Override
+	public boolean isEmpty() {
+		return root != null;
+	}
+	
 	// ====================== utilities ===============
 	public void accept(BTreeVisitor visitor) {
-		visitor.visit(new BTreeProxy(this));
+		visitor.visit(new BTreeProxy<>(this));
 	}
 	
 	
-	private int indexOfNodeInParent(Node node) {
-		Node currentParent = node.parent;
+	private int indexOfNodeInParent(Node<K, V> node) {
+		Node<K, V> currentParent = node.parent;
 		int index = 0;
 		int childCount = currentParent.entryCount + 1;
 		while(index < childCount &&
@@ -320,30 +365,30 @@ public class BTree {
 		return index;
 	}
 	
-	private void moveItemsToRight(Node node, int nodeSplitIndex) {
+	private void moveItemsToRight(Node<K, V> node, int nodeSplitIndex) {
 		moveChildrenToRight(node, nodeSplitIndex);
 		moveEntriesToRight(node, nodeSplitIndex);
 	}
 	
-	private void moveChildrenToRight(Node node, int nodeSplitIndex) {
+	private void moveChildrenToRight(Node<K, V> node, int nodeSplitIndex) {
 		moveChildrenToRight(node, node.entryCount, nodeSplitIndex);
 	}
 	
-	private void moveChildrenToRight(Node node, int startIndex, int nodeSplitIndex) {
+	private void moveChildrenToRight(Node<K, V> node, int startIndex, int nodeSplitIndex) {
 		for(int i = startIndex ; i > nodeSplitIndex ; --i)
 			node.children[i + 1] = node.children[i];
 	}
 	
-	private void moveEntriesToRight(Node node, int nodeSplitIndex) {
+	private void moveEntriesToRight(Node<K, V> node, int nodeSplitIndex) {
 		for(int i = node.entryCount ; i > nodeSplitIndex ; --i)
 			node.entries[i] = node.entries[i - 1];
 	}
 	
-	private void moveItemsToRightNode(Node node, Node rightNode) {
+	private void moveItemsToRightNode(Node<K, V> node, Node<K, V> rightNode) {
 		int childCount = node.entryCount + 1;
 		int childStartIndex = splitIndex + 1;
 		for(int i = childStartIndex ; i < childCount ; ++i) {
-			Node child = node.children[i];
+			Node<K, V> child = node.children[i];
 			if(child != null) {
 				child.parent = rightNode;
 				rightNode.leaf = false;
@@ -357,28 +402,28 @@ public class BTree {
 		}
 	}
 	
-	private void moveItemsToLeft(Node node, int leftIndex) {
+	private void moveItemsToLeft(Node<K, V> node, int leftIndex) {
 		moveChildrenToLeft(node, leftIndex);
 		moveEntriesToLeft(node, leftIndex - 1);
 	}
 	
-	private void moveChildrenToLeft(Node node, int leftIndex) {
+	private void moveChildrenToLeft(Node<K, V> node, int leftIndex) {
 		for(int i = leftIndex ; i < node.entryCount ; ++i)
 			node.children[i] = node.children[i + 1];
 	}
 	
-	private void moveEntriesToLeft(Node node, int leftIndex) {
+	private void moveEntriesToLeft(Node<K, V> node, int leftIndex) {
 		int maxIndex = node.entryCount - 1;
 		for(int i = leftIndex ; i < maxIndex ; ++i)
 			node.entries[i] = node.entries[i + 1];
 	}
 	
-	private void copyEntries(Node from, Node to, int toStartIndex) {
+	private void copyEntries(Node<K, V> from, Node<K, V> to, int toStartIndex) {
 		for(int i = 0 ; i < from.entryCount ; ++i)
 			to.entries[toStartIndex + i] = from.entries[i];
 	}
 	
-	private void copyChildren(Node from, Node to, int toStartIndex) {
+	private void copyChildren(Node<K, V> from, Node<K, V> to, int toStartIndex) {
 		int childCount = from.entryCount + 1;
 		for(int i = 0 ; i < childCount ; ++i) {
 			int index = toStartIndex + i;
@@ -387,9 +432,9 @@ public class BTree {
 		}
 	}
 	
-	private int findEntryIndex(Node node, int key) {
+	private int findEntryIndex(Node<K, V> node, K key) {
 		int index = 0;
-		while(index < node.entryCount && node.entries[index] < key)
+		while(index < node.entryCount && compareEntryKey(node.entries[index], key) < 0)
 			++ index;
 		return index;
 	}
@@ -402,14 +447,14 @@ public class BTree {
 		return printer.print();
 	}
 	
-	public static class Node {
+	public static class Node<K, V> {
 		
 		protected boolean leaf;
-		protected Node parent;
+		protected Node<K, V> parent;
 		protected int entryCount;
 		
-		protected final Integer[] entries;
-		protected final Node[] children;
+		protected final Node<K, V>[] children;
+		protected final Tree.Entry<K, V>[] entries;
 		protected final long id;
 		protected final static AtomicLong ID_GENTOR = new AtomicLong();
 		
@@ -417,13 +462,13 @@ public class BTree {
 			this.leaf = true;
 			this.parent = null;
 			this.entryCount = 0;
-			this.entries = new Integer[maxDegree];
+			this.entries = new Tree.Entry[maxDegree];
 			this.children = new Node[maxDegree + 1];
 			this.id = ID_GENTOR.incrementAndGet();
 		}
 		
 		public void accept(BTreeVisitor.NodeVisitor vistor) {
-			vistor.visit(new BTreeProxy.NodeProxy(this));
+			vistor.visit(new BTreeProxy.NodeProxy<>(this));
 		}
 		
 		@Override
@@ -431,6 +476,13 @@ public class BTree {
 			BTreePrinter.NodePrinter printer = new BTreePrinter.NodePrinter();
 			accept(printer);
 			return printer.print();
+		}
+		
+		public void clear() {
+			for(int i = 0 ; i < entries.length ; ++ i)
+				entries[i] = null;
+			for(int i = 0 ; i < children.length ; ++ i)
+				children[i] = null;
 		}
 	}
 }

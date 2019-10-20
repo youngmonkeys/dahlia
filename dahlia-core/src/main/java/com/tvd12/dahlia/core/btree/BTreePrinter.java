@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.tvd12.dahlia.core.btree.BTreeProxy.NodeProxy;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class BTreePrinter implements BTreeVisitor {
 
 	protected final List<List<BTreeProxy.NodeProxy>> treeTiers;

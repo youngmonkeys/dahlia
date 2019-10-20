@@ -9,13 +9,13 @@ public class BTreeProxyTest {
 
 	@Test
 	public void test() {
-		BTree tree = new BTree();
-		tree.insert(1);
-		BTreeProxy proxy = new BTreeProxy(tree);
+		BTree<Integer, Integer> tree = new BTree<>();
+		tree.insert(1, 1);
+		BTreeProxy<Integer, Integer> proxy = new BTreeProxy<>(tree);
 		assert proxy.getMinEntry() == 1;
 		assert proxy.getMaxDegree() == 3;
 		assert proxy.getSplitIndex() == 1;
-		BTreeProxy.NodeProxy node = proxy.getRoot();
+		BTreeProxy.NodeProxy<Integer, Integer> node = proxy.getRoot();
 		assert node.getEntry(2) == null;
 	}
 	

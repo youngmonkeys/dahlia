@@ -9,9 +9,9 @@ public class BTreeDegree7Test {
 
 	@Test
 	public void test() {
-		BTree tree = new BTree(4);
+		BTree<Integer, Integer> tree = new BTree<>(4);
 		for(int i = 1 ; i <= 100 ; ++ i)
-			tree.insert(i);
+			tree.insert(i, i);
 		BTreePrinter printer = new BTreePrinter();
 		tree.accept(printer);
 		System.out.append(printer.print());
@@ -27,9 +27,9 @@ public class BTreeDegree7Test {
 	
 	@Test
 	public void duplicateKeyTest() {
-		BTree tree = new BTree(3);
+		BTree<Integer, Integer> tree = new BTree<>(3);
 		for(int i = 1 ; i <= 100 ; ++ i)
-			tree.insert(i % 15);
+			tree.insert(i % 15, i % 15);
 		BTreePrinter printer = new BTreePrinter();
 		tree.accept(printer);
 		System.out.append(printer.print());
