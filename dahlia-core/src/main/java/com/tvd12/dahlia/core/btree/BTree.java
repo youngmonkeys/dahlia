@@ -10,6 +10,7 @@ public class BTree {
 	protected final int maxDegree;
 	protected final int splitIndex;
 	
+	// ====================== constructor ===============
 	public BTree() {
 		this(2);
 	}
@@ -21,6 +22,7 @@ public class BTree {
 		this.splitIndex = minDegree - 1;
 	}
 	
+	// ====================== insert ===============
 	public void insert(int entry) {
 		if(root == null) {
 			root = new Node(maxDegree);
@@ -178,6 +180,7 @@ public class BTree {
 		return newRoot;
 	}
 	
+	// ====================== delete ===============
 	public void delete(int key) {
 		deleteFromNode(root, key);
 	}
@@ -386,33 +389,64 @@ public class BTree {
 		}
 	}
 	
+	// ====================== search ===============
 	public Integer search(int key) {
-		Integer value = findInNode(root, key);
+		Integer value = searchInNode(root, key);
 		return value;
 	}
 	
-	private Integer findInNode(Node node, int key) {
+	private Integer searchInNode(Node node, int key) {
 		if(node == null)
 			return null;
 		int index = findEntryIndex(node, key);
 		if(index == node.entryCount) {
 			if(node.leaf)
 				return null;
-			return findInNode(node.children[node.entryCount], key);
+			return searchInNode(node.children[node.entryCount], key);
 		}
 		if(node.entries[index] > key) {
 			if(node.leaf)
 				return null;
-			return findInNode(node.children[index], key);
+			return searchInNode(node.children[index], key);
 		}
 		Integer value = node.entries[index];
 		return value;
 	}
 	
+	// ====================== sequential access ===============
+	public void walk(BTreeWalker walker) {
+		walkInNode(root, walker);
+	}
+	
+	private void walkInNode(Node node, BTreeWalker walker) {
+		if(node == null)
+			return;
+		
+		if(node.leaf) {
+			for(int i = 0 ; i < node.entryCount ; ++i) {
+				if(walker.next())
+					walker.accept(node.entries[i]);
+				else
+					break;
+			}
+		}
+		else {
+			walkInNode(node.children[0], walker);
+			for(int i = 0 ; i < node.entryCount ; ++i) {
+				if(walker.next()) {
+					walker.accept(node.entries[i]);
+					walkInNode(node.children[i + 1], walker);
+				}
+			}
+		}
+	}
+	
+	// ====================== utilities ===============
 	public void accept(BTreeVisitor visitor) {
 		visitor.visit(new BTreeProxy(this));
 	}
 	
+	// ====================== to string ===============
 	@Override
 	public String toString() {
 		BTreePrinter printer = new BTreePrinter();
