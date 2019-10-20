@@ -109,59 +109,9 @@ public class BTree {
 		return rightNode;
 	}
 	
-	private int indexOfNodeInParent(Node node) {
-		Node currentParent = node.parent;
-		int index = 0;
-		int childCount = currentParent.entryCount + 1;
-		while(index < childCount &&
-				currentParent.children[index] != node) {
-			++ index;
-		}
-		if(index == childCount)
-			throw new IllegalStateException("hmm!!!, this is a magic error");
-		return index;
-	}
-	
-	private void moveItemsToRight(Node node, int nodeSplitIndex) {
-		moveChildrenToRight(node, nodeSplitIndex);
-		moveEntriesToRight(node, nodeSplitIndex);
-	}
-	
-	private void moveChildrenToRight(Node node, int nodeSplitIndex) {
-		moveChildrenToRight(node, node.entryCount, nodeSplitIndex);
-	}
-	
-	private void moveChildrenToRight(Node node, int startIndex, int nodeSplitIndex) {
-		for(int i = startIndex ; i > nodeSplitIndex ; --i)
-			node.children[i + 1] = node.children[i];
-	}
-	
-	private void moveEntriesToRight(Node node, int nodeSplitIndex) {
-		for(int i = node.entryCount ; i > nodeSplitIndex ; --i)
-			node.entries[i] = node.entries[i - 1];
-	}
-	
 	private void insertRisingEntry(Node node, int risingEntry, int splitIndex) {
 		node.entries[splitIndex] = risingEntry;
 		++ node.entryCount;
-	}
-	
-	private void moveItemsToRightNode(Node node, Node rightNode) {
-		int childCount = node.entryCount + 1;
-		int childStartIndex = splitIndex + 1;
-		for(int i = childStartIndex ; i < childCount ; ++i) {
-			Node child = node.children[i];
-			if(child != null) {
-				child.parent = rightNode;
-				rightNode.leaf = false;
-			}
-			node.children[i] = null;
-			rightNode.children[i - childStartIndex] = child;
-		}
-		for(int i = childStartIndex ; i < node.entryCount ; ++i) {
-			rightNode.entries[i - childStartIndex] = node.entries[i];
-			node.entries[i] = null;
-		}
 	}
 	
 	private Node createNewRoot(Node node, Node rightNode, int risingEntry) {
@@ -209,29 +159,6 @@ public class BTree {
 				postDelete(maxNode);
 			}
 		}
-	}
-	
-	private int findEntryIndex(Node node, int key) {
-		int index = 0;
-		while(index < node.entryCount && node.entries[index] < key)
-			++ index;
-		return index;
-	}
-	
-	private void moveItemsToLeft(Node node, int leftIndex) {
-		moveChildrenToLeft(node, leftIndex);
-		moveEntriesToLeft(node, leftIndex - 1);
-	}
-	
-	private void moveChildrenToLeft(Node node, int leftIndex) {
-		for(int i = leftIndex ; i < node.entryCount ; ++i)
-			node.children[i] = node.children[i + 1];
-	}
-	
-	private void moveEntriesToLeft(Node node, int leftIndex) {
-		int maxIndex = node.entryCount - 1;
-		for(int i = leftIndex ; i < maxIndex ; ++i)
-			node.entries[i] = node.entries[i + 1];
 	}
 	
 	private Node getMaxLeafNode(Node node) {
@@ -322,20 +249,6 @@ public class BTree {
 		return node;
 	}
 	
-	private void copyEntries(Node from, Node to, int toStartIndex) {
-		for(int i = 0 ; i < from.entryCount ; ++i)
-			to.entries[toStartIndex + i] = from.entries[i];
-	}
-	
-	private void copyChildren(Node from, Node to, int toStartIndex) {
-		int childCount = from.entryCount + 1;
-		for(int i = 0 ; i < childCount ; ++i) {
-			int index = toStartIndex + i;
-			to.children[index] = from.children[i];
-			to.children[index].parent = to;
-		}
-	}
-	
 	// ====================== search ===============
 	public Integer search(int key) {
 		Integer value = searchInNode(root, key);
@@ -393,6 +306,95 @@ public class BTree {
 		visitor.visit(new BTreeProxy(this));
 	}
 	
+	
+	private int indexOfNodeInParent(Node node) {
+		Node currentParent = node.parent;
+		int index = 0;
+		int childCount = currentParent.entryCount + 1;
+		while(index < childCount &&
+				currentParent.children[index] != node) {
+			++ index;
+		}
+		if(index == childCount)
+			throw new IllegalStateException("hmm!!!, this is a magic error");
+		return index;
+	}
+	
+	private void moveItemsToRight(Node node, int nodeSplitIndex) {
+		moveChildrenToRight(node, nodeSplitIndex);
+		moveEntriesToRight(node, nodeSplitIndex);
+	}
+	
+	private void moveChildrenToRight(Node node, int nodeSplitIndex) {
+		moveChildrenToRight(node, node.entryCount, nodeSplitIndex);
+	}
+	
+	private void moveChildrenToRight(Node node, int startIndex, int nodeSplitIndex) {
+		for(int i = startIndex ; i > nodeSplitIndex ; --i)
+			node.children[i + 1] = node.children[i];
+	}
+	
+	private void moveEntriesToRight(Node node, int nodeSplitIndex) {
+		for(int i = node.entryCount ; i > nodeSplitIndex ; --i)
+			node.entries[i] = node.entries[i - 1];
+	}
+	
+	private void moveItemsToRightNode(Node node, Node rightNode) {
+		int childCount = node.entryCount + 1;
+		int childStartIndex = splitIndex + 1;
+		for(int i = childStartIndex ; i < childCount ; ++i) {
+			Node child = node.children[i];
+			if(child != null) {
+				child.parent = rightNode;
+				rightNode.leaf = false;
+			}
+			node.children[i] = null;
+			rightNode.children[i - childStartIndex] = child;
+		}
+		for(int i = childStartIndex ; i < node.entryCount ; ++i) {
+			rightNode.entries[i - childStartIndex] = node.entries[i];
+			node.entries[i] = null;
+		}
+	}
+	
+	private void moveItemsToLeft(Node node, int leftIndex) {
+		moveChildrenToLeft(node, leftIndex);
+		moveEntriesToLeft(node, leftIndex - 1);
+	}
+	
+	private void moveChildrenToLeft(Node node, int leftIndex) {
+		for(int i = leftIndex ; i < node.entryCount ; ++i)
+			node.children[i] = node.children[i + 1];
+	}
+	
+	private void moveEntriesToLeft(Node node, int leftIndex) {
+		int maxIndex = node.entryCount - 1;
+		for(int i = leftIndex ; i < maxIndex ; ++i)
+			node.entries[i] = node.entries[i + 1];
+	}
+	
+	private void copyEntries(Node from, Node to, int toStartIndex) {
+		for(int i = 0 ; i < from.entryCount ; ++i)
+			to.entries[toStartIndex + i] = from.entries[i];
+	}
+	
+	private void copyChildren(Node from, Node to, int toStartIndex) {
+		int childCount = from.entryCount + 1;
+		for(int i = 0 ; i < childCount ; ++i) {
+			int index = toStartIndex + i;
+			to.children[index] = from.children[i];
+			to.children[index].parent = to;
+		}
+	}
+	
+	private int findEntryIndex(Node node, int key) {
+		int index = 0;
+		while(index < node.entryCount && node.entries[index] < key)
+			++ index;
+		return index;
+	}
+	
+	// ====================== to string ===============
 	@Override
 	public String toString() {
 		BTreePrinter printer = new BTreePrinter();
