@@ -52,7 +52,7 @@ public class BTreeProxy {
 		
 		public List<NodeProxy> getChildren() {
 			List<NodeProxy> children = new ArrayList<>();
-			for(int i = 0 ; i < node.children.length ; ++ i) {
+			for(int i = 0 ;; ++ i) {
 				Node child = node.children[i];
 				if(child == null)
 					break;
