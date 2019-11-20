@@ -16,11 +16,8 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<ezy.bean.version>1.0.0</ezy.bean.version>
-		<ezy.msgpack.version>1.0.0</ezy.msgpack.version>
-		<ezy.morphia.version>1.0.0</ezy.morphia.version>
-		<ezy.concurrent.version>1.0.0</ezy.concurrent.version>
-		<ezy.binding.codec.version>1.0.0</ezy.binding.codec.version>
+		<ezy.tools.version>0.0.1</ezy.tools.version>
+		<test.util.version>1.0.5</test.util.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -28,13 +25,13 @@
 		<dependency>
 			<groupId>com.tvd12</groupId>
 			<artifactId>ezyfox-tools</artifactId>
-			<version>1.0.0</version>
+			<version>${ezy.tools.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.tvd12</groupId>
 			<artifactId>test-util</artifactId>
-			<version>1.0.5</version>
+			<version>${test.util.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
