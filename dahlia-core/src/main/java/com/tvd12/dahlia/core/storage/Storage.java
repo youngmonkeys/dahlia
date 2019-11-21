@@ -19,4 +19,8 @@ public class Storage {
 		return databaseStorage;
 	}
 	
+	public CollectionStorage getCollectionStorage(String collectionName) {
+		return null;
+	}
+	
 }

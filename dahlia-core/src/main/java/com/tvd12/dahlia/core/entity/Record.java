@@ -1,16 +1,20 @@
 package com.tvd12.dahlia.core.entity;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class Record {
 
+	@Setter
+	protected boolean alive;
 	protected final Comparable id;
-	protected final int[] location;
+	protected final long position;
 	
-	public Record(Comparable id, int[] location) {
+	public Record(Comparable id, long position) {
 		this.id = id;
-		this.location = location;
+		this.alive = true;
+		this.position = position;
 	}
 	
 }

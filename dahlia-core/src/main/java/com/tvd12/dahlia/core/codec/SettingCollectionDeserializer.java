@@ -27,9 +27,11 @@ public class SettingCollectionDeserializer
 	public CollectionSetting deserialize(byte[] bytes) {
 		EzyObject object = objectDeserializer.deserialize(bytes);
 		CollectionSetting setting = new CollectionSetting();
-		EzyArray fieldArray = object.get(SETTING_FIELD_MAPPINGS);
+		setting.setId(object.get(SETTING_FIELD_ID, int.class));
+		setting.setRecordSize(object.get(SETTING_FIELD_RECORD_SIZE, int.class));
+		EzyArray fieldArray = object.get(SETTING_FIELD_FIELDS);
 		Map<String, FieldSetting> fields = arrayToFields(fieldArray);
-		setting.setMappings(fields);
+		setting.setFields(fields);
 		return setting;
 		
 	}

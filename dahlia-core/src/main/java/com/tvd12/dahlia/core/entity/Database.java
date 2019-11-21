@@ -3,6 +3,8 @@ package com.tvd12.dahlia.core.entity;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.tvd12.dahlia.core.setting.CollectionSetting;
+
 public class Database {
 
 	protected final String name;
@@ -22,8 +24,8 @@ public class Database {
 		return collection;
 	}
 	
-	public Collection newCollection(String name) {
-		Collection collection = new Collection(name);
+	public Collection newCollection(CollectionSetting setting) {
+		Collection collection = new Collection(setting);
 		addCollection(collection);
 		return collection;
 	}

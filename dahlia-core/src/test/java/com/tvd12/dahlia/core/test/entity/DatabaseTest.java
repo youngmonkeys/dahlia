@@ -10,6 +10,7 @@ import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.DatabaseSetting;
 import com.tvd12.dahlia.core.setting.FieldLongSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
+import com.tvd12.dahlia.core.setting.RecordSizeReader;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
 import com.tvd12.dahlia.core.storage.DatabaseStorage;
 import com.tvd12.dahlia.core.storage.Storage;
@@ -25,9 +26,10 @@ public class DatabaseTest {
 		databaseStorage.mkdir();
 		
 		CollectionSetting collectionSetting = new CollectionSetting();
+		collectionSetting.setId(1);
 		collectionSetting.setName("test");
 		Map<String, FieldSetting> fieldSettings = new HashMap<>();
-		collectionSetting.setMappings(fieldSettings);
+		collectionSetting.setFields(fieldSettings);
 		FieldLongSetting fieldIdSetting = new FieldLongSetting();
 		fieldIdSetting.setName("_id");
 		fieldIdSetting.setType(DataType.LONG);
@@ -35,6 +37,10 @@ public class DatabaseTest {
 		fieldIdSetting.setDefaultValue(100L);
 		fieldSettings.put(fieldIdSetting.getName(), fieldIdSetting);
 		System.out.println(collectionSetting.toMap());
+		
+		RecordSizeReader recordSizeReader = new RecordSizeReader();
+		int recordSize = recordSizeReader.read(fieldSettings);
+		System.out.println("recordSize: " + recordSize);
 		
 		CollectionStorage collectionStorage = databaseStorage.createCollectionStorage(collectionSetting.getName());
 		collectionStorage.mkdir();
@@ -44,7 +50,7 @@ public class DatabaseTest {
 		System.out.println(readSetting.toMap());
 		
 		Database database = new Database("test");
-		Collection collection = database.newCollection("test");
+//		Collection collection = database.newCollection("test");
 //		Record record = new Record(1);
 //		record.set("value", "one");
 //		collection.save(record);

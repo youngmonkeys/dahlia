@@ -1,6 +1,7 @@
 package com.tvd12.dahlia.core.entity;
 
 import com.tvd12.dahlia.core.btree.BTree;
+import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.tree.Tree;
 
 import lombok.Getter;
@@ -8,16 +9,14 @@ import lombok.Getter;
 public class Collection {
 
 	@Getter
-	protected final String name;
+	protected long dataSize;
+	@Getter
+	protected final CollectionSetting setting;
 	protected final Tree<Comparable, Record> indexById;
 	
-	public Collection(String name) {
-		this.name = name;
+	public Collection(CollectionSetting setting) {
+		this.setting = setting;
 		this.indexById = new BTree<>();
-	}
-	
-	public void save(Record record) {
-		this.indexById.put(record.getId(), record);
 	}
 	
 	public Record findById(Comparable id) {
@@ -25,9 +24,22 @@ public class Collection {
 		return record;
 	}
 	
+	public void insert(Record record) {
+		this.indexById.put(record.getId(), record);
+		this.dataSize += setting.getRecordSize();
+	}
+	
+	public Record update(Record record) {
+		return this.indexById.put(record.getId(), record);
+	}
+	
+	public String getName() {
+		return setting.getName();
+	}
+	
 	@Override
 	public String toString() {
-		return name;
+		return setting.getName();
 	}
 
 }
