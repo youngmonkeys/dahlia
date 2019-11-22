@@ -20,14 +20,14 @@ public class DatabaseTest {
 	public static void main(String[] args) {
 		Storage storage = new Storage("data");
 		DatabaseSetting databaseSetting = new DatabaseSetting();
-		databaseSetting.setName("test");
+		databaseSetting.setDatabaseName("test");
 		
-		DatabaseStorage databaseStorage = storage.createDatabaseStorage(databaseSetting.getName());
+		DatabaseStorage databaseStorage = storage.createDatabaseStorage(databaseSetting);
 		databaseStorage.mkdir();
 		
 		CollectionSetting collectionSetting = new CollectionSetting();
-		collectionSetting.setId(1);
-		collectionSetting.setName("test");
+		collectionSetting.setCollectionId(1);
+		collectionSetting.setCollectionName("test");
 		Map<String, FieldSetting> fieldSettings = new HashMap<>();
 		collectionSetting.setFields(fieldSettings);
 		FieldLongSetting fieldIdSetting = new FieldLongSetting();
@@ -42,14 +42,14 @@ public class DatabaseTest {
 		int recordSize = recordSizeReader.read(fieldSettings);
 		System.out.println("recordSize: " + recordSize);
 		
-		CollectionStorage collectionStorage = databaseStorage.createCollectionStorage(collectionSetting.getName());
+		CollectionStorage collectionStorage = databaseStorage.createCollectionStorage(collectionSetting);
 		collectionStorage.mkdir();
 		collectionStorage.storeSetting(collectionSetting);
 		
 		CollectionSetting readSetting = collectionStorage.readSetting();
 		System.out.println(readSetting.toMap());
 		
-		Database database = new Database("test");
+//		Database database = new Database("test");
 //		Collection collection = database.newCollection("test");
 //		Record record = new Record(1);
 //		record.set("value", "one");

@@ -13,16 +13,16 @@ import static com.tvd12.dahlia.core.constant.Constants.*;
 @Getter
 public class CollectionSetting implements EzyToMap {
 
-	protected int id;
-	protected String name;
 	protected int recordSize;
+	protected int collectionId;
+	protected String collectionName;
 	protected Map<String, FieldSetting> fields; 
 	
 	@Override
 	public Map<Object, Object> toMap() {
 		Map<Object, Object> map = new HashMap<>();
-		map.put(SETTING_FIELD_ID, id);
-		map.put(SETTING_FIELD_NAME, name);
+		map.put(SETTING_FIELD_ID, collectionId);
+		map.put(SETTING_FIELD_NAME, collectionName);
 		Map<String, Map<Object, Object>> fieldsToMaps = new HashMap<>();
 		for(FieldSetting field : fields.values())
 			fieldsToMaps.put(field.getName(), field.toMap());

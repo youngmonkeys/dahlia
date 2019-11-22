@@ -9,7 +9,7 @@ import lombok.Getter;
 public class InsertOne implements Command {
 
 	protected EzyObject data;
-	protected String collectionName;
+	protected int collectionId;
 	
 	@Override
 	public CommandType getType() {

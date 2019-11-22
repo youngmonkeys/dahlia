@@ -33,13 +33,17 @@ public class Collection {
 		return this.indexById.put(record.getId(), record);
 	}
 	
+	protected int getId() {
+		return setting.getCollectionId();
+	}
+	
 	public String getName() {
-		return setting.getName();
+		return setting.getCollectionName();
 	}
 	
 	@Override
 	public String toString() {
-		return setting.getName();
+		return setting.getCollectionName();
 	}
 
 }

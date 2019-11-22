@@ -39,7 +39,7 @@ public class SettingCollectionSerializer implements SettingSerializer<Collection
 	protected EzyObject collectionToObject(CollectionSetting setting) {
 		Map<String, FieldSetting> fields = setting.getFields();
 		return EzyEntityFactory.newObjectBuilder()
-				.append(SETTING_FIELD_ID, setting.getId())
+				.append(SETTING_FIELD_ID, setting.getCollectionId())
 				.append(SETTING_FIELD_RECORD_SIZE, setting.getRecordSize())
 				.append(SETTING_FIELD_FIELDS, fieldsToArray(fields))
 				.build();

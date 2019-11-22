@@ -76,7 +76,7 @@ public class CollectionStorage {
 	
 	public CollectionSetting readSetting() {
 		CollectionSetting setting = settingStorage.read();
-		setting.setName(collectionName);
+		setting.setCollectionName(collectionName);
 		return setting;
 	}
 	
