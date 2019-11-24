@@ -2,20 +2,48 @@ package com.tvd12.dahlia.core.handler;
 
 import com.tvd12.dahlia.core.command.CreateDatabase;
 import com.tvd12.dahlia.core.entity.Database;
+import com.tvd12.dahlia.core.exception.DatabaseExistedException;
 import com.tvd12.dahlia.core.factory.DatabaseFactory;
+import com.tvd12.dahlia.core.factory.DatabaseFactoryAware;
+import com.tvd12.dahlia.core.factory.DatabaseStorageFactory;
+import com.tvd12.dahlia.core.factory.DatabaseStorageFactoryAware;
 import com.tvd12.dahlia.core.setting.DatabaseSetting;
+import com.tvd12.dahlia.core.setting.RuntimeSetting;
+import com.tvd12.dahlia.core.setting.RuntimeSettingAware;
+import com.tvd12.dahlia.core.storage.DatabaseStorage;
+
+import lombok.Setter;
 
 public class CommandCreateDatabaseHandler 
-		extends CommandAbstractHandler<CreateDatabase> {
+		extends CommandAbstractHandler<CreateDatabase>
+		implements 
+			RuntimeSettingAware,
+			DatabaseFactoryAware,
+			DatabaseStorageFactoryAware {
 
+	@Setter
+	protected RuntimeSetting runtimeSetting;
+	@Setter
 	protected DatabaseFactory databaseFactory;
+	@Setter
+	protected DatabaseStorageFactory databaseStorageFactory;
 	
 	@Override
 	public Object handle(CreateDatabase command) {
 		DatabaseSetting setting = command.getSetting();
+		String databaseName = setting.getDatabaseName();
+		Database existedDatabase = databases.getDatabase(databaseName);
+		if(existedDatabase != null)
+			throw new DatabaseExistedException(databaseName);
 		Database database = databaseFactory.newDatabase(setting);
+		synchronized (runtimeSetting) {
+			runtimeSetting.setMaxDatabaseId(database.getId());
+			storage.storeRuntimeSetting(runtimeSetting);
+		}
 		databases.addDatabase(database);
-		storage.createDatabaseStorage(setting);
+		DatabaseStorage databaseStorage = 
+				databaseStorageFactory.newDatabaseStorage(databaseName);
+		databaseStorage.storeSetting(setting);
 		return database;
 	}
 	

@@ -12,7 +12,7 @@ public final class FileWriters {
 		try {
 			Files.write(path, bytes);
 		} catch (IOException e) {
-			throw new IllegalArgumentException("can't write: " + bytes.length + " bytes to: " + path);
+			throw new IllegalArgumentException("can't write: " + bytes.length + " bytes to: " + path, e);
 		}
 	}
 	

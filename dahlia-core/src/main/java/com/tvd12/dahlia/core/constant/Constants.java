@@ -17,9 +17,12 @@ public final class Constants {
 	public static final String SETTING_FIELD_FIELDS = "fields";
 	public static final String SETTING_FIELD_DEFAULT = "default";
 	public static final String SETTING_FIELD_RECORD_SIZE = "record_size";
+	public static final String SETTING_FIELD_MAX_DATABASE_ID = "database_max_id";
+	public static final String SETTING_FIELD_MAX_COLLECTION_ID = "collection_max_id";
 	
 	public static final String DIRECTORY_DATABASES = "databases";
 	
+	public static final String FILE_RUNTIME_DATA = "runtime.dat";
 	public static final String FILE_SETTINGS_DATA = "settings.dat"; 
 	public static final String FILE_RECORDS_DATA = "records.dat";
 	

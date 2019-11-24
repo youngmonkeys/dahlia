@@ -12,7 +12,7 @@ public final class FileReaders {
 		try {
 			return Files.readAllBytes(path);
 		} catch (IOException e) {
-			throw new IllegalArgumentException("can't read file: " + path);
+			throw new IllegalArgumentException("can't read file: " + path, e);
 		}
 	}
 	

@@ -33,7 +33,7 @@ public class Collection {
 		return this.indexById.put(record.getId(), record);
 	}
 	
-	protected int getId() {
+	public int getId() {
 		return setting.getCollectionId();
 	}
 	
