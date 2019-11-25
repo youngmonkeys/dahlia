@@ -21,7 +21,7 @@ public class CommandFindOneHandler extends CommandAbstractHandler<FindOne> {
 		
 		CollectionSetting setting = collection.getSetting();
 		CollectionStorage collectionStorage = storage.getCollectionStorage(collectionId);
-		Object value = collectionStorage.readRecord(record, setting.getFields());
+		Object value = collectionStorage.readRecord(record, setting.getId(), setting.getFields());
 		return value;
 	}
 	

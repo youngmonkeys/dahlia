@@ -18,25 +18,40 @@ public class FieldSimpleReaders implements FieldReaders {
 	}
 	
 	@Override
+	public Object read(
+			FileProxy file, 
+			FieldSetting setting) throws IOException {
+		this.readName(file);
+		return readValue(file, setting);
+	}
+	
+	@Override
 	public void read(FileProxy file, 
 			Map<String, FieldSetting> settings, 
 			EzyObject output) throws IOException {
 		int readFields = 0;
 		int totalFields = settings.size();
 		while(readFields < totalFields) {
-			String fieldName = readFieldName(file);
+			String fieldName = readName(file);
 			FieldSetting setting = settings.get(fieldName);
-			FieldReader reader = readers.get(setting.getType());
-			Object value = reader.read(this, file, setting);
+			Object value = readValue(file, setting);
 			output.put(fieldName, value);
 			++ readFields;
 		}
 	}
 	
-	protected String readFieldName(FileProxy file) throws IOException {
+	protected String readName(FileProxy file) throws IOException {
 		int fieldNameLength = file.readyByte();
 		String fieldName = file.readString(fieldNameLength);
 		return fieldName;
+	}
+	
+	public Object readValue(
+			FileProxy file, 
+			FieldSetting setting) throws IOException {
+		FieldReader reader = readers.get(setting.getType());
+		Object value = reader.read(this, file, setting);
+		return value;
 	}
 	
 	protected Map<DataType, FieldReader> defaultReaders() {

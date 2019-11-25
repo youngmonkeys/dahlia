@@ -72,14 +72,16 @@ public class CollectionStorage {
 	
 	public EzyObject readRecord(
 			Record record,
+			FieldSetting idSetting,
 			Map<String, FieldSetting> settings) {
-		return recordStore.read(record, settings);
+		return recordStore.read(record, idSetting, settings);
 	}
 	
 	public void storeRecord(
 			Record record, 
+			FieldSetting idSetting,
 			Map<String, FieldSetting> settings, EzyObject data) {
-		recordStore.write(record, settings, data);
+		recordStore.write(record, idSetting, settings, data);
 	}
 	
 	public static Builder builder() {

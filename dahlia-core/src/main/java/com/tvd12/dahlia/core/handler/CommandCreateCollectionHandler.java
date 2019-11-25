@@ -57,6 +57,7 @@ public class CommandCreateCollectionHandler
 		databases.addCollection(collection);
 		CollectionStorage collectionStorage = 
 				collectionStorageFactory.newCollectionStorage(collectionName, database.getName());
+		storage.addCollectionStorage(collection.getId(), collectionStorage);
 		collectionStorage.storeSetting(setting);
 		return collection;
 	}

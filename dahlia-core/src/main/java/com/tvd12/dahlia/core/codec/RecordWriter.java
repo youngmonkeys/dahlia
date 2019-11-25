@@ -7,6 +7,7 @@ import com.tvd12.dahlia.core.entity.Record;
 import com.tvd12.dahlia.core.io.FileProxy;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
+import static com.tvd12.dahlia.core.constant.Constants.*;
 
 public class RecordWriter {
 
@@ -19,13 +20,17 @@ public class RecordWriter {
 	}
 	
 	public void write(
-			Record record, 
+			Record record,
+			FieldSetting idSetting,
 			Map<String, FieldSetting> settings, EzyObject data) {
 		try {
 			file.seek(record.getPosition());
 			writeRecordHeader(record);
-			if(record.isAlive())
+			if(record.isAlive()) {
+				Comparable id = data.get(FIELD_ID);
+				fieldWriters.write(file, idSetting, id);
 				fieldWriters.write(file, settings, data);
+			}
 		}
 		catch(IOException e) {
 			throw new IllegalStateException(e);

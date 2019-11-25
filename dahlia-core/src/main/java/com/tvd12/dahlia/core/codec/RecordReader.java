@@ -8,6 +8,7 @@ import com.tvd12.dahlia.core.io.FileProxy;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
+import static com.tvd12.dahlia.core.constant.Constants.*;
 
 public class RecordReader {
 
@@ -19,13 +20,39 @@ public class RecordReader {
 		this.fieldReaders = new FieldSimpleReaders();
 	}
 	
+	public Record read(int position, FieldSetting idSetting) {
+		return read(position, idSetting, true);
+	}
+	
+	public Record read(
+			int position, 
+			FieldSetting idSetting, boolean ignoreDeleted) {
+		try {
+			file.seek(position);
+			byte header = file.readyByte();
+			boolean deleted = (header & (1 << 0)) == 0;
+			if(ignoreDeleted && deleted)
+				return null;
+			Object id = fieldReaders.read(file, idSetting);
+			Record record = new Record((Comparable) id, position);
+			record.setAlive(!deleted);
+			return record;
+		}
+		catch(IOException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+	
 	public EzyObject read(
 			Record record, 
+			FieldSetting idSetting,
 			Map<String, FieldSetting> settings) {
 		try {
 			file.seek(record.getPosition());
 			file.readyByte(); // header
 			EzyObject output = EzyEntityFactory.newObject();
+			Object id = fieldReaders.read(file, idSetting);
+			output.put(FIELD_ID, id);
 			fieldReaders.read(file, settings, output);
 			return output;
 		}

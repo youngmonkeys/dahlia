@@ -45,14 +45,24 @@ public class DatabaseTest {
 		collectionSetting.setCollectionId(1);
 		collectionSetting.setCollectionName("test");
 		Map<String, FieldSetting> fieldSettings = new HashMap<>();
-		collectionSetting.setFields(fieldSettings);
 		FieldLongSetting fieldIdSetting = new FieldLongSetting();
 		fieldIdSetting.setName("_id");
 		fieldIdSetting.setType(DataType.LONG);
 		fieldIdSetting.setNullable(true);
 		fieldIdSetting.setDefaultValue(100L);
 		fieldSettings.put(fieldIdSetting.getName(), fieldIdSetting);
+		
+		FieldLongSetting fieldValueSetting = new FieldLongSetting();
+		fieldValueSetting.setName("value");
+		fieldValueSetting.setType(DataType.LONG);
+		fieldValueSetting.setNullable(true);
+		fieldValueSetting.setDefaultValue(300L);
+		fieldSettings.put(fieldValueSetting.getName(), fieldValueSetting);
+		
+		collectionSetting.setFields(fieldSettings);
+		
 		System.out.println(collectionSetting.toMap());
+		
 		CreateCollection createCollection = new CreateCollection(database.getId(), collectionSetting);
 		Collection collection = null;
 		try {
@@ -63,6 +73,7 @@ public class DatabaseTest {
 		}
 		EzyObject insertOneData = EzyEntityFactory.newObjectBuilder()
 				.append("_id", 2L)
+				.append("value", 123L)
 				.build();
 		InsertOne insertOne = new InsertOne(collection.getId(), insertOneData);
 		EzyObject insertOneResult = commandExecutor.execute(insertOne);

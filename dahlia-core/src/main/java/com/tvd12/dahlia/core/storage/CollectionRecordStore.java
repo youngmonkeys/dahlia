@@ -31,15 +31,17 @@ class CollectionRecordStore {
 	
 	public EzyObject read(
 			Record record, 
+			FieldSetting idSetting,
 			Map<String, FieldSetting> settings) {
-		EzyObject value = recordReader.read(record, settings);
+		EzyObject value = recordReader.read(record, idSetting, settings);
 		return value;
 	}
 	
 	public void write(
-			Record record, 
+			Record record,
+			FieldSetting idSetting,
 			Map<String, FieldSetting> settings, EzyObject data) {
-		recordWriter.write(record, settings, data);
+		recordWriter.write(record, idSetting, settings, data);
 	}
 	
 }

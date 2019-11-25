@@ -21,7 +21,7 @@ public class FieldSimpleWriters implements FieldWriters {
 	public void write(
 			FileProxy file, 
 			FieldSetting setting, Object value) throws IOException {
-		writeFieldName(file, setting.getName());
+		writeName(file, setting.getName());
 		writeValue(file, setting, value);
 	}
 
@@ -44,7 +44,7 @@ public class FieldSimpleWriters implements FieldWriters {
 		writer.write(this, file, setting, value);
 	}
 	
-	protected void writeFieldName(
+	protected void writeName(
 			FileProxy file, String fieldName) throws IOException {
 		byte[] bytes = fieldName.getBytes();
 		file.writeByte((byte)bytes.length);

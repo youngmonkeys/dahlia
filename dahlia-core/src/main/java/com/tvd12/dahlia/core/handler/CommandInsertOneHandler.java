@@ -22,7 +22,7 @@ public class CommandInsertOneHandler extends CommandAbstractHandler<InsertOne> {
 		
 		CollectionSetting setting = collection.getSetting();
 		CollectionStorage collectionStorage = storage.getCollectionStorage(collectionId);
-		collectionStorage.storeRecord(record, setting.getFields(), data);
+		collectionStorage.storeRecord(record, setting.getId(), setting.getFields(), data);
 		return data;
 	}
 	

@@ -43,6 +43,7 @@ public class CommandCreateDatabaseHandler
 		databases.addDatabase(database);
 		DatabaseStorage databaseStorage = 
 				databaseStorageFactory.newDatabaseStorage(databaseName);
+		storage.addDatabaseStorage(database.getId(), databaseStorage);
 		databaseStorage.storeSetting(setting);
 		return database;
 	}

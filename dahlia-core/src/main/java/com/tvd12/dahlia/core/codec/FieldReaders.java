@@ -9,6 +9,10 @@ import com.tvd12.ezyfox.entity.EzyObject;
 
 public interface FieldReaders {
 
+	Object read(
+			FileProxy file, 
+			FieldSetting setting) throws IOException;
+	
 	void read(FileProxy file, 
 			Map<String, FieldSetting> settings, EzyObject output) throws IOException;
 
