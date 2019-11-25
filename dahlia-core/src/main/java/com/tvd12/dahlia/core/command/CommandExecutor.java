@@ -16,6 +16,7 @@ import com.tvd12.dahlia.core.factory.DatabaseStorageFactory;
 import com.tvd12.dahlia.core.factory.DatabaseStorageFactoryAware;
 import com.tvd12.dahlia.core.handler.CommandCreateCollectionHandler;
 import com.tvd12.dahlia.core.handler.CommandCreateDatabaseHandler;
+import com.tvd12.dahlia.core.handler.CommandFindOneHandler;
 import com.tvd12.dahlia.core.handler.CommandHandler;
 import com.tvd12.dahlia.core.handler.CommandInsertOneHandler;
 import com.tvd12.dahlia.core.setting.RecordSizeReader;
@@ -60,6 +61,7 @@ public class CommandExecutor {
 	protected Map<CommandType, CommandHandler> newHandlers() {
 		Map<CommandType, CommandHandler> map = new HashMap<>();
 		addHandlers(map, CommandType.INSERT_ONE, new CommandInsertOneHandler());
+		addHandlers(map, CommandType.FIND_ONE, new CommandFindOneHandler());
 		addHandlers(map, CommandType.CREATE_DATABASE, new CommandCreateDatabaseHandler());
 		addHandlers(map, CommandType.CREATE_COLLECTION, new CommandCreateCollectionHandler());
 		return map;

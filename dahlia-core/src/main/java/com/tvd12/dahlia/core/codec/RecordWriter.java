@@ -36,7 +36,7 @@ public class RecordWriter {
 		byte header = 0;
 		if(record.isAlive())
 			header |= 1 << 0;
-		file.write(header);
+		file.writeByte(header);
 	}
 	
 }

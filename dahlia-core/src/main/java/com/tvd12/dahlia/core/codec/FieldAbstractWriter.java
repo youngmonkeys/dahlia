@@ -1,7 +1,6 @@
 package com.tvd12.dahlia.core.codec;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 import com.tvd12.dahlia.core.io.FileProxy;
 import com.tvd12.dahlia.core.setting.FieldSetting;
@@ -10,6 +9,7 @@ public abstract class FieldAbstractWriter<T> implements FieldWriter<T> {
 
 	@Override
 	public void write(
+			FieldWriters writers,
 			FileProxy file, 
 			FieldSetting setting, T value) throws IOException {
 		writeHeader(file, setting, value);
@@ -21,10 +21,17 @@ public abstract class FieldAbstractWriter<T> implements FieldWriter<T> {
 			FieldSetting setting, T value) throws IOException {
 		if(setting.isNullable()) {
 			byte header = 0;
-			if(value == null)
+			if(value != null)
 				header |= 1 << 0;
-			file.write(header);
+			file.writeByte(header);
 		}
+	}
+	
+	protected void writeValue(
+			FieldWriters writers,
+			FileProxy file, 
+			FieldSetting setting, T value) throws IOException {
+		writeValue(file, setting, value);
 	}
 	
 	protected void writeValue(

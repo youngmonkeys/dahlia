@@ -1,23 +1,23 @@
 package com.tvd12.dahlia.core.command;
 
 import com.tvd12.dahlia.core.constant.CommandType;
-import com.tvd12.ezyfox.entity.EzyObject;
 
 import lombok.Getter;
 
 @Getter
-public class InsertOne implements Command {
+public class FindOne implements Command {
 
-	protected EzyObject data;
+	protected long id;
 	protected int collectionId;
 	
-	public InsertOne(int collectionId, EzyObject data) {
-		this.data = data;
+	public FindOne(int collectionId, long id) {
+		this.id = id;
 		this.collectionId = collectionId;
 	}
 	
 	@Override
 	public CommandType getType() {
-		return CommandType.INSERT_ONE;
+		return CommandType.FIND_ONE;
 	}
+	
 }

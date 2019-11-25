@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.tvd12.dahlia.core.io.FileProxy;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public final class FieldLongWriter extends FieldAbstractWriter<Long> {
+public final class FieldLongWriter extends FieldAbstractWriter<Number> {
 
 	private static final FieldLongWriter INSTANCE = new FieldLongWriter();
 	
@@ -18,8 +18,8 @@ public final class FieldLongWriter extends FieldAbstractWriter<Long> {
 	@Override
 	protected void writeValue(
 			FileProxy file, 
-			FieldSetting setting, Long value) throws IOException {
-		file.write(value != null ? value : 0);
+			FieldSetting setting, Number value) throws IOException {
+		file.writeLong(value != null ? value.longValue() : 0L);
 	}
 	
 }

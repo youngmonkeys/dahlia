@@ -4,6 +4,7 @@ public enum CommandType {
 
 	CREATE_DATABASE,
 	CREATE_COLLECTION,
-	INSERT_ONE;
+	INSERT_ONE,
+	FIND_ONE;
 	
 }

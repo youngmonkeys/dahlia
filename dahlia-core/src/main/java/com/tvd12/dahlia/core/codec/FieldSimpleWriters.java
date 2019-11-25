@@ -11,10 +11,10 @@ import com.tvd12.ezyfox.entity.EzyObject;
 
 public class FieldSimpleWriters implements FieldWriters {
 
-	protected final Map<DataType, FieldWriter> serializers;
+	protected final Map<DataType, FieldWriter> writers;
 	
 	public FieldSimpleWriters() {
-		this.serializers = defaultSerializers();
+		this.writers = defaultWriters();
 	}
 	
 	@Override
@@ -40,18 +40,18 @@ public class FieldSimpleWriters implements FieldWriters {
 	protected void writeValue(
 			FileProxy file, 
 			FieldSetting setting, Object value) throws IOException {
-		FieldWriter writer = serializers.get(setting.getType());
+		FieldWriter writer = writers.get(setting.getType());
 		writer.write(this, file, setting, value);
 	}
 	
 	protected void writeFieldName(
 			FileProxy file, String fieldName) throws IOException {
 		byte[] bytes = fieldName.getBytes();
-		file.write((byte)bytes.length);
-		file.write(bytes);
+		file.writeByte((byte)bytes.length);
+		file.writeBytes(bytes);
 	}
 	
-	protected Map<DataType, FieldWriter> defaultSerializers() {
+	protected Map<DataType, FieldWriter> defaultWriters() {
 		Map<DataType, FieldWriter> map = new HashMap<>();
 		map.put(DataType.LONG, FieldLongWriter.getInstance());
 		return map;
