@@ -79,5 +79,10 @@ public class FileRandomAccess implements FileProxy {
 	public void writeBytes(byte[] bytes) throws IOException {
 		fileAccess.write(bytes);
 	}
+	
+	@Override
+	public long length() throws IOException {
+		return fileAccess.length();
+	}
 
 }

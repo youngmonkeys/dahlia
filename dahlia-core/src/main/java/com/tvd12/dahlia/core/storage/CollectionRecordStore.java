@@ -29,6 +29,18 @@ class CollectionRecordStore {
 		this.recordWriter = new RecordWriter(file);
 	}
 	
+	public boolean hasMoreRecords(long position) {
+		boolean answer = recordReader.hasMoreRecords(position);
+		return answer;
+	}
+	
+	public Record read(
+			long position, 
+			FieldSetting idSetting) {
+		Record record = recordReader.read(position, idSetting);
+		return record;
+	}
+	
 	public EzyObject read(
 			Record record, 
 			FieldSetting idSetting,

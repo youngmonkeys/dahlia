@@ -70,6 +70,16 @@ public class CollectionStorage {
 		return setting;
 	}
 	
+	public boolean hasMoreRecords(long position) {
+		return recordStore.hasMoreRecords(position);
+	}
+	
+	public Record readRecord(
+			long position,
+			FieldSetting idSetting) {
+		return recordStore.read(position, idSetting);
+	}
+	
 	public EzyObject readRecord(
 			Record record,
 			FieldSetting idSetting,

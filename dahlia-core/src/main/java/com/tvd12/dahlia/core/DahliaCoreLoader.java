@@ -13,12 +13,14 @@ import java.util.Set;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Database;
 import com.tvd12.dahlia.core.entity.Databases;
+import com.tvd12.dahlia.core.entity.Record;
 import com.tvd12.dahlia.core.factory.CollectionFactory;
 import com.tvd12.dahlia.core.factory.CollectionStorageFactory;
 import com.tvd12.dahlia.core.factory.DatabaseFactory;
 import com.tvd12.dahlia.core.factory.DatabaseStorageFactory;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.DatabaseSetting;
+import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.setting.RuntimeSetting;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
 import com.tvd12.dahlia.core.storage.DatabaseStorage;
@@ -70,6 +72,8 @@ public class DahliaCoreLoader {
 		DatabaseFactory databaseFactory = new DatabaseFactory(runtimeSetting.getMaxDatabaseId());
 		CollectionFactory collectionFactory = new CollectionFactory(runtimeSetting.getMaxCollectionId());
 
+		loadAllCollections(databases, storage);
+		
 		DahliaCore dahlia = DahliaCore.builder()
 				.storage(storage)
 				.databases(databases)
@@ -215,6 +219,32 @@ public class DahliaCoreLoader {
 			settings.put(databaseName, collectionSettings);
 		}
 		return settings;
+	}
+	
+	protected void loadAllCollections(Databases databases, Storage storage) {
+		for(Database database : databases.getDatabaseList()) {
+			DatabaseStorage databaseStorage = storage.getDatabaseStore(database.getId());
+			loadCollections(database, databaseStorage);
+		}
+	}
+	
+	protected void loadCollections(Database database, DatabaseStorage storage) {
+		for(Collection collection : database.getCollectionList()) {
+			CollectionStorage collectionStorage = storage.getCollectionStorage(collection.getId());
+			loadCollection(collection, collectionStorage);
+		}
+	}
+	
+	protected void loadCollection(Collection collection, CollectionStorage storage) {
+		CollectionSetting setting = collection.getSetting();
+		FieldSetting idSetting = setting.getId();
+		long recordPosition = collection.getDataSize();
+		while(storage.hasMoreRecords(recordPosition)) {
+			Record record = storage.readRecord(recordPosition, idSetting);
+			if(record != null)
+				collection.insert(record);
+			recordPosition = collection.increaseDataSize();
+		}
 	}
 	
 }

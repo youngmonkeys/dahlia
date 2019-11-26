@@ -30,4 +30,6 @@ public interface FileProxy {
 	
 	void writeBytes(byte[] bytes) throws IOException;
 	
+	long length() throws IOException;
+	
 }

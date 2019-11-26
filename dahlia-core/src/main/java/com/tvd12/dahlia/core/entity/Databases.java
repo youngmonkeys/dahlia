@@ -1,5 +1,7 @@
 package com.tvd12.dahlia.core.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,6 +30,10 @@ public class Databases {
 	public void addDatabase(Database database) {
 		this.databasesById.put(database.getId(), database);
 		this.databasesByName.put(database.getName(), database);
+	}
+	
+	public List<Database> getDatabaseList() {
+		return new ArrayList<>(databasesById.values());
 	}
 	
 	public Collection getCollection(int id) {

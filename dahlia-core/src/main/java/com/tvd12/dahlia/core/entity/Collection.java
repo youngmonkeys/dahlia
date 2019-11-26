@@ -26,11 +26,15 @@ public class Collection {
 	
 	public void insert(Record record) {
 		this.indexById.put(record.getId(), record);
-		this.dataSize += setting.getRecordSize();
 	}
 	
 	public Record update(Record record) {
 		return this.indexById.put(record.getId(), record);
+	}
+	
+	public long increaseDataSize() {
+		this.dataSize += setting.getRecordSize();
+		return dataSize;
 	}
 	
 	public int getId() {

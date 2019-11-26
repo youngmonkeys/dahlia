@@ -72,8 +72,8 @@ public class DatabaseTest {
 			collection = database.getCollection("test");
 		}
 		EzyObject insertOneData = EzyEntityFactory.newObjectBuilder()
-				.append("_id", 2L)
-				.append("value", 123L)
+				.append("_id", 3L)
+				.append("value", 223L)
 				.build();
 		InsertOne insertOne = new InsertOne(collection.getId(), insertOneData);
 		EzyObject insertOneResult = commandExecutor.execute(insertOne);

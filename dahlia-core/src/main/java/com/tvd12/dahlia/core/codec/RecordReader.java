@@ -20,12 +20,24 @@ public class RecordReader {
 		this.fieldReaders = new FieldSimpleReaders();
 	}
 	
-	public Record read(int position, FieldSetting idSetting) {
+	public boolean hasMoreRecords(long position) {
+		try {
+			long fileLength = file.length();
+			if(position < fileLength)
+				return true;
+			return false;
+		}
+		catch(Exception e) {
+			throw new IllegalStateException(e);
+		}
+	}
+	
+	public Record read(long position, FieldSetting idSetting) {
 		return read(position, idSetting, true);
 	}
 	
 	public Record read(
-			int position, 
+			long position, 
 			FieldSetting idSetting, boolean ignoreDeleted) {
 		try {
 			file.seek(position);
