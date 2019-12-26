@@ -21,13 +21,16 @@ public class CommandInsertOneHandler extends CommandAbstractHandler<InsertOne> {
 		Record existed = collection.findById(id);
 		if(existed != null)
 			throw new DuplicatedIdException(collection.getName(), id);
-		Record record = new Record(id, collection.getDataSize());
-		collection.insert(record);
-		collection.increaseDataSize();
 		
 		CollectionSetting setting = collection.getSetting();
 		CollectionStorage collectionStorage = storage.getCollectionStorage(collectionId);
-		collectionStorage.storeRecord(record, setting.getId(), setting.getFields(), data);
+		
+		Record record = new Record(id, collection.getDataSize());
+		synchronized (collection) {
+			collection.insert(record);
+			collection.increaseDataSize();
+			collectionStorage.storeRecord(record, setting.getId(), setting.getFields(), data);
+		}
 		return data;
 	}
 	

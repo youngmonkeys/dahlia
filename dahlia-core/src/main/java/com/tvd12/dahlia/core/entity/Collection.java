@@ -1,10 +1,11 @@
 package com.tvd12.dahlia.core.entity;
 
-import java.util.function.Consumer;
-
 import com.tvd12.dahlia.core.btree.BTree;
+import com.tvd12.dahlia.core.function.RecordConsumer;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.tree.Tree;
+import com.tvd12.dahlia.core.tree.TreeWalker;
+import com.tvd12.dahlia.core.tree.Tree.Entry;
 
 import lombok.Getter;
 
@@ -34,8 +35,17 @@ public class Collection {
 		return this.indexById.put(record.getId(), record);
 	}
 	
-	public void forEach(Consumer<Record> consumer) {
-		this.indexById.walk(e -> consumer.accept(e.getValue()));
+	public void forEach(RecordConsumer consumer) {
+		this.indexById.walk(new TreeWalker<Comparable, Record>() {
+			@Override
+			public void accept(Entry<Comparable, Record> entry) {
+				consumer.accept(entry.getValue());
+			}
+			@Override
+			public boolean next() {
+				return consumer.next();
+			}
+		});
 	}
 	
 	public long increaseDataSize() {

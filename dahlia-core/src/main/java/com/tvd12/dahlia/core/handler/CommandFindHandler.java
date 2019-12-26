@@ -31,12 +31,14 @@ public class CommandFindHandler extends CommandQueryHandler<Find> {
 		Map<String, FieldSetting> sFields = setting.getFields();
 		
 		List<EzyObject> answer = new ArrayList<>();
-		collection.forEach(r -> {
-			EzyObject value = collectionStorage.readRecord(r, sId, sFields);
-			boolean accepted = predicate.test(value);
-			if(accepted)
-				answer.add(value);
-		});
+		synchronized (collection) {
+			collection.forEach(r -> {
+				EzyObject value = collectionStorage.readRecord(r, sId, sFields);
+				boolean accepted = predicate.test(value);
+				if(accepted)
+					answer.add(value);
+			});
+		}
 		return answer;
 	}
 	

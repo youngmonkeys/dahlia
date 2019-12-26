@@ -85,11 +85,14 @@ public class DatabaseTest {
 		catch (Exception e) {
 		}
 		
-		FindOne findOne = new FindOne(collection.getId(), 2L);
+		EzyObject query1 = EzyEntityFactory.newObjectBuilder()
+				.append("_id", 2L)
+				.build();
+		FindOne findOne = new FindOne(collection.getId(), query1);
 		EzyObject findOneResult = commandExecutor.execute(findOne);
 		System.out.println("findOneResult: " + findOneResult);
 		
-		EzyObject query1 = EzyEntityFactory.newObjectBuilder()
+		EzyObject query2 = EzyEntityFactory.newObjectBuilder()
 				.append("_id", 2L)
 				.build();
 		Find find = new Find(collection.getId(), query1);
