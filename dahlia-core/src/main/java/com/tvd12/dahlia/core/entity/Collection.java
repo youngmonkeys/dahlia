@@ -1,5 +1,7 @@
 package com.tvd12.dahlia.core.entity;
 
+import java.util.function.Consumer;
+
 import com.tvd12.dahlia.core.btree.BTree;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.tree.Tree;
@@ -30,6 +32,10 @@ public class Collection {
 	
 	public Record update(Record record) {
 		return this.indexById.put(record.getId(), record);
+	}
+	
+	public void forEach(Consumer<Record> consumer) {
+		this.indexById.walk(e -> consumer.accept(e.getValue()));
 	}
 	
 	public long increaseDataSize() {

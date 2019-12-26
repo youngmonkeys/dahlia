@@ -1,6 +1,7 @@
 package com.tvd12.dahlia.core.test.entity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.tvd12.dahlia.core.DahliaCore;
@@ -8,6 +9,7 @@ import com.tvd12.dahlia.core.DahliaCoreLoader;
 import com.tvd12.dahlia.core.command.CommandExecutor;
 import com.tvd12.dahlia.core.command.CreateCollection;
 import com.tvd12.dahlia.core.command.CreateDatabase;
+import com.tvd12.dahlia.core.command.Find;
 import com.tvd12.dahlia.core.command.FindOne;
 import com.tvd12.dahlia.core.command.InsertOne;
 import com.tvd12.dahlia.core.data.DataType;
@@ -73,14 +75,25 @@ public class DatabaseTest {
 		}
 		EzyObject insertOneData = EzyEntityFactory.newObjectBuilder()
 				.append("_id", 3L)
-				.append("value", 223L)
+				.append("value", 323L)
 				.build();
 		InsertOne insertOne = new InsertOne(collection.getId(), insertOneData);
-		EzyObject insertOneResult = commandExecutor.execute(insertOne);
-		System.out.println("insert one result: " + insertOneResult);
+		try {
+			EzyObject insertOneResult = commandExecutor.execute(insertOne);
+			System.out.println("insert one result: " + insertOneResult);
+		}
+		catch (Exception e) {
+		}
 		
 		FindOne findOne = new FindOne(collection.getId(), 2L);
 		EzyObject findOneResult = commandExecutor.execute(findOne);
 		System.out.println("findOneResult: " + findOneResult);
+		
+		EzyObject query1 = EzyEntityFactory.newObjectBuilder()
+				.append("_id", 2L)
+				.build();
+		Find find = new Find(collection.getId(), query1);
+		List<EzyObject> findResult = commandExecutor.execute(find);
+		System.out.println("findResult = " + findResult);
 	}
 }

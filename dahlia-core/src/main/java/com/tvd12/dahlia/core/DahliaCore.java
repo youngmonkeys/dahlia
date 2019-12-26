@@ -6,6 +6,7 @@ import com.tvd12.dahlia.core.factory.CollectionFactory;
 import com.tvd12.dahlia.core.factory.CollectionStorageFactory;
 import com.tvd12.dahlia.core.factory.DatabaseFactory;
 import com.tvd12.dahlia.core.factory.DatabaseStorageFactory;
+import com.tvd12.dahlia.core.query.QueryToPredicate;
 import com.tvd12.dahlia.core.setting.RecordSizeReader;
 import com.tvd12.dahlia.core.setting.RuntimeSetting;
 import com.tvd12.dahlia.core.storage.Storage;
@@ -20,6 +21,7 @@ public class DahliaCore {
 	protected final Databases databases;
 	protected final RuntimeSetting runtimeSetting;
 	protected final RecordSizeReader recordSizeReader;
+	protected final QueryToPredicate queryToPredicate;
 	@Getter
 	protected final CommandExecutor commandExecutor;
 	protected final DatabaseFactory databaseFactory;
@@ -36,6 +38,7 @@ public class DahliaCore {
 		this.databaseStorageFactory = builder.databaseStorageFactory;
 		this.collectionStorageFactory = builder.collectionStorageFactory;
 		this.recordSizeReader = new RecordSizeReader();
+		this.queryToPredicate = new QueryToPredicate();
 		this.commandExecutor = newCommandExecutor();
 	}
 	
@@ -45,6 +48,7 @@ public class DahliaCore {
 				.databases(databases)
 				.runtimeSetting(runtimeSetting)
 				.recordSizeReader(recordSizeReader)
+				.queryToPredicate(queryToPredicate)
 				.databaseFatory(databaseFactory)
 				.collectionFactory(collectionFactory)
 				.databaseStorageFactory(databaseStorageFactory)

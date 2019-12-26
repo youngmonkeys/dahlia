@@ -16,9 +16,12 @@ import com.tvd12.dahlia.core.factory.DatabaseStorageFactory;
 import com.tvd12.dahlia.core.factory.DatabaseStorageFactoryAware;
 import com.tvd12.dahlia.core.handler.CommandCreateCollectionHandler;
 import com.tvd12.dahlia.core.handler.CommandCreateDatabaseHandler;
+import com.tvd12.dahlia.core.handler.CommandFindHandler;
 import com.tvd12.dahlia.core.handler.CommandFindOneHandler;
 import com.tvd12.dahlia.core.handler.CommandHandler;
 import com.tvd12.dahlia.core.handler.CommandInsertOneHandler;
+import com.tvd12.dahlia.core.query.QueryToPredicate;
+import com.tvd12.dahlia.core.query.QueryToPredicateAware;
 import com.tvd12.dahlia.core.setting.RecordSizeReader;
 import com.tvd12.dahlia.core.setting.RecordSizeReaderAware;
 import com.tvd12.dahlia.core.setting.RuntimeSetting;
@@ -33,6 +36,7 @@ public class CommandExecutor {
 	protected final Databases databases;
 	protected final RuntimeSetting runtimeSetting;
 	protected final RecordSizeReader recordSizeReader;
+	protected final QueryToPredicate queryToPredicate;
 	protected final DatabaseFactory databaseFactory;
 	protected final CollectionFactory collectionFactory;
 	protected final DatabaseStorageFactory databaseStorageFactory;
@@ -44,6 +48,7 @@ public class CommandExecutor {
 		this.databases = builder.databases;
 		this.runtimeSetting = builder.runtimeSetting;
 		this.recordSizeReader = builder.recordSizeReader;
+		this.queryToPredicate = builder.queryToPredicate;
 		this.databaseFactory = builder.databaseFactory;
 		this.collectionFactory = builder.collectionFactory; 
 		this.databaseStorageFactory = builder.databaseStorageFactory;
@@ -60,8 +65,9 @@ public class CommandExecutor {
 	
 	protected Map<CommandType, CommandHandler> newHandlers() {
 		Map<CommandType, CommandHandler> map = new HashMap<>();
-		addHandlers(map, CommandType.INSERT_ONE, new CommandInsertOneHandler());
+		addHandlers(map, CommandType.FIND, new CommandFindHandler());
 		addHandlers(map, CommandType.FIND_ONE, new CommandFindOneHandler());
+		addHandlers(map, CommandType.INSERT_ONE, new CommandInsertOneHandler());
 		addHandlers(map, CommandType.CREATE_DATABASE, new CommandCreateDatabaseHandler());
 		addHandlers(map, CommandType.CREATE_COLLECTION, new CommandCreateCollectionHandler());
 		return map;
@@ -79,6 +85,8 @@ public class CommandExecutor {
 			((RuntimeSettingAware)handler).setRuntimeSetting(runtimeSetting);
 		if(handler instanceof RecordSizeReaderAware)
 			((RecordSizeReaderAware)handler).setRecordSizeReader(recordSizeReader);
+		if(handler instanceof QueryToPredicateAware)
+			((QueryToPredicateAware)handler).setQueryToPredicate(queryToPredicate);
 		if(handler instanceof DatabaseFactoryAware)
 			((DatabaseFactoryAware)handler).setDatabaseFactory(databaseFactory);
 		if(handler instanceof CollectionFactoryAware)
@@ -100,6 +108,7 @@ public class CommandExecutor {
 		protected Databases databases;
 		protected RuntimeSetting runtimeSetting;
 		protected RecordSizeReader recordSizeReader;
+		protected QueryToPredicate queryToPredicate;
 		protected DatabaseFactory databaseFactory;
 		protected CollectionFactory collectionFactory;
 		protected DatabaseStorageFactory databaseStorageFactory;
@@ -122,6 +131,11 @@ public class CommandExecutor {
 		
 		public Builder recordSizeReader(RecordSizeReader recordSizeReader) {
 			this.recordSizeReader = recordSizeReader;
+			return this;
+		}
+		
+		public Builder queryToPredicate(QueryToPredicate queryToPredicate) {
+			this.queryToPredicate = queryToPredicate;
 			return this;
 		}
 		

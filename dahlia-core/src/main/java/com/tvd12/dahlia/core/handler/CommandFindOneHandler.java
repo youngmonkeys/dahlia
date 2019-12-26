@@ -1,13 +1,11 @@
 package com.tvd12.dahlia.core.handler;
 
 import com.tvd12.dahlia.core.command.FindOne;
-import com.tvd12.dahlia.core.command.InsertOne;
-import com.tvd12.dahlia.core.constant.Constants;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Record;
+import com.tvd12.dahlia.core.exception.CollectionNotFoundException;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
-import com.tvd12.ezyfox.entity.EzyObject;
 
 public class CommandFindOneHandler extends CommandAbstractHandler<FindOne> {
 
@@ -17,6 +15,8 @@ public class CommandFindOneHandler extends CommandAbstractHandler<FindOne> {
 		Comparable id = command.getId();
 		
 		Collection collection = databases.getCollection(collectionId);
+		if(collection == null)
+			throw new CollectionNotFoundException(collectionId);
 		Record record = collection.findById(id);
 		
 		CollectionSetting setting = collection.getSetting();

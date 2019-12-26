@@ -152,6 +152,8 @@ public class DahliaCoreLoader {
 	protected Map<String, DatabaseStorage> newDatabaseStorages() {
 		Map<String, DatabaseStorage> databaseStoreages = new HashMap<>();
 		File databasesDirectory = Paths.get(storageDirectory, DIRECTORY_DATABASES).toFile();
+		if(!databasesDirectory.exists())
+			databasesDirectory.mkdirs();
 		for(File databaseDirectory : databasesDirectory.listFiles()) {
 			if(databaseDirectory.isFile())
 				continue;

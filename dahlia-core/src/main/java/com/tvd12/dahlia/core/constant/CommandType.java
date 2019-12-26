@@ -2,9 +2,11 @@ package com.tvd12.dahlia.core.constant;
 
 public enum CommandType {
 
-	CREATE_DATABASE,
-	CREATE_COLLECTION,
+	FIND,
+	INSERT,
+	FIND_ONE,
 	INSERT_ONE,
-	FIND_ONE;
+	CREATE_DATABASE,
+	CREATE_COLLECTION;
 	
 }
