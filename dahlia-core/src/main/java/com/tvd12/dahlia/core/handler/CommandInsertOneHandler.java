@@ -15,18 +15,17 @@ public class CommandInsertOneHandler extends CommandAbstractHandler<InsertOne> {
 	public Object handle(InsertOne command) {
 		int collectionId = command.getCollectionId();
 		EzyObject data = command.getData();
-		Comparable id = data.get(Constants.FIELD_ID);
 		
 		Collection collection = databases.getCollection(collectionId);
-		Record existed = collection.findById(id);
-		if(existed != null)
-			throw new DuplicatedIdException(collection.getName(), id);
-		
 		CollectionSetting setting = collection.getSetting();
 		CollectionStorage collectionStorage = storage.getCollectionStorage(collectionId);
-		
-		Record record = new Record(id, collection.getDataSize());
+
+		Comparable id = data.get(Constants.FIELD_ID);
 		synchronized (collection) {
+			Record existed = collection.findById(id);
+			if(existed != null)
+				throw new DuplicatedIdException(collection.getName(), id);
+			Record record = new Record(id, collection.getDataSize());
 			collection.insert(record);
 			collection.increaseDataSize();
 			collectionStorage.storeRecord(record, setting.getId(), setting.getFields(), data);

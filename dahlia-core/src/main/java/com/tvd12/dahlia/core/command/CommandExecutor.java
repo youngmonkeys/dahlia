@@ -19,6 +19,7 @@ import com.tvd12.dahlia.core.handler.CommandCreateDatabaseHandler;
 import com.tvd12.dahlia.core.handler.CommandFindHandler;
 import com.tvd12.dahlia.core.handler.CommandFindOneHandler;
 import com.tvd12.dahlia.core.handler.CommandHandler;
+import com.tvd12.dahlia.core.handler.CommandInsertHandler;
 import com.tvd12.dahlia.core.handler.CommandInsertOneHandler;
 import com.tvd12.dahlia.core.query.QueryToPredicate;
 import com.tvd12.dahlia.core.query.QueryToPredicateAware;
@@ -65,15 +66,16 @@ public class CommandExecutor {
 	
 	protected Map<CommandType, CommandHandler> newHandlers() {
 		Map<CommandType, CommandHandler> map = new HashMap<>();
-		addHandlers(map, CommandType.FIND, new CommandFindHandler());
-		addHandlers(map, CommandType.FIND_ONE, new CommandFindOneHandler());
-		addHandlers(map, CommandType.INSERT_ONE, new CommandInsertOneHandler());
-		addHandlers(map, CommandType.CREATE_DATABASE, new CommandCreateDatabaseHandler());
-		addHandlers(map, CommandType.CREATE_COLLECTION, new CommandCreateCollectionHandler());
+		addHandler(map, CommandType.FIND, new CommandFindHandler());
+		addHandler(map, CommandType.INSERT, new CommandInsertHandler());
+		addHandler(map, CommandType.FIND_ONE, new CommandFindOneHandler());
+		addHandler(map, CommandType.INSERT_ONE, new CommandInsertOneHandler());
+		addHandler(map, CommandType.CREATE_DATABASE, new CommandCreateDatabaseHandler());
+		addHandler(map, CommandType.CREATE_COLLECTION, new CommandCreateCollectionHandler());
 		return map;
 	}
 	
-	protected void addHandlers(
+	protected void addHandler(
 			Map<CommandType, CommandHandler> map, 
 			CommandType type,
 			CommandHandler handler) {
