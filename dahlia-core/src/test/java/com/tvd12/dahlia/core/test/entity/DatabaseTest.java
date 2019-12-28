@@ -12,6 +12,7 @@ import com.tvd12.dahlia.core.command.CreateDatabase;
 import com.tvd12.dahlia.core.command.Find;
 import com.tvd12.dahlia.core.command.FindOne;
 import com.tvd12.dahlia.core.command.InsertOne;
+import com.tvd12.dahlia.core.constant.Keywords;
 import com.tvd12.dahlia.core.data.DataType;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Database;
@@ -23,6 +24,7 @@ import com.tvd12.dahlia.core.setting.FieldLongSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
+import static com.tvd12.ezyfox.factory.EzyEntityFactory.*;
 
 public class DatabaseTest {
 
@@ -73,7 +75,7 @@ public class DatabaseTest {
 		catch (CollectionExistedException e) {
 			collection = database.getCollection("test");
 		}
-		EzyObject insertOneData = EzyEntityFactory.newObjectBuilder()
+		EzyObject insertOneData = newObjectBuilder()
 				.append("_id", 3L)
 				.append("value", 323L)
 				.build();
@@ -85,17 +87,24 @@ public class DatabaseTest {
 		catch (Exception e) {
 		}
 		
-		EzyObject query1 = EzyEntityFactory.newObjectBuilder()
+		long v1 = 1;
+		double v2 = 1.1;
+		System.out.println(v2 == v1);
+		
+		EzyObject query1 = newObjectBuilder()
 				.append("_id", 2L)
 				.build();
 		FindOne findOne = new FindOne(collection.getId(), query1);
-		EzyObject findOneResult = commandExecutor.execute(findOne);
-		System.out.println("findOneResult: " + findOneResult);
+//		EzyObject findOneResult = commandExecutor.execute(findOne);
+//		System.out.println("findOneResult: " + findOneResult);
 		
-		EzyObject query2 = EzyEntityFactory.newObjectBuilder()
-				.append("_id", 2L)
+		EzyObject query2 = newObjectBuilder()
+				.append(Keywords.AND, newArrayBuilder()
+						.append(newObjectBuilder().append("_id", 2L))
+						.append(newObjectBuilder().append("value", 223))
+						)
 				.build();
-		Find find = new Find(collection.getId(), query1);
+		Find find = new Find(collection.getId(), query2);
 		List<EzyObject> findResult = commandExecutor.execute(find);
 		System.out.println("findResult = " + findResult);
 	}
