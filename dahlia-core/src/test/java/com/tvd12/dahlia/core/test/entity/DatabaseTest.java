@@ -1,5 +1,8 @@
 package com.tvd12.dahlia.core.test.entity;
 
+import static com.tvd12.ezyfox.factory.EzyEntityFactory.newArrayBuilder;
+import static com.tvd12.ezyfox.factory.EzyEntityFactory.newObjectBuilder;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +13,6 @@ import com.tvd12.dahlia.core.command.CommandExecutor;
 import com.tvd12.dahlia.core.command.CreateCollection;
 import com.tvd12.dahlia.core.command.CreateDatabase;
 import com.tvd12.dahlia.core.command.Find;
-import com.tvd12.dahlia.core.command.FindOne;
 import com.tvd12.dahlia.core.command.InsertOne;
 import com.tvd12.dahlia.core.constant.Keywords;
 import com.tvd12.dahlia.core.data.DataType;
@@ -18,13 +20,12 @@ import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Database;
 import com.tvd12.dahlia.core.exception.CollectionExistedException;
 import com.tvd12.dahlia.core.exception.DatabaseExistedException;
+import com.tvd12.dahlia.core.query.FindOptions;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.DatabaseSetting;
 import com.tvd12.dahlia.core.setting.FieldLongSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
-import com.tvd12.ezyfox.factory.EzyEntityFactory;
-import static com.tvd12.ezyfox.factory.EzyEntityFactory.*;
 
 public class DatabaseTest {
 
@@ -91,20 +92,27 @@ public class DatabaseTest {
 		double v2 = 1.1;
 		System.out.println(v2 == v1);
 		
-		EzyObject query1 = newObjectBuilder()
-				.append("_id", 2L)
-				.build();
-		FindOne findOne = new FindOne(collection.getId(), query1);
+//		EzyObject query1 = newObjectBuilder()
+//				.append("_id", newObjectBuilder().append(Keywords.LESS_THAN_EQUAL, 3L))
+//				.build();
+//		FindOne findOne = new FindOne(collection.getId(), query1);
 //		EzyObject findOneResult = commandExecutor.execute(findOne);
 //		System.out.println("findOneResult: " + findOneResult);
 		
-		EzyObject query2 = newObjectBuilder()
-				.append(Keywords.AND, newArrayBuilder()
-						.append(newObjectBuilder().append("_id", 2L))
+//		EzyObject query2 = newObjectBuilder()
+//				.append(Keywords.OR, newArrayBuilder()
+//						.append(newObjectBuilder().append("_id", newObjectBuilder().append(Keywords.LESS_THAN_EQUAL, 3L)))
+//						.append(newObjectBuilder().append("value", 223))
+//						)
+//				.build();
+		EzyObject query3 = newObjectBuilder()
+				.append(Keywords.OR, newArrayBuilder()
+						.append(newObjectBuilder().append(Keywords.LESS_THAN_EQUAL, newObjectBuilder().append("_id", 3L)))
 						.append(newObjectBuilder().append("value", 223))
 						)
 				.build();
-		Find find = new Find(collection.getId(), query2);
+		FindOptions options = new FindOptions().setSkip(1).setLimit(1);
+		Find find = new Find(collection.getId(), query3, options);
 		List<EzyObject> findResult = commandExecutor.execute(find);
 		System.out.println("findResult = " + findResult);
 	}

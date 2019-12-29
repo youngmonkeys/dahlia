@@ -11,6 +11,8 @@ import java.util.function.Predicate;
 
 import com.tvd12.dahlia.core.comparator.Comparators;
 import com.tvd12.dahlia.core.constant.Keywords;
+import com.tvd12.dahlia.core.constant.Operation;
+import com.tvd12.dahlia.core.exception.InvalidQueryException;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.function.EzyPredicates;
@@ -24,6 +26,15 @@ public class QueryToPredicate {
 	}
 
 	public Predicate<EzyObject> toPredicate(EzyObject query) {
+		try {
+			return toPredicate0(query);
+		}
+		catch (Exception e) {
+			throw new InvalidQueryException("invalid query: " + query, e);
+		}
+	}
+	
+	public Predicate<EzyObject> toPredicate0(EzyObject query) {
 		for(Entry kv : query.entrySet()) {
 			String op = (String)kv.getKey();
 			Function<Object, Predicate<EzyObject>> builder = builders.get(op);
@@ -45,18 +56,58 @@ public class QueryToPredicate {
 	
 	protected List<Predicate> toPredicateList(EzyArray query) {
 		List<Predicate> predicates = new ArrayList<>(query.size());
-		for(int i = 0 ; i < query.size() ; ++i)
-			predicates.add(toPredicate(query.get(i)));
+		for(int i = 0 ; i < query.size() ; ++i) {
+			Object q = query.get(i);
+			if(q instanceof EzyObject)
+				predicates.add(toPredicate((EzyObject) q));
+			else
+				throw new InvalidQueryException("invalid query at: " + q);
+		}
 		return predicates;
 	} 
 	
 	protected Predicate<EzyObject> toDefaultPredicate(EzyObject query) {
 		for(Entry kv : query.entrySet()) {
-			String field = (String) kv.getKey();
-			Object qValue = kv.getValue();
+			String field = null;
+			Object value = kv.getValue();
+			String fieldOrOperation = (String) kv.getKey();
+			Operation operation = Operation.valueOfKeyword(fieldOrOperation);
+			if(operation != null) {
+				EzyObject oValue = (EzyObject)value;
+				for(Entry e : oValue.entrySet()) {
+					field = (String)e.getKey();
+					value = e.getValue();
+					break;
+				}
+			}
+			else if(value instanceof EzyObject) {
+				EzyObject oValue = (EzyObject)value;
+				for(Entry e : oValue.entrySet()) {
+					String keyword = (String)e.getKey();
+					operation = Operation.valueOfKeyword(keyword);
+					value = e.getValue();
+					break;
+				}
+			}
+			else {
+				field = fieldOrOperation;
+				operation = Operation.EQ;
+			}
+			String qField = field;
+			Object qValue = value;
+			Operation qOperation = operation;
 			return record -> {
-				Object rValue = record.get(field);
+				Object rValue = record.get(qField);
 				int compareResult = compareValue(rValue, qValue);
+				System.out.println("field: " + qField + ", rValue: " + rValue + ", qValue: " + qValue + ", op: " + qOperation);
+				if(qOperation == Operation.GT)
+					return compareResult > 0;
+				if(qOperation == Operation.GTE)
+					return compareResult >= 0;
+				if(qOperation == Operation.LT)
+					return compareResult < 0;
+				if(qOperation == Operation.LTE)
+					return compareResult <= 0;
 				return compareResult == 0;
 			};
 		}
