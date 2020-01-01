@@ -1,15 +1,16 @@
 package com.tvd12.dahlia.core.codec;
 
-import java.util.HashMap;
+import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_FIELDS;
+import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_ID;
+import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_RECORD_SIZE;
+
 import java.util.Map;
 
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
-import com.tvd12.dahlia.core.setting.FieldSettingProxy;
 import com.tvd12.ezyfox.codec.EzyObjectDeserializer;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
-import static com.tvd12.dahlia.core.constant.Constants.*;
 
 public class SettingCollectionDeserializer 
 		implements SettingDeserializer<CollectionSetting> {
@@ -36,18 +37,8 @@ public class SettingCollectionDeserializer
 	}
 	
 	public Map<String, FieldSetting> arrayToFields(EzyArray array) {
-		Map<String, FieldSetting> fields = new HashMap<>();
-		for(int i = 0 ; i < array.size() ; ++i) {
-			EzyObject object = array.get(i);
-			FieldSettingProxy field = objectToField(object);
-			fields.put(field.getName(), field.getSetting());
-		}
+		Map<String, FieldSetting> fields = objectToFields.toFieldSettings(array);
 		return fields;
-	}
-	
-	public FieldSettingProxy objectToField(EzyObject object) {
-		FieldSettingProxy setting = objectToFields.toSetting(object);
-		return setting;
 	}
 	
 }

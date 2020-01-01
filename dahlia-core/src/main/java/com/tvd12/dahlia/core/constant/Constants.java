@@ -14,9 +14,11 @@ public final class Constants {
 	public static final String SETTING_FIELD_ID = "id";
 	public static final String SETTING_FIELD_NAME = "name";
 	public static final String SETTING_FIELD_TYPE = "type";
+	public static final String SETTING_FIELD_ITEM = "item";
 	public static final String SETTING_FIELD_NULLABLE = "nullable";
 	public static final String SETTING_FIELD_FIELDS = "fields";
 	public static final String SETTING_FIELD_DEFAULT = "default";
+	public static final String SETTING_FIELD_MAX_SIZE = "max_size";
 	public static final String SETTING_FIELD_RECORD_SIZE = "record_size";
 	public static final String SETTING_FIELD_MAX_DATABASE_ID = "database_max_id";
 	public static final String SETTING_FIELD_MAX_COLLECTION_ID = "collection_max_id";

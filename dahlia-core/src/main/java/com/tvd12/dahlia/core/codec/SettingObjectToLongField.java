@@ -16,7 +16,7 @@ public class SettingObjectToLongField extends SettingObjectToField {
 	}
 	
 	@Override
-	protected FieldLongSetting newSetting(EzyObject object) {
+	protected FieldLongSetting newSetting(SettingObjectToFields mappers, EzyObject object) {
 		FieldLongSetting setting = new FieldLongSetting();
 		setting.setDefaultValue(object.get(SETTING_FIELD_DEFAULT, long.class));
 		return setting;
