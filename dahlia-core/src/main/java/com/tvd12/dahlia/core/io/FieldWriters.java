@@ -15,6 +15,10 @@ public interface FieldWriters {
 	
 	void write(
 			FileProxy file, 
+			FieldSetting setting, Object value) throws IOException;
+	
+	void write(
+			FileProxy file, 
 			Map<String, FieldSetting> settings, EzyObject values) throws IOException;
 	
 }

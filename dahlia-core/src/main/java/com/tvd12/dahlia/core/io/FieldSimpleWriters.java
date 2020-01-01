@@ -23,7 +23,14 @@ public class FieldSimpleWriters implements FieldWriters {
 			String name,
 			FieldSetting setting, Object value) throws IOException {
 		writeName(file, name);
-		writeValue(file, setting, value);
+		write(file, setting, value);
+	}
+	
+	@Override
+	public void write(FileProxy file, 
+			FieldSetting setting, Object value) throws IOException {
+		FieldWriter writer = writers.get(setting.getType());
+		writer.write(this, file, setting, value);
 	}
 
 	@Override
@@ -35,13 +42,6 @@ public class FieldSimpleWriters implements FieldWriters {
 			Object value = values.get(e.getKey());
 			write(file, e.getKey(), e.getValue(), value);
 		}
-	}
-	
-	protected void writeValue(
-			FileProxy file, 
-			FieldSetting setting, Object value) throws IOException {
-		FieldWriter writer = writers.get(setting.getType());
-		writer.write(this, file, setting, value);
 	}
 	
 	protected void writeName(
@@ -61,6 +61,8 @@ public class FieldSimpleWriters implements FieldWriters {
 		map.put(DataType.LONG, FieldLongWriter.getInstance());
 		map.put(DataType.SHORT, FieldShortWriter.getInstance());
 		map.put(DataType.TEXT, FieldTextWriter.getInstance());
+		map.put(DataType.ARRAY, FieldArrayWriter.getInstance());
+		map.put(DataType.OBJECT, FieldObjectWriter.getInstance());
 		return map;
 	}
 

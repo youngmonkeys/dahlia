@@ -7,11 +7,18 @@ import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
 public interface FieldReaders {
-
-	Object read(
+	
+	String readName(
+			FileProxy file) throws IOException;
+	
+	Object readValue(
 			FileProxy file, 
 			FieldSetting setting) throws IOException;
 	
+	Object read(
+			FileProxy file, 
+			FieldSetting setting) throws IOException;
+
 	void read(FileProxy file, 
 			Map<String, FieldSetting> settings, EzyObject output) throws IOException;
 
