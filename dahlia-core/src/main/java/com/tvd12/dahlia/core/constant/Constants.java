@@ -4,7 +4,8 @@ public final class Constants {
 
 	public static final String FIELD_ID = "_id";
 	
-	public static final int MAX_CHAR_BYTES = 4;
+	public static final int MAX_UTF8_CHAR_BYTES = 4;
+	public static final int MAX_STRING_SIZE_BYTES = 4;
 	
 	public static final int RECORD_HEADER_SIZE = 1;
 	

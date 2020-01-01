@@ -14,12 +14,32 @@
 	    },
 	    "year" : {
 	        "type" : "array",
-	        "item_type" : "int",
 	        "max_size" : 100,
-	        "item_size" : 100,
-	        "item_fields" :{
-	        	"name" : {
-	        		"type" : "text"
+	        "item" : {
+	        	"type" : "int",
+	        	"max_value" : 100
+	        }
+	    },
+	    "year1" : {
+	        "type" : "array",
+	        "max_size" : 100,
+	        "item" : {
+	        	"type" : "object",
+		        "fields" : {
+		            "name" : {
+		                "type" : "text"
+		            }
+		        }
+	        }
+	    },
+	    "year2" : {
+	        "type" : "array",
+	        "max_size" : 100,
+	        "item" : {
+	        	"type" : "array",
+		        "item" : {
+	        		"type" : "int",
+	        		"max_value" : 100
 	        	}
 	        }
 	    }

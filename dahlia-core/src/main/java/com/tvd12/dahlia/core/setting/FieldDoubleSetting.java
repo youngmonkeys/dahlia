@@ -9,13 +9,13 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class FieldLongSetting extends FieldSetting {
+public class FieldDoubleSetting extends FieldSetting {
 
-	protected Long defaultValue;
+	protected Double defaultValue;
 	
 	@Override
 	public DataType getType() {
-		return DataType.LONG;
+		return DataType.DOUBLE;
 	}
 	
 	@Override

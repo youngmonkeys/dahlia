@@ -11,17 +11,19 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class FieldSetting implements EzyToMap {
+public abstract class FieldSetting implements EzyToMap {
 
 	protected String name;
-	protected DataType type;
 	protected boolean nullable;
+	
+	public abstract DataType getType();
 	
 	@Override
 	public Map<Object, Object> toMap() {
 		Map<Object, Object> map = new HashMap<>();
-		map.put("type", type);
+		map.put("type", getType());
 		map.put("nullable", nullable);
 		return map;
 	}
+	
 }

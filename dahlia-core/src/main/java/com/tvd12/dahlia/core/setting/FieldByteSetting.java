@@ -9,13 +9,13 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class FieldLongSetting extends FieldSetting {
+public class FieldByteSetting extends FieldSetting {
 
-	protected Long defaultValue;
+	protected Byte defaultValue;
 	
 	@Override
 	public DataType getType() {
-		return DataType.LONG;
+		return DataType.BYTE;
 	}
 	
 	@Override

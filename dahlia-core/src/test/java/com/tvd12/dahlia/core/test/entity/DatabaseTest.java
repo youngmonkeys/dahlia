@@ -52,14 +52,12 @@ public class DatabaseTest {
 		Map<String, FieldSetting> fieldSettings = new HashMap<>();
 		FieldLongSetting fieldIdSetting = new FieldLongSetting();
 		fieldIdSetting.setName("_id");
-		fieldIdSetting.setType(DataType.LONG);
 		fieldIdSetting.setNullable(true);
 		fieldIdSetting.setDefaultValue(100L);
 		fieldSettings.put(fieldIdSetting.getName(), fieldIdSetting);
 		
 		FieldLongSetting fieldValueSetting = new FieldLongSetting();
 		fieldValueSetting.setName("value");
-		fieldValueSetting.setType(DataType.LONG);
 		fieldValueSetting.setNullable(true);
 		fieldValueSetting.setDefaultValue(300L);
 		fieldSettings.put(fieldValueSetting.getName(), fieldValueSetting);
@@ -77,7 +75,7 @@ public class DatabaseTest {
 			collection = database.getCollection("test");
 		}
 		EzyObject insertOneData = newObjectBuilder()
-				.append("_id", 3L)
+				.append("_id", 2L)
 				.append("value", 323L)
 				.build();
 		InsertOne insertOne = new InsertOne(collection.getId(), insertOneData);
