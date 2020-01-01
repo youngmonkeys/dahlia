@@ -7,11 +7,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-import com.tvd12.dahlia.core.codec.RecordReader;
-import com.tvd12.dahlia.core.codec.RecordWriter;
 import com.tvd12.dahlia.core.entity.Record;
 import com.tvd12.dahlia.core.io.FileProxy;
 import com.tvd12.dahlia.core.io.FileRandomAccess;
+import com.tvd12.dahlia.core.io.RecordReader;
+import com.tvd12.dahlia.core.io.RecordWriter;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 

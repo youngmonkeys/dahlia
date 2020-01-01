@@ -1,4 +1,4 @@
-package com.tvd12.dahlia.core.codec;
+package com.tvd12.dahlia.core.io;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.tvd12.dahlia.core.data.DataType;
-import com.tvd12.dahlia.core.io.FileProxy;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
@@ -54,7 +53,14 @@ public class FieldSimpleWriters implements FieldWriters {
 	
 	protected Map<DataType, FieldWriter> defaultWriters() {
 		Map<DataType, FieldWriter> map = new HashMap<>();
+		map.put(DataType.BOOLEAN, FieldBooleanWriter.getInstance());
+		map.put(DataType.BYTE, FieldByteWriter.getInstance());
+		map.put(DataType.DOUBLE, FieldDoubleWriter.getInstance());
+		map.put(DataType.FLOAT, FieldFloatWriter.getInstance());
+		map.put(DataType.INTEGER, FieldIntegerWriter.getInstance());
 		map.put(DataType.LONG, FieldLongWriter.getInstance());
+		map.put(DataType.SHORT, FieldShortWriter.getInstance());
+		map.put(DataType.TEXT, FieldTextWriter.getInstance());
 		return map;
 	}
 

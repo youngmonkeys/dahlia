@@ -5,10 +5,20 @@ import java.io.IOException;
 public interface FileProxy {
 
 	void seek(long position) throws IOException;
+
+	boolean readBoolean() throws IOException;
 	
-	byte readyByte() throws IOException;
+	byte readByte() throws IOException;
+	
+	double readDouble() throws IOException;
+	
+	float readFloat() throws IOException;
+	
+	int readInt() throws IOException;
 	
 	long readLong() throws IOException;
+	
+	short readShort() throws IOException;
 	
 	byte[] readBytes(int size) throws IOException;
 	
@@ -16,7 +26,7 @@ public interface FileProxy {
 	
 	void writeByte(byte value) throws IOException;
 	
-	void writeBool(boolean value) throws IOException;
+	void writeBoolean(boolean value) throws IOException;
 	
 	void writeDouble(double value) throws IOException;
 	

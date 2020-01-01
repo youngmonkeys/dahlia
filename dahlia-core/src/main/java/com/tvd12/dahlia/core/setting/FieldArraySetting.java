@@ -12,6 +12,10 @@ public class FieldArraySetting extends FieldEntitySetting {
 	protected int maxSize;
 	protected FieldSetting item;
 	
+	public FieldArraySetting() {
+		this.maxSize = Byte.MAX_VALUE;
+	}
+	
 	@Override
 	public DataType getType() {
 		return DataType.ARRAY;

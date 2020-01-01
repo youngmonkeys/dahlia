@@ -16,7 +16,7 @@ public class FieldSizeReaders {
 	
 	public int read(String fieldName, FieldSetting setting) {
 		int size = 0;
-		size += readFieldHeaderSize(setting);
+		size += readFieldNameSize(fieldName);
 		size += readFieldSize(setting);
 		return size;
 	}
@@ -31,8 +31,10 @@ public class FieldSizeReaders {
 	
 	public int read(Map<String, FieldSetting> settings) {
 		int size = 0;
-		for(Entry<String, FieldSetting> entry : settings.entrySet())
-			size += read(entry.getKey(), entry.getValue());
+		for(Entry<String, FieldSetting> entry : settings.entrySet()) {
+			int fieldSize = read(entry.getKey(), entry.getValue());
+			size += fieldSize;
+		}
 		return size;
 	}
 	

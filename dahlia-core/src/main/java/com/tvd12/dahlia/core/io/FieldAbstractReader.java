@@ -1,8 +1,7 @@
-package com.tvd12.dahlia.core.codec;
+package com.tvd12.dahlia.core.io;
 
 import java.io.IOException;
 
-import com.tvd12.dahlia.core.io.FileProxy;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
 public abstract class FieldAbstractReader<T> implements FieldReader<T> {
@@ -12,7 +11,7 @@ public abstract class FieldAbstractReader<T> implements FieldReader<T> {
 			FieldReaders readers, 
 			FileProxy file, FieldSetting setting) throws IOException {
 		if(setting.isNullable()) {
-			byte header = file.readyByte();
+			byte header = file.readByte();
 			if((header & (1 << 0)) == 0)
 				return null;
 		}

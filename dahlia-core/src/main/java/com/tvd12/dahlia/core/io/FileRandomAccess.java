@@ -18,13 +18,38 @@ public class FileRandomAccess implements FileProxy {
 	}
 	
 	@Override
-	public byte readyByte() throws IOException {
+	public boolean readBoolean() throws IOException {
+		return fileAccess.readBoolean();
+	}
+	
+	@Override
+	public byte readByte() throws IOException {
 		return fileAccess.readByte();
+	}
+	
+	@Override
+	public double readDouble() throws IOException {
+		return fileAccess.readDouble();
+	}
+	
+	@Override
+	public float readFloat() throws IOException {
+		return fileAccess.readFloat();
+	}
+	
+	@Override
+	public int readInt() throws IOException {
+		return fileAccess.readInt();
 	}
 	
 	@Override
 	public long readLong() throws IOException {
 		return fileAccess.readLong();
+	}
+	
+	@Override
+	public short readShort() throws IOException {
+		return fileAccess.readShort();
 	}
 	
 	@Override
@@ -46,7 +71,7 @@ public class FileRandomAccess implements FileProxy {
 	}
 
 	@Override
-	public void writeBool(boolean value) throws IOException {
+	public void writeBoolean(boolean value) throws IOException {
 		fileAccess.writeBoolean(value);
 	}
 
@@ -62,7 +87,7 @@ public class FileRandomAccess implements FileProxy {
 
 	@Override
 	public void writeInt(int value) throws IOException {
-		fileAccess.write(value);
+		fileAccess.writeInt(value);
 	}
 
 	@Override

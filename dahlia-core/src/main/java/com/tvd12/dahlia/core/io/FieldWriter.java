@@ -1,8 +1,7 @@
-package com.tvd12.dahlia.core.codec;
+package com.tvd12.dahlia.core.io;
 
 import java.io.IOException;
 
-import com.tvd12.dahlia.core.io.FileProxy;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
 public interface FieldWriter<T> {

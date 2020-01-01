@@ -9,8 +9,12 @@ import lombok.Setter;
 @Getter
 public class FieldTextSetting extends FieldSetting {
 
-	protected String defaultValue;
 	protected int maxSize;
+	protected String defaultValue;
+	
+	public FieldTextSetting() {
+		this.maxSize = 255;
+	}
 	
 	@Override
 	public DataType getType() {

@@ -3,6 +3,7 @@ package com.tvd12.dahlia.core.test.entity;
 import static com.tvd12.ezyfox.factory.EzyEntityFactory.newArrayBuilder;
 import static com.tvd12.ezyfox.factory.EzyEntityFactory.newObjectBuilder;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,6 @@ import com.tvd12.dahlia.core.command.CreateDatabase;
 import com.tvd12.dahlia.core.command.Find;
 import com.tvd12.dahlia.core.command.InsertOne;
 import com.tvd12.dahlia.core.constant.Keywords;
-import com.tvd12.dahlia.core.data.DataType;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Database;
 import com.tvd12.dahlia.core.exception.CollectionExistedException;
@@ -26,11 +26,13 @@ import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.DatabaseSetting;
 import com.tvd12.dahlia.core.setting.FieldLongSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
+import com.tvd12.dahlia.core.setting.FieldTextSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
 public class DatabaseTest {
 
 	public static void main(String[] args) {
+		deleteDataDir();
 		DahliaCoreLoader loader = new DahliaCoreLoader()
 				.storageDirectory("data");
 		DahliaCore dahlia = loader.load();
@@ -61,6 +63,10 @@ public class DatabaseTest {
 		fieldValueSetting.setDefaultValue(300L);
 		fieldSettings.put("value", fieldValueSetting);
 		
+		FieldTextSetting fieldNameSetting = new FieldTextSetting();
+		fieldNameSetting.setNullable(false);
+		fieldSettings.put("name", fieldNameSetting);
+		
 		collectionSetting.setFields(fieldSettings);
 		
 		System.out.println(collectionSetting.toMap());
@@ -76,6 +82,7 @@ public class DatabaseTest {
 		EzyObject insertOneData = newObjectBuilder()
 				.append("_id", 2L)
 				.append("value", 323L)
+				.append("name", "dungtv")
 				.build();
 		InsertOne insertOne = new InsertOne(collection.getId(), insertOneData);
 		try {
@@ -115,5 +122,22 @@ public class DatabaseTest {
 		Find find = new Find(collection.getId(), query3, options);
 		List<EzyObject> findResult = commandExecutor.execute(find);
 		System.out.println("findResult = " + findResult);
+	}
+	
+	public static void deleteDataDir() {
+		deleteDataFile(new File("data"));
+	}
+	
+	public static void deleteDataFile(File file) {
+		if(!file.exists())
+			return;
+		if(file.isFile()) {
+			file.delete();
+		}
+		else {
+			for(File dir : file.listFiles())
+				deleteDataFile(dir);
+		}
+		file.delete();
 	}
 }

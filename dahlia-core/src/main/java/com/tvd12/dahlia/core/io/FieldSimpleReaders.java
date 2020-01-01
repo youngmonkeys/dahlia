@@ -1,11 +1,10 @@
-package com.tvd12.dahlia.core.codec;
+package com.tvd12.dahlia.core.io;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.tvd12.dahlia.core.data.DataType;
-import com.tvd12.dahlia.core.io.FileProxy;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
@@ -41,7 +40,7 @@ public class FieldSimpleReaders implements FieldReaders {
 	}
 	
 	protected String readName(FileProxy file) throws IOException {
-		int fieldNameLength = file.readyByte();
+		int fieldNameLength = file.readByte();
 		String fieldName = file.readString(fieldNameLength);
 		return fieldName;
 	}
@@ -56,7 +55,14 @@ public class FieldSimpleReaders implements FieldReaders {
 	
 	protected Map<DataType, FieldReader> defaultReaders() {
 		Map<DataType, FieldReader> map = new HashMap<>();
+		map.put(DataType.BOOLEAN, FieldBooleanReader.getInstance());
+		map.put(DataType.BYTE, FieldByteReader.getInstance());
+		map.put(DataType.DOUBLE, FieldDoubleReader.getInstance());
+		map.put(DataType.FLOAT, FieldFloatReader.getInstance());
+		map.put(DataType.INTEGER, FieldIntegerReader.getInstance());
 		map.put(DataType.LONG, FieldLongReader.getInstance());
+		map.put(DataType.SHORT, FieldShortReader.getInstance());
+		map.put(DataType.TEXT, FieldTextReader.getInstance());
 		return map;
 	}
 

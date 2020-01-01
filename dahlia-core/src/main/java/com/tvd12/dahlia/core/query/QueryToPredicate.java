@@ -99,7 +99,6 @@ public class QueryToPredicate {
 			return record -> {
 				Object rValue = record.get(qField);
 				int compareResult = compareValue(rValue, qValue);
-				System.out.println("field: " + qField + ", rValue: " + rValue + ", qValue: " + qValue + ", op: " + qOperation);
 				if(qOperation == Operation.GT)
 					return compareResult > 0;
 				if(qOperation == Operation.GTE)

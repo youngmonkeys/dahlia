@@ -46,7 +46,7 @@ public class CommandCreateCollectionHandler
 		Collection existedCollection = database.getCollection(collectionName);
 		if(existedCollection != null)
 			throw new CollectionExistedException(collectionName);
-		int recordSize = recordSizeReader.read(setting.getFields());
+		int recordSize = recordSizeReader.read(setting.getAllFields());
 		setting.setRecordSize(recordSize);
 		Collection collection = collectionFactory.newCollection(setting);
 		synchronized (runtimeSetting) {

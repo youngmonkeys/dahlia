@@ -1,10 +1,9 @@
-package com.tvd12.dahlia.core.codec;
+package com.tvd12.dahlia.core.io;
 
 import java.io.IOException;
 import java.util.Map;
 
 import com.tvd12.dahlia.core.entity.Record;
-import com.tvd12.dahlia.core.io.FileProxy;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
@@ -41,7 +40,7 @@ public class RecordReader {
 			FieldSetting idSetting, boolean ignoreDeleted) {
 		try {
 			file.seek(position);
-			byte header = file.readyByte();
+			byte header = file.readByte();
 			boolean deleted = (header & (1 << 0)) == 0;
 			if(ignoreDeleted && deleted)
 				return null;
@@ -61,7 +60,7 @@ public class RecordReader {
 			Map<String, FieldSetting> settings) {
 		try {
 			file.seek(record.getPosition());
-			file.readyByte(); // header
+			file.readByte(); // header
 			EzyObject output = EzyEntityFactory.newObject();
 			Object id = fieldReaders.read(file, idSetting);
 			output.put(FIELD_ID, id);
