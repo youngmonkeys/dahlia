@@ -35,8 +35,10 @@ public class CollectionSetting implements EzyToMap {
 		map.put(SETTING_FIELD_NAME, collectionName);
 		Map<String, Map<Object, Object>> fieldsToMaps = new HashMap<>();
 		fieldsToMaps.put(FIELD_ID, id.toMap());
-		for(FieldSetting field : fields.values())
-			fieldsToMaps.put(field.getName(), field.toMap());
+		for(String fieldName : fields.keySet()) {
+			FieldSetting field = fields.get(fieldName);
+			fieldsToMaps.put(fieldName, field.toMap());
+		}
 		map.put(SETTING_FIELD_FIELDS, fieldsToMaps);
 		return map;
 	}

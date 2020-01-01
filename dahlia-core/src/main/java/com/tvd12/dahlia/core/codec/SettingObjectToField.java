@@ -4,17 +4,18 @@ import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_NAME;
 import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_NULLABLE;
 
 import com.tvd12.dahlia.core.setting.FieldSetting;
+import com.tvd12.dahlia.core.setting.FieldSettingProxy;
 import com.tvd12.ezyfox.entity.EzyObject;
 
-public abstract class SettingObjectToField<S extends FieldSetting> {
+public abstract class SettingObjectToField {
 	
-	public final S toSetting(EzyObject object) {
-		S setting = newSetting(object);
-		setting.setName(object.get(SETTING_FIELD_NAME));
+	public final FieldSettingProxy toSetting(EzyObject object) {
+		String name = object.get(SETTING_FIELD_NAME);
+		FieldSetting setting = newSetting(object);
 		setting.setNullable(object.get(SETTING_FIELD_NULLABLE));
-		return setting;
+		return new FieldSettingProxy(name, setting);
 	}
 	
-	protected abstract S newSetting(EzyObject object);
+	protected abstract FieldSetting newSetting(EzyObject object);
 	
 }

@@ -13,7 +13,6 @@ import lombok.Setter;
 @Getter
 public abstract class FieldSetting implements EzyToMap {
 
-	protected String name;
 	protected boolean nullable;
 	
 	public abstract DataType getType();

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.tvd12.dahlia.core.data.DataType;
 import com.tvd12.dahlia.core.setting.FieldSetting;
+import com.tvd12.dahlia.core.setting.FieldSettingProxy;
 import com.tvd12.ezyfox.entity.EzyObject;
 
 public class SettingObjectToFields {
@@ -17,10 +18,10 @@ public class SettingObjectToFields {
 		this.mappers = defaultMappers();
 	}
 	
-	public FieldSetting toSetting(EzyObject object) {
+	public FieldSettingProxy toSetting(EzyObject object) {
 		DataType type = DataType.valueOf(object.get(SETTING_FIELD_TYPE));
 		SettingObjectToField mapper = mappers.get(type);
-		FieldSetting answer = mapper.toSetting(object);
+		FieldSettingProxy answer = mapper.toSetting(object);
 		return answer;
 	}
 	

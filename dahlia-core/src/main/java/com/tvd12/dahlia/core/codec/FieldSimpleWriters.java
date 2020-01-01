@@ -3,6 +3,7 @@ package com.tvd12.dahlia.core.codec;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.tvd12.dahlia.core.data.DataType;
 import com.tvd12.dahlia.core.io.FileProxy;
@@ -20,8 +21,9 @@ public class FieldSimpleWriters implements FieldWriters {
 	@Override
 	public void write(
 			FileProxy file, 
+			String name,
 			FieldSetting setting, Object value) throws IOException {
-		writeName(file, setting.getName());
+		writeName(file, name);
 		writeValue(file, setting, value);
 	}
 
@@ -30,10 +32,10 @@ public class FieldSimpleWriters implements FieldWriters {
 			FileProxy file, 
 			Map<String, FieldSetting> settings, 
 			EzyObject values) throws IOException {
-		for(String field : settings.keySet()) {
-			Object value = values.get(field);
-			FieldSetting setting = settings.get(field);
-			write(file, setting, value);
+		for(Entry<String, FieldSetting> e : settings.entrySet()) {
+			Object value = values.get(e.getKey());
+			FieldSetting setting = settings.get(e.getValue());
+			write(file, e.getKey(), setting, value);
 		}
 	}
 	

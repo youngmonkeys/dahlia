@@ -51,16 +51,14 @@ public class DatabaseTest {
 		collectionSetting.setCollectionName("test");
 		Map<String, FieldSetting> fieldSettings = new HashMap<>();
 		FieldLongSetting fieldIdSetting = new FieldLongSetting();
-		fieldIdSetting.setName("_id");
 		fieldIdSetting.setNullable(true);
 		fieldIdSetting.setDefaultValue(100L);
-		fieldSettings.put(fieldIdSetting.getName(), fieldIdSetting);
+		fieldSettings.put("_id", fieldIdSetting);
 		
 		FieldLongSetting fieldValueSetting = new FieldLongSetting();
-		fieldValueSetting.setName("value");
 		fieldValueSetting.setNullable(true);
 		fieldValueSetting.setDefaultValue(300L);
-		fieldSettings.put(fieldValueSetting.getName(), fieldValueSetting);
+		fieldSettings.put("value", fieldValueSetting);
 		
 		collectionSetting.setFields(fieldSettings);
 		

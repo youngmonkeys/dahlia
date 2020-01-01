@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
+import com.tvd12.dahlia.core.setting.FieldSettingProxy;
 import com.tvd12.ezyfox.codec.EzyObjectDeserializer;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
@@ -38,14 +39,14 @@ public class SettingCollectionDeserializer
 		Map<String, FieldSetting> fields = new HashMap<>();
 		for(int i = 0 ; i < array.size() ; ++i) {
 			EzyObject object = array.get(i);
-			FieldSetting field = objectToField(object);
-			fields.put(field.getName(), field);
+			FieldSettingProxy field = objectToField(object);
+			fields.put(field.getName(), field.getSetting());
 		}
 		return fields;
 	}
 	
-	public FieldSetting objectToField(EzyObject object) {
-		FieldSetting setting = objectToFields.toSetting(object);
+	public FieldSettingProxy objectToField(EzyObject object) {
+		FieldSettingProxy setting = objectToFields.toSetting(object);
 		return setting;
 	}
 	

@@ -28,7 +28,7 @@ public class RecordWriter {
 			writeRecordHeader(record);
 			if(record.isAlive()) {
 				Comparable id = data.get(FIELD_ID);
-				fieldWriters.write(file, idSetting, id);
+				fieldWriters.write(file, FIELD_ID, idSetting, id);
 				fieldWriters.write(file, settings, data);
 			}
 		}

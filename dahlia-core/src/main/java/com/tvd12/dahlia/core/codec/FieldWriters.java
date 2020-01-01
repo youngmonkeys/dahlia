@@ -11,6 +11,7 @@ public interface FieldWriters {
 
 	void write(
 			FileProxy file, 
+			String name, 
 			FieldSetting setting, Object value) throws IOException;
 	
 	void write(

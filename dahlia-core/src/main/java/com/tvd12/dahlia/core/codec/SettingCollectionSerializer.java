@@ -1,9 +1,17 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.*;
+import static com.tvd12.dahlia.core.constant.Constants.FIELD_ID;
+import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_DEFAULT;
+import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_FIELDS;
+import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_ID;
+import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_NAME;
+import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_NULLABLE;
+import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_RECORD_SIZE;
+import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_TYPE;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.tvd12.dahlia.core.data.DataType;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
@@ -47,14 +55,14 @@ public class SettingCollectionSerializer implements SettingSerializer<Collection
 	protected EzyArray fieldsToArray(CollectionSetting setting) {
 		Map<String, FieldSetting> fields = setting.getFields();
 		EzyArrayBuilder builder = EzyEntityFactory.newArrayBuilder();
-		builder.append(fieldToObject(setting.getId()));
-		for(FieldSetting field : fields.values())
-			builder.append(fieldToObject(field));
+		builder.append(fieldToObject(FIELD_ID, setting.getId()));
+		for(Entry<String, FieldSetting> e : fields.entrySet())
+			builder.append(fieldToObject(e.getKey(), e.getValue()));
 		return builder.build();
 	}
 
-	protected EzyObject fieldToObject(FieldSetting field) {
-		return fieldToObjects.toObject(field);
+	protected EzyObject fieldToObject(String name, FieldSetting field) {
+		return fieldToObjects.toObject(name, field);
 	}
 }
 
@@ -66,9 +74,9 @@ class SettingFieldToObjects {
 		this.mappers = defaultMappers();
 	}
 	
-	public EzyObject toObject(FieldSetting setting) {
+	public EzyObject toObject(String name, FieldSetting setting) {
 		SettingFieldToObject mapper = mappers.get(setting.getType());
-		EzyObject answer = mapper.toObject(setting);
+		EzyObject answer = mapper.toObject(name, setting);
 		return answer;
 	}
 	
@@ -84,8 +92,9 @@ class SettingFieldToObjects {
 
 abstract class SettingFieldToObject<S extends FieldSetting> {
 
-	public final EzyObject toObject(S setting) {
-		return newObjectBuilder(setting).append(SETTING_FIELD_NAME, setting.getName())
+	public final EzyObject toObject(String name, S setting) {
+		return newObjectBuilder(setting)
+				.append(SETTING_FIELD_NAME, name)
 		        .append(SETTING_FIELD_TYPE, setting.getType()).append(SETTING_FIELD_NULLABLE, setting.isNullable())
 		        .build();
 	}
