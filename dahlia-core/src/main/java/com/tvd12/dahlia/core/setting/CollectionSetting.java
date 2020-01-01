@@ -28,6 +28,12 @@ public class CollectionSetting implements EzyToMap {
 		this.id = this.fields.remove(FIELD_ID);
 	}
 	
+	public Map<String, FieldSetting> getAllFields() {
+		Map<String, FieldSetting> all = new HashMap<>(fields);
+		all.put(FIELD_ID, id);
+		return all;
+	}
+	
 	@Override
 	public Map<Object, Object> toMap() {
 		Map<Object, Object> map = new HashMap<>();

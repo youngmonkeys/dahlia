@@ -34,8 +34,7 @@ public class FieldSimpleWriters implements FieldWriters {
 			EzyObject values) throws IOException {
 		for(Entry<String, FieldSetting> e : settings.entrySet()) {
 			Object value = values.get(e.getKey());
-			FieldSetting setting = settings.get(e.getValue());
-			write(file, e.getKey(), setting, value);
+			write(file, e.getKey(), e.getValue(), value);
 		}
 	}
 	

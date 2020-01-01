@@ -20,6 +20,7 @@ import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Database;
 import com.tvd12.dahlia.core.exception.CollectionExistedException;
 import com.tvd12.dahlia.core.exception.DatabaseExistedException;
+import com.tvd12.dahlia.core.exception.DuplicatedIdException;
 import com.tvd12.dahlia.core.query.FindOptions;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.DatabaseSetting;
@@ -81,7 +82,10 @@ public class DatabaseTest {
 			EzyObject insertOneResult = commandExecutor.execute(insertOne);
 			System.out.println("insert one result: " + insertOneResult);
 		}
+		catch (DuplicatedIdException e) {
+		}
 		catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		long v1 = 1;
@@ -107,7 +111,7 @@ public class DatabaseTest {
 						.append(newObjectBuilder().append("value", 223))
 						)
 				.build();
-		FindOptions options = new FindOptions().setSkip(1).setLimit(1);
+		FindOptions options = new FindOptions().setSkip(0).setLimit(10);
 		Find find = new Find(collection.getId(), query3, options);
 		List<EzyObject> findResult = commandExecutor.execute(find);
 		System.out.println("findResult = " + findResult);
