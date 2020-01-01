@@ -11,6 +11,7 @@ import java.util.Map;
 import com.tvd12.dahlia.core.DahliaCore;
 import com.tvd12.dahlia.core.DahliaCoreLoader;
 import com.tvd12.dahlia.core.command.CommandExecutor;
+import com.tvd12.dahlia.core.command.Count;
 import com.tvd12.dahlia.core.command.CreateCollection;
 import com.tvd12.dahlia.core.command.CreateDatabase;
 import com.tvd12.dahlia.core.command.Find;
@@ -122,6 +123,9 @@ public class DatabaseTest {
 		Find find = new Find(collection.getId(), query3, options);
 		List<EzyObject> findResult = commandExecutor.execute(find);
 		System.out.println("findResult = " + findResult);
+		
+		Long size = dahlia.execute(new Count(collection.getId()));
+		System.out.println("size: " + size);
 	}
 	
 	public static void deleteDataDir() {

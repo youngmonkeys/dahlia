@@ -3,7 +3,6 @@ package com.tvd12.dahlia.core.command;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.tvd12.dahlia.core.constant.CommandType;
 import com.tvd12.dahlia.core.entity.Databases;
 import com.tvd12.dahlia.core.entity.DatabasesAware;
 import com.tvd12.dahlia.core.factory.CollectionFactory;
@@ -14,6 +13,7 @@ import com.tvd12.dahlia.core.factory.DatabaseFactory;
 import com.tvd12.dahlia.core.factory.DatabaseFactoryAware;
 import com.tvd12.dahlia.core.factory.DatabaseStorageFactory;
 import com.tvd12.dahlia.core.factory.DatabaseStorageFactoryAware;
+import com.tvd12.dahlia.core.handler.CommandCountHandler;
 import com.tvd12.dahlia.core.handler.CommandCreateCollectionHandler;
 import com.tvd12.dahlia.core.handler.CommandCreateDatabaseHandler;
 import com.tvd12.dahlia.core.handler.CommandFindHandler;
@@ -67,6 +67,7 @@ public class CommandExecutor {
 	protected Map<CommandType, CommandHandler> newHandlers() {
 		Map<CommandType, CommandHandler> map = new HashMap<>();
 		addHandler(map, CommandType.FIND, new CommandFindHandler());
+		addHandler(map, CommandType.COUNT, new CommandCountHandler());
 		addHandler(map, CommandType.INSERT, new CommandInsertHandler());
 		addHandler(map, CommandType.FIND_ONE, new CommandFindOneHandler());
 		addHandler(map, CommandType.INSERT_ONE, new CommandInsertOneHandler());

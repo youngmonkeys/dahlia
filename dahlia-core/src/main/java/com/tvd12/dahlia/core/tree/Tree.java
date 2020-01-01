@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import lombok.Getter;
 
@@ -82,6 +83,12 @@ public abstract class Tree<K, V> implements Map<K, V> {
 	@Override
 	public int size() {
 		AtomicInteger size = new AtomicInteger();
+		walk(e -> size.incrementAndGet());
+		return size.get();
+	}
+	
+	public long sizeLong() {
+		AtomicLong size = new AtomicLong();
 		walk(e -> size.incrementAndGet());
 		return size.get();
 	}

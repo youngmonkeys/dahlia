@@ -1,6 +1,5 @@
 package com.tvd12.dahlia.core.command;
 
-import com.tvd12.dahlia.core.constant.CommandType;
 import com.tvd12.ezyfox.entity.EzyArray;
 
 import lombok.Getter;

@@ -61,6 +61,10 @@ public class Collection {
 		return setting.getCollectionName();
 	}
 	
+	public long size() {
+		return indexById.sizeLong();
+	}
+	
 	@Override
 	public String toString() {
 		return setting.getCollectionName();

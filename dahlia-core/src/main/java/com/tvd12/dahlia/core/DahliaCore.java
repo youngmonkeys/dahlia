@@ -1,5 +1,6 @@
 package com.tvd12.dahlia.core;
 
+import com.tvd12.dahlia.core.command.Command;
 import com.tvd12.dahlia.core.command.CommandExecutor;
 import com.tvd12.dahlia.core.entity.Databases;
 import com.tvd12.dahlia.core.factory.CollectionFactory;
@@ -54,6 +55,11 @@ public class DahliaCore {
 				.databaseStorageFactory(databaseStorageFactory)
 				.collectionStorageFactory(collectionStorageFactory)
 				.build();
+	}
+	
+	public <T> T execute(Command command) {
+		T answer = commandExecutor.execute(command);
+		return answer;
 	}
 	
 	public static Builder builder() {
