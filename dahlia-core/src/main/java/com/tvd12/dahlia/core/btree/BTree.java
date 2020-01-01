@@ -6,6 +6,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import com.tvd12.dahlia.core.tree.Tree;
 import com.tvd12.dahlia.core.tree.TreeWalker;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 @SuppressWarnings("unchecked")
 public class BTree<K, V> extends Tree<K, V> {
 
@@ -152,13 +155,14 @@ public class BTree<K, V> extends Tree<K, V> {
 	private V deleteFromNode(Node<K, V> node, K key) {
 		if(node == null)
 			return null;
-		int entryIndex = findEntryIndex(node, key);
+		CompareResult compareResult = findEntryIndex(node, key);
+		int entryIndex = compareResult.getIndex();
 		if(entryIndex == node.entryCount) {
 			if(node.leaf)
 				return null;
 			return deleteFromNode(node.children[node.entryCount], key);
 		}
-		else if(compareEntryKey(node.entries[entryIndex], key) > 0) {
+		else if(compareResult.getResult() > 0) {
 			if(node.leaf)
 				return null;
 			return deleteFromNode(node.children[entryIndex], key);
@@ -278,18 +282,19 @@ public class BTree<K, V> extends Tree<K, V> {
 	private Entry<K, V> searchInNode(Node<K, V> node, K key) {
 		if(node == null)
 			return null;
-		int index = findEntryIndex(node, key);
-		if(index == node.entryCount) {
+		CompareResult compareResult = findEntryIndex(node, key);
+		int entryIndex = compareResult.getIndex();
+		if(entryIndex == node.entryCount) {
 			if(node.leaf)
 				return null;
 			return searchInNode(node.children[node.entryCount], key);
 		}
-		if(compareEntryKey(node.entries[index], key) > 0) {
+		if(compareResult.getResult() > 0) {
 			if(node.leaf)
 				return null;
-			return searchInNode(node.children[index], key);
+			return searchInNode(node.children[entryIndex], key);
 		}
-		Entry<K, V> entry = node.entries[index];
+		Entry<K, V> entry = node.entries[entryIndex];
 		return entry;
 	}
 	
@@ -432,11 +437,16 @@ public class BTree<K, V> extends Tree<K, V> {
 		}
 	}
 	
-	private int findEntryIndex(Node<K, V> node, K key) {
+	private CompareResult findEntryIndex(Node<K, V> node, K key) {
 		int index = 0;
-		while(index < node.entryCount && compareEntryKey(node.entries[index], key) < 0)
-			++ index;
-		return index;
+		while(index < node.entryCount) {
+			int cresult = compareEntryKey(node.entries[index], key);
+			if(cresult < 0)
+				++ index;
+			else
+				return new CompareResult(index, cresult);
+		}
+		return new CompareResult(index);
 	}
 	
 	// ====================== to string ===============
@@ -484,5 +494,18 @@ public class BTree<K, V> extends Tree<K, V> {
 			for(int i = 0 ; i < children.length ; ++ i)
 				children[i] = null;
 		}
+	}
+	
+	@Getter
+	@AllArgsConstructor
+	public static class CompareResult {
+		
+		protected final Integer index;
+		protected final Integer result;
+		
+		public CompareResult(Integer index) {
+			this(index, null);
+		}
+		
 	}
 }
