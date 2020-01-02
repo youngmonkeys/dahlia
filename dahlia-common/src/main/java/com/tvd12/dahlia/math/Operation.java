@@ -10,6 +10,7 @@ import lombok.Getter;
 public enum Operation {
 	
 	EQ(Keywords.EQUAL),
+	NEQ(Keywords.NOT_EQUAL),
 	LT(Keywords.LESS_THAN),
 	LTE(Keywords.LESS_THAN_EQUAL),
 	GT(Keywords.GREATER_THAN),

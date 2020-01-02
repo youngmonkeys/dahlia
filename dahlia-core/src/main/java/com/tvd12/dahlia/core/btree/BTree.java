@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import com.tvd12.dahlia.core.tree.Tree;
 import com.tvd12.dahlia.core.tree.TreeWalker;
+import com.tvd12.dahlia.math.Operation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -297,6 +298,83 @@ public class BTree<K, V> extends Tree<K, V> {
 		Entry<K, V> entry = node.entries[entryIndex];
 		return entry;
 	}
+	
+	@Override
+	public Entry<K, V> search(K key, Operation op) {
+		Entry<K, V> entry = searchInNode(root, key, op);
+        return entry;
+	}
+	
+	private Entry<K, V> searchInNode(Node<K, V> node, K key, Operation op) {
+        if(node == null)
+            return null;
+        int entryIndex = 0;
+        int compareResult = 0;
+        while(entryIndex < node.entryCount) {
+            compareResult = compareEntryKey(node.entries[entryIndex], key);
+            if(op == Operation.EQ || op == Operation.GTE) {
+                if (compareResult < 0)
+                    ++entryIndex;
+                else
+                    break;
+            }
+            else if (op == Operation.GT) {
+                if (compareResult <= 0)
+                    ++entryIndex;
+                else
+                    break;
+            }
+            else {
+                break;
+            }
+        }
+
+        if(entryIndex == 0) {
+            if(op == Operation.LT) {
+                if(compareResult < 0)
+                    return searchInNodeFit(node, key, op, entryIndex);
+                return searchInNodeCheckLeaf(node, key, op, entryIndex);
+
+            }
+            else if(op == Operation.LTE) {
+                if(compareResult <= 0)
+                    return searchInNodeFit(node, key, op, entryIndex);
+                return searchInNodeCheckLeaf(node, key, op, entryIndex);
+            }
+        }
+
+        if(entryIndex < node.entryCount) {
+            if (op == Operation.EQ) {
+                if (compareResult == 0)
+                    return node.entries[entryIndex];
+            }
+            else if (op == Operation.GT) {
+            	return searchInNodeFit(node, key, op, entryIndex);
+            }
+            else if (op == Operation.GTE) {
+            	return searchInNodeFit(node, key, op, entryIndex);
+            }
+            else {
+            	if(compareResult != 0)
+            		return searchInNodeFit(node, key, op, entryIndex);
+            }
+        }
+
+        return searchInNodeCheckLeaf(node, key, op, entryIndex);
+    }
+
+    private Entry<K, V> searchInNodeFit(Node<K, V> node, K key, Operation op, int entryIndex) {
+    	Entry<K, V> match = searchInNodeCheckLeaf(node, key, op, entryIndex);
+        if(match != null)
+        	return match;	
+        return node.entries[entryIndex];
+    }
+
+    private Entry<K, V> searchInNodeCheckLeaf(Node<K, V> node, K key, Operation op, int entryIndex) {
+        if(node.leaf)
+            return null;
+        return searchInNode(node.children[entryIndex], key, op);
+    }
 	
 	// ====================== sequential access ===============
 	@Override
