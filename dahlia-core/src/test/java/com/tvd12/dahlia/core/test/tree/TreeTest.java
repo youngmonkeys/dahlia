@@ -16,7 +16,6 @@ import org.testng.annotations.Test;
 import com.tvd12.dahlia.core.btree.BTree;
 import com.tvd12.dahlia.core.tree.Tree;
 import com.tvd12.dahlia.core.tree.TreeWalker;
-import com.tvd12.dahlia.math.Operation;
 import com.tvd12.ezyfox.util.EzyMapBuilder;
 
 import lombok.AllArgsConstructor;
@@ -144,11 +143,6 @@ public class TreeTest {
 		public void walkReverse(TreeWalker<Integer, Integer> walker) {
 		}
 
-		@Override
-		public Entry<Integer, Integer> search(Integer key, Operation op) {
-			return null;
-		}
-		
 	}
 	
 }
