@@ -138,6 +138,10 @@ public class TreeTest {
 					walker.accept(new Tree.Entry<>(key, value));
 			}
 		}
+
+		@Override
+		public void walkReverse(TreeWalker<Integer, Integer> walker) {
+		}
 		
 	}
 	

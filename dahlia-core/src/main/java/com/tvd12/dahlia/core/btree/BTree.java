@@ -327,6 +327,34 @@ public class BTree<K, V> extends Tree<K, V> {
 		}
 	}
 	
+	@Override
+	public void walkReverse(TreeWalker<K, V> walker) {
+		walkReverseInNode(root, walker);
+	}
+	
+	private void walkReverseInNode(Node<K, V> node, TreeWalker<K, V> walker) {
+		if(node == null)
+			return;
+		
+		if(node.leaf) {
+			for(int i = node.entryCount - 1 ; i >= 0 ; --i) {
+				if(walker.next())
+					walker.accept(node.entries[i]);
+				else
+					break;
+			}
+		}
+		else {
+			walkReverseInNode(node.children[node.entryCount], walker);
+			for(int i = node.entryCount - 1 ; i >= 0 ; --i) {
+				if(walker.next()) {
+					walker.accept(node.entries[i]);
+					walkReverseInNode(node.children[i], walker);
+				}
+			}
+		}
+	}
+	
 	// ====================== clear ===============
 	@Override
 	public void clear() {

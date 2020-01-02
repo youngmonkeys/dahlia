@@ -31,6 +31,7 @@ public abstract class Tree<K, V> implements Map<K, V> {
 	public abstract V delete(K key);
 	public abstract Entry<K, V> search(K key);
 	public abstract void walk(TreeWalker<K, V> walker);
+	public abstract void walkReverse(TreeWalker<K, V> walker);
 
 	// ======================= map method =============
 	@Override

@@ -17,6 +17,9 @@ public class BTreeSequentialAccessTest {
 		tree.walk(e ->  {
 			System.out.print(e + " ");
 		});
+		tree.walkReverse(e ->  {
+			System.out.print(e + " ");
+		});
 		for(int i = 1 ; i <= 100 ; ++ i)
 			tree.insert(i, i);
 		
@@ -29,6 +32,28 @@ public class BTreeSequentialAccessTest {
 		for(int i = 1 ; i <= 100 ; ++ i) {
 			final int index = i;
 			tree.walk(new TreeWalker<Integer, Integer>() {
+				
+				AtomicInteger count = new AtomicInteger();
+				
+				@Override
+				public void accept(Tree.Entry<Integer, Integer> e) {
+					System.out.print(e + " ");
+					count.incrementAndGet();
+				}
+				
+				@Override
+				public boolean next() {
+					return count.get() < index;
+				}
+			});
+			System.out.println();
+		}
+		
+		System.out.println("\n\n========================================\n\n");
+		
+		for(int i = 1 ; i <= 100 ; ++ i) {
+			final int index = i;
+			tree.walkReverse(new TreeWalker<Integer, Integer>() {
 				
 				AtomicInteger count = new AtomicInteger();
 				
