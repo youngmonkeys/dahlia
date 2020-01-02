@@ -1,4 +1,4 @@
-package com.tvd12.dahlia.core.util;
+package com.tvd12.dahlia.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

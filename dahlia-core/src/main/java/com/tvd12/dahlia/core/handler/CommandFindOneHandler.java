@@ -11,7 +11,7 @@ import com.tvd12.dahlia.core.function.RecordConsumer;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
-import com.tvd12.dahlia.core.util.Ref;
+import com.tvd12.dahlia.util.Ref;
 import com.tvd12.ezyfox.entity.EzyObject;
 
 public class CommandFindOneHandler extends CommandQueryHandler<FindOne> {

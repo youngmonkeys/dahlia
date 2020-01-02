@@ -36,5 +36,6 @@
 	</dependencies>
   <modules>
     <module>dahlia-core</module>
+    <module>dahlia-common</module>
   </modules>
 </project>

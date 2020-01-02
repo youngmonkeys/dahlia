@@ -1,7 +1,9 @@
-package com.tvd12.dahlia.core.constant;
+package com.tvd12.dahlia.math;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.tvd12.dahlia.constant.Keywords;
 
 import lombok.Getter;
 

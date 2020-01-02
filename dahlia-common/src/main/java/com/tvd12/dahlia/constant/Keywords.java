@@ -1,4 +1,4 @@
-package com.tvd12.dahlia.core.constant;
+package com.tvd12.dahlia.constant;
 
 public final class Keywords {
 
