@@ -33,7 +33,7 @@ import com.tvd12.ezyfox.entity.EzyObject;
 public class DatabaseTest {
 
 	public static void main(String[] args) {
-		deleteDataDir();
+//		deleteDataDir();
 		DahliaCoreLoader loader = new DahliaCoreLoader()
 				.storageDirectory("data");
 		DahliaCore dahlia = loader.load();
