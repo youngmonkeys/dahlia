@@ -21,6 +21,8 @@ import com.tvd12.dahlia.core.handler.CommandFindOneHandler;
 import com.tvd12.dahlia.core.handler.CommandHandler;
 import com.tvd12.dahlia.core.handler.CommandInsertHandler;
 import com.tvd12.dahlia.core.handler.CommandInsertOneHandler;
+import com.tvd12.dahlia.core.handler.CommandSaveHandler;
+import com.tvd12.dahlia.core.handler.CommandSaveOneHandler;
 import com.tvd12.dahlia.core.query.QueryToPredicate;
 import com.tvd12.dahlia.core.query.QueryToPredicateAware;
 import com.tvd12.dahlia.core.setting.RecordSizeReader;
@@ -66,9 +68,11 @@ public class CommandExecutor {
 	
 	protected Map<CommandType, CommandHandler> newHandlers() {
 		Map<CommandType, CommandHandler> map = new HashMap<>();
+		addHandler(map, CommandType.SAVE, new CommandSaveHandler());
 		addHandler(map, CommandType.FIND, new CommandFindHandler());
 		addHandler(map, CommandType.COUNT, new CommandCountHandler());
 		addHandler(map, CommandType.INSERT, new CommandInsertHandler());
+		addHandler(map, CommandType.SAVE_ONE, new CommandSaveOneHandler());
 		addHandler(map, CommandType.FIND_ONE, new CommandFindOneHandler());
 		addHandler(map, CommandType.INSERT_ONE, new CommandInsertOneHandler());
 		addHandler(map, CommandType.CREATE_DATABASE, new CommandCreateDatabaseHandler());
