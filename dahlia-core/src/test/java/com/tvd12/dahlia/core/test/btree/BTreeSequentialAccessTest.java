@@ -70,6 +70,40 @@ public class BTreeSequentialAccessTest {
 			});
 			System.out.println();
 		}
+		
+		System.out.println("\n\n========================================\n\n");
+		
+		tree.walkReverse(new TreeWalker<Integer, Integer>() {
+			
+			@Override
+			public void accept(Tree.Entry<Integer, Integer> e) {
+				System.out.print(e + " ");
+			}
+			
+			@Override
+			public boolean next() {
+				return true;
+			}
+		});
+		
+		tree.delete(20);
+		tree.delete(21);
+		tree.delete(22);
+		
+		System.out.println("\n\n========================================\n\n");
+		
+		tree.walkReverse(new TreeWalker<Integer, Integer>() {
+			
+			@Override
+			public void accept(Tree.Entry<Integer, Integer> e) {
+				System.out.print(e + " ");
+			}
+			
+			@Override
+			public boolean next() {
+				return true;
+			}
+		});
 	}
 	
 }
