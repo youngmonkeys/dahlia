@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 
 import com.tvd12.dahlia.constant.Keywords;
 import com.tvd12.dahlia.core.comparator.Comparators;
-import com.tvd12.dahlia.core.exception.InvalidQueryException;
+import com.tvd12.dahlia.exception.InvalidQueryException;
 import com.tvd12.dahlia.math.Operation;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;

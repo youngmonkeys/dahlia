@@ -2,6 +2,7 @@ package com.tvd12.dahlia.core;
 
 import com.tvd12.dahlia.core.command.Command;
 import com.tvd12.dahlia.core.command.CommandExecutor;
+import com.tvd12.dahlia.core.entity.Database;
 import com.tvd12.dahlia.core.entity.Databases;
 import com.tvd12.dahlia.core.factory.CollectionFactory;
 import com.tvd12.dahlia.core.factory.CollectionStorageFactory;
@@ -60,6 +61,11 @@ public class DahliaCore {
 	public <T> T execute(Command command) {
 		T answer = commandExecutor.execute(command);
 		return answer;
+	}
+	
+	public Database getDatabase(String name) {
+		Database database = databases.getDatabase(name);
+		return database;
 	}
 	
 	public static Builder builder() {

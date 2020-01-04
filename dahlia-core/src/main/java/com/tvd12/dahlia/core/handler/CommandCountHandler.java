@@ -2,7 +2,7 @@ package com.tvd12.dahlia.core.handler;
 
 import com.tvd12.dahlia.core.command.Count;
 import com.tvd12.dahlia.core.entity.Collection;
-import com.tvd12.dahlia.core.exception.CollectionNotFoundException;
+import com.tvd12.dahlia.exception.CollectionNotFoundException;
 
 public class CommandCountHandler extends CommandQueryHandler<Count> {
 

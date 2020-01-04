@@ -2,7 +2,6 @@ package com.tvd12.dahlia.core.handler;
 
 import com.tvd12.dahlia.core.command.CreateDatabase;
 import com.tvd12.dahlia.core.entity.Database;
-import com.tvd12.dahlia.core.exception.DatabaseExistedException;
 import com.tvd12.dahlia.core.factory.DatabaseFactory;
 import com.tvd12.dahlia.core.factory.DatabaseFactoryAware;
 import com.tvd12.dahlia.core.factory.DatabaseStorageFactory;
@@ -11,6 +10,7 @@ import com.tvd12.dahlia.core.setting.DatabaseSetting;
 import com.tvd12.dahlia.core.setting.RuntimeSetting;
 import com.tvd12.dahlia.core.setting.RuntimeSettingAware;
 import com.tvd12.dahlia.core.storage.DatabaseStorage;
+import com.tvd12.dahlia.exception.DatabaseExistedException;
 
 import lombok.Setter;
 

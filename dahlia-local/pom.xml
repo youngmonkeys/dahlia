@@ -7,17 +7,16 @@
 		<artifactId>dahlia</artifactId>
 		<version>0.0.2</version>
 	</parent>
-	<artifactId>dahlia-common</artifactId>
-	<name>dahlia-common</name>
+
+	<artifactId>dahlia-local</artifactId>
+	<name>dahlia-local</name>
 	<url>http://maven.apache.org</url>
-	<properties>
-		<ezy.common.version>1.1.0</ezy.common.version>
-	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.tvd12</groupId>
-			<artifactId>ezyfox-common</artifactId>
-			<version>${ezy.common.version}</version>
+			<artifactId>dahlia-core</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

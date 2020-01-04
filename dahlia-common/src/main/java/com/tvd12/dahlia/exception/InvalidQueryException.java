@@ -1,4 +1,4 @@
-package com.tvd12.dahlia.core.exception;
+package com.tvd12.dahlia.exception;
 
 public class InvalidQueryException extends IllegalArgumentException {
 	private static final long serialVersionUID = -4700562332465108722L;

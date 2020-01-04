@@ -6,10 +6,11 @@ import com.tvd12.dahlia.core.command.InsertOne;
 import com.tvd12.dahlia.core.constant.Constants;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Record;
-import com.tvd12.dahlia.core.exception.DuplicatedIdException;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
+import com.tvd12.dahlia.exception.DuplicatedIdException;
 import com.tvd12.ezyfox.entity.EzyObject;
+import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
 public class CommandInsertOneHandler extends CommandAbstractHandler<InsertOne> {
 
@@ -43,7 +44,9 @@ public class CommandInsertOneHandler extends CommandAbstractHandler<InsertOne> {
 			collection.increaseDataSize();
 			collectionStorage.storeRecord(record, setting.getId(), setting.getFields(), data);
 		}
-		return data;
+		EzyObject answer = EzyEntityFactory.newObject();
+		answer.put(Constants.FIELD_ID, id);
+		return answer;
 	}
 	
 }

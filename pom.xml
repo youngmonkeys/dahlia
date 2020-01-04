@@ -37,5 +37,6 @@
   <modules>
     <module>dahlia-core</module>
     <module>dahlia-common</module>
+    <module>dahlia-local</module>
   </modules>
 </project>
