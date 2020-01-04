@@ -21,7 +21,7 @@ class SettingFieldArrayToObject extends SettingFieldToObject<FieldArraySetting> 
 			SettingFieldToObjects mappers, FieldArraySetting setting) {
 		return super.newObjectBuilder(mappers, setting)
 				.append(SETTING_FIELD_MAX_SIZE, setting.getMaxSize())
-				.append(SETTING_FIELD_ITEM, mappers.toObject(setting));
+				.append(SETTING_FIELD_ITEM, mappers.toObject(setting.getItem()));
 	}
 
 }

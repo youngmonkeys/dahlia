@@ -1,5 +1,7 @@
 package com.tvd12.dahlia.core.handler;
 
+import java.util.UUID;
+
 import com.tvd12.dahlia.core.command.InsertOne;
 import com.tvd12.dahlia.core.constant.Constants;
 import com.tvd12.dahlia.core.entity.Collection;
@@ -22,9 +24,20 @@ public class CommandInsertOneHandler extends CommandAbstractHandler<InsertOne> {
 
 		Comparable id = data.get(Constants.FIELD_ID);
 		synchronized (collection) {
-			Record existed = collection.findById(id);
-			if(existed != null)
-				throw new DuplicatedIdException(collection.getName(), id);
+			if(id != null) {
+				Record existed = collection.findById(id);
+				if(existed != null)
+					throw new DuplicatedIdException(collection.getName(), id);
+			}
+			else {
+				while(true) {
+					id = UUID.randomUUID();
+					Record existed = collection.findById(id);
+					if(existed == null)
+						break;
+				}
+				data.put(Constants.FIELD_ID, id);
+			}
 			Record record = new Record(id, collection.getDataSize());
 			collection.insert(record);
 			collection.increaseDataSize();

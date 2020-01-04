@@ -63,6 +63,8 @@ public class FieldSimpleWriters implements FieldWriters {
 		map.put(DataType.TEXT, FieldTextWriter.getInstance());
 		map.put(DataType.ARRAY, FieldArrayWriter.getInstance());
 		map.put(DataType.OBJECT, FieldObjectWriter.getInstance());
+		map.put(DataType.UUID, FieldUuidWriter.getInstance());
+		map.put(DataType.BIGDECIMAL, FieldBigDecimalWriter.getInstance());
 		return map;
 	}
 

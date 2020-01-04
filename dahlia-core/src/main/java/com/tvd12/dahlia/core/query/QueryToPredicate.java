@@ -107,6 +107,8 @@ public class QueryToPredicate {
 					return compareResult < 0;
 				if(qOperation == Operation.LTE)
 					return compareResult <= 0;
+				if(qOperation == Operation.NEQ)
+					return compareResult != 0;
 				return compareResult == 0;
 			};
 		}

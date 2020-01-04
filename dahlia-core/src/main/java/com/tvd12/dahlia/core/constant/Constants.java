@@ -6,6 +6,8 @@ public final class Constants {
 	
 	public static final int MAX_UTF8_CHAR_BYTES = 4;
 	public static final int MAX_STRING_SIZE_BYTES = 4;
+	public static final int MAX_UUID_SIZE = 36;
+	public static final int MAX_BIGDECIMAL_SIZE = 32;
 	
 	public static final int RECORD_HEADER_SIZE = 1;
 	

@@ -52,6 +52,8 @@ public class SettingFieldToObjects {
 		map.put(DataType.TEXT, SettingFieldTextToObject.getInstance());
 		map.put(DataType.ARRAY, SettingFieldArrayToObject.getInstance());
 		map.put(DataType.OBJECT, SettingFieldObjectToObject.getInstance());
+		map.put(DataType.UUID, SettingFieldUuidToObject.getInstance());
+		map.put(DataType.BIGDECIMAL, SettingFieldBigDecimalToObject.getInstance());
 		return map;
 	}
 }

@@ -68,6 +68,8 @@ public class FieldSimpleReaders implements FieldReaders {
 		map.put(DataType.TEXT, FieldTextReader.getInstance());
 		map.put(DataType.ARRAY, FieldArrayReader.getInstance());
 		map.put(DataType.OBJECT, FieldObjectReader.getInstance());
+		map.put(DataType.UUID, FieldUuidReader.getInstance());
+		map.put(DataType.BIGDECIMAL, FieldBigDecimalReader.getInstance());
 		return map;
 	}
 

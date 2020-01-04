@@ -61,6 +61,8 @@ public class FieldSizeReaders {
 		map.put(DataType.TEXT, FieldTextSizeReader.getInstance());
 		map.put(DataType.ARRAY, FieldArraySizeReader.getInstance());
 		map.put(DataType.OBJECT, FieldObjectSizeReader.getInstance());
+		map.put(DataType.UUID, FieldUuidSizeReader.getInstance());
+		map.put(DataType.BIGDECIMAL, FieldBigDecimalSizeReader.getInstance());
 		return map;
 	}
 	

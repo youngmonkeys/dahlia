@@ -20,7 +20,9 @@ public enum DataType implements EzyConstant {
 	SHORT(7, "short"),
 	TEXT(8, "text"),
 	OBJECT(9, "object"),
-	ARRAY(10, "array");
+	ARRAY(10, "array"),
+	UUID(11, "uuid"),
+	BIGDECIMAL(12, "bigdecimal");
 	
 	private final int id;
 	private final String name;
@@ -52,6 +54,8 @@ public enum DataType implements EzyConstant {
 		map.put(TEXT.name, TEXT);
 		map.put(OBJECT.name, OBJECT);
 		map.put(ARRAY.name, ARRAY);
+		map.put(UUID.name, UUID);
+		map.put(BIGDECIMAL.name, BIGDECIMAL);
 		return Collections.unmodifiableMap(map);
 	}
 }
