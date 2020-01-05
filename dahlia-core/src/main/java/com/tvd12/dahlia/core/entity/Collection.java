@@ -35,6 +35,10 @@ public class Collection {
 		return this.indexById.put(record.getId(), record);
 	}
 	
+	public Record remove(Comparable id) {
+		return this.indexById.remove(id);
+	}
+	
 	public void forEach(RecordConsumer consumer) {
 		this.indexById.walk(new TreeWalker<Comparable, Record>() {
 			@Override

@@ -1,12 +1,10 @@
 package com.tvd12.dahlia.core.handler;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import com.tvd12.dahlia.constant.OptionFields;
-import com.tvd12.dahlia.core.command.CommandFind;
+import com.tvd12.dahlia.core.command.CommandUpdate;
+import com.tvd12.dahlia.core.constant.Constants;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Record;
 import com.tvd12.dahlia.core.function.RecordConsumer;
@@ -14,15 +12,14 @@ import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
 import com.tvd12.dahlia.exception.CollectionNotFoundException;
-import com.tvd12.dahlia.util.Ref;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
-public class CommandFindHandler extends CommandQueryHandler<CommandFind> {
+public class CommandUpdateHandler extends CommandQueryHandler<CommandUpdate> {
 
 	@Override
-	public Object handle(CommandFind command) {
+	public Object handle(CommandUpdate command) {
 		int collectionId = command.getCollectionId();
 		Collection collection = databases.getCollection(collectionId);
 		if(collection == null)
@@ -36,11 +33,7 @@ public class CommandFindHandler extends CommandQueryHandler<CommandFind> {
 		FieldSetting sId = setting.getId();
 		Map<String, FieldSetting> sFields = setting.getFields();
 		
-		Ref<Integer> count = new Ref<>(0);
-		EzyObject options = command.getOptions();
-		int skip = options.get(OptionFields.SKIP, int.class, 0);
-		int limit = options.get(OptionFields.LIMIT, int.class, 25);
-		EzyArray answer = EzyEntityFactory.newArray();
+		EzyArray updateItems = EzyEntityFactory.newArray();
 		synchronized (collection) {
 			collection.forEach(new RecordConsumer() {
 				@Override
@@ -48,20 +41,18 @@ public class CommandFindHandler extends CommandQueryHandler<CommandFind> {
 					EzyObject value = collectionStorage.readRecord(r, sId, sFields);
 					boolean accepted = predicate.test(value);
 					if(accepted) {
-						int currentCount = count.getValue();
-						if(currentCount >= skip)
-							answer.add(value);
-						count.setValue(currentCount + 1);
+						EzyObject updateItem = EzyEntityFactory.newObject();
+						updateItem.put(Constants.FIELD_ID, r.getId());
 					}
 				}
-				@Override
-				public boolean next() {
-					int currentSize = answer.size();
-					return currentSize < limit;
-				}
 			});
+			for(int i = 0 ; i < updateItems.size() ; ++i) {
+				EzyObject deletedItem = updateItems.get(i);
+				Comparable id = deletedItem.get(Constants.FIELD_ID);
+				collection.remove(id);
+			}
 		}
-		return answer;
+		return updateItems;
 	}
 	
 }

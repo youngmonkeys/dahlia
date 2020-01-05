@@ -8,17 +8,17 @@ import lombok.Getter;
 public class CommandUpdate implements Command {
 
 	protected EzyObject query;
-	protected EzyObject options;
+	protected EzyObject update;
 	protected int collectionId;
 	
-	public CommandUpdate(int collectionId, EzyObject query, EzyObject options) {
+	public CommandUpdate(int collectionId, EzyObject query, EzyObject update) {
 		this.query = query;
-		this.options = options;
+		this.update = update;
 		this.collectionId = collectionId;
 	}
 	
 	@Override
 	public CommandType getType() {
-		return CommandType.INSERT;
+		return CommandType.UPDATE;
 	}
 }

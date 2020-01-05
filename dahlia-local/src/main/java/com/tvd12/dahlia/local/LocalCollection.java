@@ -1,6 +1,8 @@
 package com.tvd12.dahlia.local;
 
 import com.tvd12.dahlia.ICollection;
+import com.tvd12.dahlia.core.command.CommandCount;
+import com.tvd12.dahlia.core.command.CommandDelete;
 import com.tvd12.dahlia.core.command.CommandExecutor;
 import com.tvd12.dahlia.core.command.CommandFind;
 import com.tvd12.dahlia.core.command.CommandFindOne;
@@ -9,9 +11,7 @@ import com.tvd12.dahlia.core.command.CommandInsertOne;
 import com.tvd12.dahlia.core.command.CommandSave;
 import com.tvd12.dahlia.core.command.CommandSaveOne;
 import com.tvd12.dahlia.core.entity.Collection;
-import com.tvd12.dahlia.query.DeleteOptions;
 import com.tvd12.dahlia.query.FindOptions;
-import com.tvd12.dahlia.query.UpdateOptions;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 
@@ -79,18 +79,22 @@ public class LocalCollection implements ICollection {
 	}
 
 	@Override
-	public Object update(EzyObject query, EzyObject update, UpdateOptions options) {
+	public Object update(EzyObject query, EzyObject update) {
 		return null;
 	}
 
 	@Override
-	public Object delete(EzyObject query, DeleteOptions options) {
-		return null;
+	public Object delete(EzyObject query) {
+		CommandDelete command = new CommandDelete(store.getId(), query);
+		EzyArray result = commandExecutor.execute(command);
+		return result;
 	}
 
 	@Override
 	public long count() {
-		return 0;
+		CommandCount command = new CommandCount(store.getId());
+		long result = commandExecutor.execute(command);
+		return result;
 	}
 	
 	@Override

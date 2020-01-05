@@ -8,12 +8,10 @@ import lombok.Getter;
 public class CommandDelete implements Command {
 
 	protected EzyObject query;
-	protected EzyObject options;
 	protected int collectionId;
 	
-	public CommandDelete(int collectionId, EzyObject query, EzyObject options) {
+	public CommandDelete(int collectionId, EzyObject query) {
 		this.query = query;
-		this.options = options;
 		this.collectionId = collectionId;
 	}
 	
