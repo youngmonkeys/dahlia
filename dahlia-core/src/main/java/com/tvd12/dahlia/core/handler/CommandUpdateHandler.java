@@ -1,5 +1,7 @@
 package com.tvd12.dahlia.core.handler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -12,6 +14,7 @@ import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
 import com.tvd12.dahlia.exception.CollectionNotFoundException;
+import com.tvd12.dahlia.util.Pair;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
@@ -33,26 +36,42 @@ public class CommandUpdateHandler extends CommandQueryHandler<CommandUpdate> {
 		FieldSetting sId = setting.getId();
 		Map<String, FieldSetting> sFields = setting.getFields();
 		
-		EzyArray updateItems = EzyEntityFactory.newArray();
+		EzyObject update = command.getUpdate();
+		EzyArray answer = EzyEntityFactory.newArray();
+		List<Pair<Record, EzyObject>> updateItems = new ArrayList<>();
 		synchronized (collection) {
 			collection.forEach(new RecordConsumer() {
 				@Override
 				public void accept(Record r) {
 					EzyObject value = collectionStorage.readRecord(r, sId, sFields);
 					boolean accepted = predicate.test(value);
-					if(accepted) {
-						EzyObject updateItem = EzyEntityFactory.newObject();
-						updateItem.put(Constants.FIELD_ID, r.getId());
-					}
+					if(accepted)
+						updateItems.add(new Pair<>(r, value));
 				}
 			});
-			for(int i = 0 ; i < updateItems.size() ; ++i) {
-				EzyObject deletedItem = updateItems.get(i);
-				Comparable id = deletedItem.get(Constants.FIELD_ID);
-				collection.remove(id);
+			for(Pair<Record, EzyObject> pair : updateItems) {
+				Record record = pair.getKey();
+				EzyObject updateItem = pair.getValue();
+				updateItem(updateItem, update);
+				collectionStorage.storeRecord(record, sId, sFields, updateItem);
+				EzyObject answerItem = EzyEntityFactory.newObject();
+				answerItem.put(Constants.FIELD_ID, updateItem.get(Constants.FIELD_ID));
 			}
 		}
-		return updateItems;
+		return answer;
+	}
+	
+	protected void updateItem(EzyObject item, EzyObject update) {
+		for(Object key : update.keySet()) {
+			Object updateValue = update.get(key);
+			if(updateValue instanceof EzyObject) {
+				EzyObject itemValue = item.get(key);
+				updateItem(itemValue, (EzyObject) updateValue);
+			}
+			else {
+				item.put(key, updateValue);
+			}
+		}
 	}
 	
 }

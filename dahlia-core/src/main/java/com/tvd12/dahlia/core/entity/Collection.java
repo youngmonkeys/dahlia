@@ -4,8 +4,8 @@ import com.tvd12.dahlia.core.btree.BTree;
 import com.tvd12.dahlia.core.function.RecordConsumer;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.tree.Tree;
-import com.tvd12.dahlia.core.tree.TreeWalker;
 import com.tvd12.dahlia.core.tree.Tree.Entry;
+import com.tvd12.dahlia.core.tree.TreeWalker;
 
 import lombok.Getter;
 
@@ -66,7 +66,7 @@ public class Collection {
 	}
 	
 	public long size() {
-		return indexById.sizeLong();
+		return indexById.size();
 	}
 	
 	@Override

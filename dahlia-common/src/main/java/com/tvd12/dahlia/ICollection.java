@@ -22,9 +22,9 @@ public interface ICollection {
 	
 	EzyArray find(EzyObject query, FindOptions options);
 
-	Object update(EzyObject query, EzyObject update);
+	EzyArray update(EzyObject query, EzyObject update);
 	
-	Object delete(EzyObject query);
+	EzyArray delete(EzyObject query);
 	
 	long count();
 	
