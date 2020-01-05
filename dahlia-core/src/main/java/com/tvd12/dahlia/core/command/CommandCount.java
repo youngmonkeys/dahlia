@@ -3,11 +3,11 @@ package com.tvd12.dahlia.core.command;
 import lombok.Getter;
 
 @Getter
-public class Count implements Command {
+public class CommandCount implements Command {
 
 	protected int collectionId;
 	
-	public Count(int collectionId) {
+	public CommandCount(int collectionId) {
 		this.collectionId = collectionId;
 	}
 	

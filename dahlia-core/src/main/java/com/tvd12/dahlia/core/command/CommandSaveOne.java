@@ -1,22 +1,22 @@
 package com.tvd12.dahlia.core.command;
 
-import com.tvd12.ezyfox.entity.EzyArray;
+import com.tvd12.ezyfox.entity.EzyObject;
 
 import lombok.Getter;
 
 @Getter
-public class Save implements Command {
+public class CommandSaveOne implements Command {
 
-	protected EzyArray data;
+	protected EzyObject data;
 	protected int collectionId;
 	
-	public Save(int collectionId, EzyArray data) {
+	public CommandSaveOne(int collectionId, EzyObject data) {
 		this.data = data;
 		this.collectionId = collectionId;
 	}
 	
 	@Override
 	public CommandType getType() {
-		return CommandType.SAVE;
+		return CommandType.SAVE_ONE;
 	}
 }

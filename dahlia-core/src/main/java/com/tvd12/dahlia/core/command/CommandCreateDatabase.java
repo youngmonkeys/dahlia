@@ -5,11 +5,11 @@ import com.tvd12.dahlia.core.setting.DatabaseSetting;
 import lombok.Getter;
 
 @Getter
-public class CreateDatabase implements Command {
+public class CommandCreateDatabase implements Command {
 
 	protected final DatabaseSetting setting;
 	
-	public CreateDatabase(DatabaseSetting setting) {
+	public CommandCreateDatabase(DatabaseSetting setting) {
 		this.setting = setting;
 	}
 	

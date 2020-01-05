@@ -1,5 +1,8 @@
 package com.tvd12.dahlia;
 
+import com.tvd12.dahlia.query.DeleteOptions;
+import com.tvd12.dahlia.query.FindOptions;
+import com.tvd12.dahlia.query.UpdateOptions;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 
@@ -17,11 +20,15 @@ public interface ICollection {
 	
 	EzyObject insert(EzyObject record);
 	
-	EzyArray find(EzyObject query);
-	
 	EzyObject findOne(EzyObject query);
-
-	Object update(EzyObject query, EzyObject update);
 	
-	Object delete(EzyObject query);
+	EzyArray find(EzyObject query, FindOptions options);
+
+	Object update(EzyObject query, EzyObject update, UpdateOptions options);
+	
+	Object delete(EzyObject query, DeleteOptions options);
+	
+	long count();
+	
+	long count(EzyObject query);
 }

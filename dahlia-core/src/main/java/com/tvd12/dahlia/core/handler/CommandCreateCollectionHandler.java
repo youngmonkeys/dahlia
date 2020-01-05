@@ -1,6 +1,6 @@
 package com.tvd12.dahlia.core.handler;
 
-import com.tvd12.dahlia.core.command.CreateCollection;
+import com.tvd12.dahlia.core.command.CommandCreateCollection;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Database;
 import com.tvd12.dahlia.core.factory.CollectionFactory;
@@ -19,7 +19,7 @@ import com.tvd12.dahlia.exception.DatabaseNotFoundException;
 import lombok.Setter;
 
 public class CommandCreateCollectionHandler 
-		extends CommandAbstractHandler<CreateCollection>
+		extends CommandAbstractHandler<CommandCreateCollection>
 		implements 
 			RuntimeSettingAware,
 			RecordSizeReaderAware,
@@ -36,7 +36,7 @@ public class CommandCreateCollectionHandler
 	protected CollectionStorageFactory collectionStorageFactory;
 	
 	@Override
-	public Object handle(CreateCollection command) {
+	public Object handle(CommandCreateCollection command) {
 		int databaseId = command.getDatabaseId();
 		CollectionSetting setting = command.getSetting();
 		String collectionName = setting.getCollectionName();

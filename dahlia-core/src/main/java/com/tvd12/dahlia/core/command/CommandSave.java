@@ -5,18 +5,18 @@ import com.tvd12.ezyfox.entity.EzyArray;
 import lombok.Getter;
 
 @Getter
-public class Insert implements Command {
+public class CommandSave implements Command {
 
 	protected EzyArray data;
 	protected int collectionId;
 	
-	public Insert(int collectionId, EzyArray data) {
+	public CommandSave(int collectionId, EzyArray data) {
 		this.data = data;
 		this.collectionId = collectionId;
 	}
 	
 	@Override
 	public CommandType getType() {
-		return CommandType.INSERT;
+		return CommandType.SAVE;
 	}
 }

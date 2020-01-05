@@ -3,7 +3,7 @@ package com.tvd12.dahlia.core.handler;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import com.tvd12.dahlia.core.command.FindOne;
+import com.tvd12.dahlia.core.command.CommandFindOne;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Record;
 import com.tvd12.dahlia.core.function.RecordConsumer;
@@ -14,10 +14,10 @@ import com.tvd12.dahlia.exception.CollectionNotFoundException;
 import com.tvd12.dahlia.util.Ref;
 import com.tvd12.ezyfox.entity.EzyObject;
 
-public class CommandFindOneHandler extends CommandQueryHandler<FindOne> {
+public class CommandFindOneHandler extends CommandQueryHandler<CommandFindOne> {
 
 	@Override
-	public Object handle(FindOne command) {
+	public Object handle(CommandFindOne command) {
 		int collectionId = command.getCollectionId();
 		Collection collection = databases.getCollection(collectionId);
 		if(collection == null)

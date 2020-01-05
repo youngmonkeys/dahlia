@@ -2,7 +2,7 @@ package com.tvd12.dahlia.core.handler;
 
 import java.util.UUID;
 
-import com.tvd12.dahlia.core.command.SaveOne;
+import com.tvd12.dahlia.core.command.CommandSaveOne;
 import com.tvd12.dahlia.core.constant.Constants;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Record;
@@ -11,10 +11,10 @@ import com.tvd12.dahlia.core.storage.CollectionStorage;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
-public class CommandSaveOneHandler extends CommandAbstractHandler<SaveOne> {
+public class CommandSaveOneHandler extends CommandAbstractHandler<CommandSaveOne> {
 
 	@Override
-	public Object handle(SaveOne command) {
+	public Object handle(CommandSaveOne command) {
 		int collectionId = command.getCollectionId();
 		EzyObject data = command.getData();
 		

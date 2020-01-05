@@ -12,14 +12,13 @@ import com.tvd12.dahlia.constant.Keywords;
 import com.tvd12.dahlia.core.DahliaCore;
 import com.tvd12.dahlia.core.DahliaCoreLoader;
 import com.tvd12.dahlia.core.command.CommandExecutor;
-import com.tvd12.dahlia.core.command.Count;
-import com.tvd12.dahlia.core.command.CreateCollection;
-import com.tvd12.dahlia.core.command.CreateDatabase;
-import com.tvd12.dahlia.core.command.Find;
-import com.tvd12.dahlia.core.command.InsertOne;
+import com.tvd12.dahlia.core.command.CommandCount;
+import com.tvd12.dahlia.core.command.CommandCreateCollection;
+import com.tvd12.dahlia.core.command.CommandCreateDatabase;
+import com.tvd12.dahlia.core.command.CommandFind;
+import com.tvd12.dahlia.core.command.CommandInsertOne;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Database;
-import com.tvd12.dahlia.core.query.FindOptions;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.DatabaseSetting;
 import com.tvd12.dahlia.core.setting.FieldLongSetting;
@@ -28,6 +27,7 @@ import com.tvd12.dahlia.core.setting.FieldTextSetting;
 import com.tvd12.dahlia.exception.CollectionExistedException;
 import com.tvd12.dahlia.exception.DatabaseExistedException;
 import com.tvd12.dahlia.exception.DuplicatedIdException;
+import com.tvd12.dahlia.query.FindOptions;
 import com.tvd12.ezyfox.entity.EzyObject;
 
 public class DatabaseTest {
@@ -41,10 +41,10 @@ public class DatabaseTest {
 		
 		DatabaseSetting databaseSetting = new DatabaseSetting();
 		databaseSetting.setDatabaseName("hello");
-		CreateDatabase createDatabase = new CreateDatabase(databaseSetting);
+		CommandCreateDatabase commandCreateDatabase = new CommandCreateDatabase(databaseSetting);
 		Database database = null;
 		try {
-			database = commandExecutor.execute(createDatabase);
+			database = commandExecutor.execute(commandCreateDatabase);
 		}
 		catch (DatabaseExistedException e) {
 			database = dahlia.getDatabases().getDatabase("hello");
@@ -72,10 +72,10 @@ public class DatabaseTest {
 		
 		System.out.println(collectionSetting.toMap());
 		
-		CreateCollection createCollection = new CreateCollection(database.getId(), collectionSetting);
+		CommandCreateCollection commandCreateCollection = new CommandCreateCollection(database.getId(), collectionSetting);
 		Collection collection = null;
 		try {
-			collection = commandExecutor.execute(createCollection);
+			collection = commandExecutor.execute(commandCreateCollection);
 		}
 		catch (CollectionExistedException e) {
 			collection = database.getCollection("test");
@@ -85,9 +85,9 @@ public class DatabaseTest {
 				.append("value", 323L)
 				.append("name", "dungtv")
 				.build();
-		InsertOne insertOne = new InsertOne(collection.getId(), insertOneData);
+		CommandInsertOne commandInsertOne = new CommandInsertOne(collection.getId(), insertOneData);
 		try {
-			EzyObject insertOneResult = commandExecutor.execute(insertOne);
+			EzyObject insertOneResult = commandExecutor.execute(commandInsertOne);
 			System.out.println("insert one result: " + insertOneResult);
 		}
 		catch (DuplicatedIdException e) {
@@ -103,7 +103,7 @@ public class DatabaseTest {
 //		EzyObject query1 = newObjectBuilder()
 //				.append("_id", newObjectBuilder().append(Keywords.LESS_THAN_EQUAL, 3L))
 //				.build();
-//		FindOne findOne = new FindOne(collection.getId(), query1);
+//		CommandFindOne findOne = new CommandFindOne(collection.getId(), query1);
 //		EzyObject findOneResult = commandExecutor.execute(findOne);
 //		System.out.println("findOneResult: " + findOneResult);
 		
@@ -120,11 +120,11 @@ public class DatabaseTest {
 						)
 				.build();
 		FindOptions options = new FindOptions().setSkip(0).setLimit(10);
-		Find find = new Find(collection.getId(), query3, options);
-		List<EzyObject> findResult = commandExecutor.execute(find);
+		CommandFind commandFind = new CommandFind(collection.getId(), query3, options.toObject());
+		List<EzyObject> findResult = commandExecutor.execute(commandFind);
 		System.out.println("findResult = " + findResult);
 		
-		Long size = dahlia.execute(new Count(collection.getId()));
+		Long size = dahlia.execute(new CommandCount(collection.getId()));
 		System.out.println("size: " + size);
 	}
 	

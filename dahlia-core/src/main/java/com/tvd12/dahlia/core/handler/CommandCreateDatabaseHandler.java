@@ -1,6 +1,6 @@
 package com.tvd12.dahlia.core.handler;
 
-import com.tvd12.dahlia.core.command.CreateDatabase;
+import com.tvd12.dahlia.core.command.CommandCreateDatabase;
 import com.tvd12.dahlia.core.entity.Database;
 import com.tvd12.dahlia.core.factory.DatabaseFactory;
 import com.tvd12.dahlia.core.factory.DatabaseFactoryAware;
@@ -15,7 +15,7 @@ import com.tvd12.dahlia.exception.DatabaseExistedException;
 import lombok.Setter;
 
 public class CommandCreateDatabaseHandler 
-		extends CommandAbstractHandler<CreateDatabase>
+		extends CommandAbstractHandler<CommandCreateDatabase>
 		implements 
 			RuntimeSettingAware,
 			DatabaseFactoryAware,
@@ -29,7 +29,7 @@ public class CommandCreateDatabaseHandler
 	protected DatabaseStorageFactory databaseStorageFactory;
 	
 	@Override
-	public Object handle(CreateDatabase command) {
+	public Object handle(CommandCreateDatabase command) {
 		DatabaseSetting setting = command.getSetting();
 		String databaseName = setting.getDatabaseName();
 		Database existedDatabase = databases.getDatabase(databaseName);

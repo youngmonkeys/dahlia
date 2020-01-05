@@ -1,7 +1,11 @@
-package com.tvd12.dahlia.core.query;
+package com.tvd12.dahlia.query;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.tvd12.dahlia.constant.OptionFields;
+import com.tvd12.ezyfox.entity.EzyObject;
+import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
 import lombok.Getter;
 
@@ -31,5 +35,12 @@ public class FindOptions {
 	
 	public Map<String, Boolean> getOrderBy() {
 		return orderBy != null ? orderBy : new HashMap<>();
+	}
+	
+	public EzyObject toObject() {
+		EzyObject obj = EzyEntityFactory.newObject();
+		obj.put(OptionFields.SKIP, skip);
+		obj.put(OptionFields.LIMIT, limit);
+		return obj;
 	}
 }

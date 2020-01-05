@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import com.tvd12.dahlia.core.command.Find;
+import com.tvd12.dahlia.constant.OptionFields;
+import com.tvd12.dahlia.core.command.CommandFind;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Record;
 import com.tvd12.dahlia.core.function.RecordConsumer;
-import com.tvd12.dahlia.core.query.FindOptions;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
@@ -17,10 +17,10 @@ import com.tvd12.dahlia.exception.CollectionNotFoundException;
 import com.tvd12.dahlia.util.Ref;
 import com.tvd12.ezyfox.entity.EzyObject;
 
-public class CommandFindHandler extends CommandQueryHandler<Find> {
+public class CommandFindHandler extends CommandQueryHandler<CommandFind> {
 
 	@Override
-	public Object handle(Find command) {
+	public Object handle(CommandFind command) {
 		int collectionId = command.getCollectionId();
 		Collection collection = databases.getCollection(collectionId);
 		if(collection == null)
@@ -35,7 +35,9 @@ public class CommandFindHandler extends CommandQueryHandler<Find> {
 		Map<String, FieldSetting> sFields = setting.getFields();
 		
 		Ref<Integer> count = new Ref<>(0);
-		FindOptions options = command.getOptions();
+		EzyObject options = command.getOptions();
+		long skip = options.get(OptionFields.SKIP, int.class, 0);
+		long limit = options.get(OptionFields.LIMIT, int.class, 25);
 		List<EzyObject> answer = new ArrayList<>();
 		synchronized (collection) {
 			collection.forEach(new RecordConsumer() {
@@ -45,7 +47,7 @@ public class CommandFindHandler extends CommandQueryHandler<Find> {
 					boolean accepted = predicate.test(value);
 					if(accepted) {
 						int currentCount = count.getValue();
-						if(currentCount >= options.getSkip())
+						if(currentCount >= skip)
 							answer.add(value);
 						count.setValue(currentCount + 1);
 					}
@@ -53,7 +55,7 @@ public class CommandFindHandler extends CommandQueryHandler<Find> {
 				@Override
 				public boolean next() {
 					int currentSize = answer.size();
-					return currentSize < options.getLimit();
+					return currentSize < limit;
 				}
 			});
 		}

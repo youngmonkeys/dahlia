@@ -1,13 +1,13 @@
 package com.tvd12.dahlia.core.handler;
 
-import com.tvd12.dahlia.core.command.Count;
+import com.tvd12.dahlia.core.command.CommandCount;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.exception.CollectionNotFoundException;
 
-public class CommandCountHandler extends CommandQueryHandler<Count> {
+public class CommandCountHandler extends CommandQueryHandler<CommandCount> {
 
 	@Override
-	public Object handle(Count command) {
+	public Object handle(CommandCount command) {
 		int collectionId = command.getCollectionId();
 		Collection collection = databases.getCollection(collectionId);
 		if(collection == null)

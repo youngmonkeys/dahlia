@@ -2,7 +2,7 @@ package com.tvd12.dahlia.core.handler;
 
 import java.util.UUID;
 
-import com.tvd12.dahlia.core.command.InsertOne;
+import com.tvd12.dahlia.core.command.CommandInsertOne;
 import com.tvd12.dahlia.core.constant.Constants;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Record;
@@ -12,10 +12,10 @@ import com.tvd12.dahlia.exception.DuplicatedIdException;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
-public class CommandInsertOneHandler extends CommandAbstractHandler<InsertOne> {
+public class CommandInsertOneHandler extends CommandAbstractHandler<CommandInsertOne> {
 
 	@Override
-	public Object handle(InsertOne command) {
+	public Object handle(CommandInsertOne command) {
 		int collectionId = command.getCollectionId();
 		EzyObject data = command.getData();
 		

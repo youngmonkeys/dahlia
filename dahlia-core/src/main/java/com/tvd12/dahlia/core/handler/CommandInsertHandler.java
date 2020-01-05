@@ -3,7 +3,7 @@ package com.tvd12.dahlia.core.handler;
 import java.util.Map;
 import java.util.UUID;
 
-import com.tvd12.dahlia.core.command.Insert;
+import com.tvd12.dahlia.core.command.CommandInsert;
 import com.tvd12.dahlia.core.constant.Constants;
 import com.tvd12.dahlia.core.entity.Collection;
 import com.tvd12.dahlia.core.entity.Record;
@@ -15,10 +15,10 @@ import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
-public class CommandInsertHandler extends CommandAbstractHandler<Insert> {
+public class CommandInsertHandler extends CommandAbstractHandler<CommandInsert> {
 
 	@Override
-	public Object handle(Insert command) {
+	public Object handle(CommandInsert command) {
 		int collectionId = command.getCollectionId();
 		EzyArray data = command.getData();
 		

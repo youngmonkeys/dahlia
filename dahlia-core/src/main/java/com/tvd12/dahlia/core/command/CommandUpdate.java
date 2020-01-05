@@ -5,19 +5,20 @@ import com.tvd12.ezyfox.entity.EzyObject;
 import lombok.Getter;
 
 @Getter
-public class FindOne implements Command {
+public class CommandUpdate implements Command {
 
 	protected EzyObject query;
+	protected EzyObject options;
 	protected int collectionId;
 	
-	public FindOne(int collectionId, EzyObject query) {
+	public CommandUpdate(int collectionId, EzyObject query, EzyObject options) {
 		this.query = query;
+		this.options = options;
 		this.collectionId = collectionId;
 	}
 	
 	@Override
 	public CommandType getType() {
-		return CommandType.FIND_ONE;
+		return CommandType.INSERT;
 	}
-	
 }
