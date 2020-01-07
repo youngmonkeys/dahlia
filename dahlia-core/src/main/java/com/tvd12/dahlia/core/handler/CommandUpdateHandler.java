@@ -37,7 +37,6 @@ public class CommandUpdateHandler extends CommandQueryHandler<CommandUpdate> {
 		Map<String, FieldSetting> sFields = setting.getFields();
 		
 		EzyObject update = command.getUpdate();
-		EzyArray answer = EzyEntityFactory.newArray();
 		List<Pair<Record, EzyObject>> updateItems = new ArrayList<>();
 		synchronized (collection) {
 			collection.forEach(new RecordConsumer() {
@@ -54,9 +53,13 @@ public class CommandUpdateHandler extends CommandQueryHandler<CommandUpdate> {
 				EzyObject updateItem = pair.getValue();
 				updateItem(updateItem, update);
 				collectionStorage.storeRecord(record, sId, sFields, updateItem);
-				EzyObject answerItem = EzyEntityFactory.newObject();
-				answerItem.put(Constants.FIELD_ID, updateItem.get(Constants.FIELD_ID));
 			}
+		}
+		EzyArray answer = EzyEntityFactory.newArray();
+		for(Pair<Record, EzyObject> pair : updateItems) {
+			EzyObject answerItem = EzyEntityFactory.newObject();
+			EzyObject updateItem = pair.getValue();
+			answerItem.put(Constants.FIELD_ID, updateItem.get(Constants.FIELD_ID));
 		}
 		return answer;
 	}

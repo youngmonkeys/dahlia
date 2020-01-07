@@ -1,5 +1,7 @@
 package com.tvd12.dahlia.core.handler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -12,6 +14,7 @@ import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
 import com.tvd12.dahlia.exception.CollectionNotFoundException;
+import com.tvd12.dahlia.util.Pair;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
@@ -32,28 +35,34 @@ public class CommandDeleteHandler extends CommandQueryHandler<CommandDelete> {
 		CollectionStorage collectionStorage = storage.getCollectionStorage(collectionId);
 		FieldSetting sId = setting.getId();
 		Map<String, FieldSetting> sFields = setting.getFields();
-		
-		EzyArray deletedItems = EzyEntityFactory.newArray();
+
+		List<Pair<Record, EzyObject>> deletedItems = new ArrayList<>();
 		synchronized (collection) {
 			collection.forEach(new RecordConsumer() {
 				@Override
 				public void accept(Record r) {
 					EzyObject value = collectionStorage.readRecord(r, sId, sFields);
 					boolean accepted = predicate.test(value);
-					if(accepted) {
-						EzyObject deletedItem = EzyEntityFactory.newObject();
-						deletedItem.put(Constants.FIELD_ID, r.getId());
-						deletedItems.add(deletedItem);
-					}
+					if(accepted)
+						deletedItems.add(new Pair<>(r, value));
 				}
 			});
-			for(int i = 0 ; i < deletedItems.size() ; ++i) {
-				EzyObject deletedItem = deletedItems.get(i);
-				Comparable id = deletedItem.get(Constants.FIELD_ID);
+			for(Pair<Record, EzyObject> pair : deletedItems) {
+				Record deletedRecord = pair.getKey();
+				EzyObject deletedValue = pair.getValue();
+				Comparable id = deletedRecord.getId();
 				collection.remove(id);
+				deletedRecord.setAlive(false);
+				collectionStorage.storeRecord(deletedRecord, sId, sFields, deletedValue);
 			}
 		}
-		return deletedItems;
+		EzyArray answer = EzyEntityFactory.newArray();
+		for(Pair<Record, EzyObject> pair : deletedItems) {
+			EzyObject answerItem = EzyEntityFactory.newObject();
+			EzyObject updateItem = pair.getValue();
+			answerItem.put(Constants.FIELD_ID, updateItem.get(Constants.FIELD_ID));
+		}
+		return answer;
 	}
 	
 }
