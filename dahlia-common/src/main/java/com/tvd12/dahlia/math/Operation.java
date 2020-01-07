@@ -14,7 +14,11 @@ public enum Operation {
 	LT(Keywords.LESS_THAN),
 	LTE(Keywords.LESS_THAN_EQUAL),
 	GT(Keywords.GREATER_THAN),
-	GTE(Keywords.GREATER_THAN_EQUAL);
+	GTE(Keywords.GREATER_THAN_EQUAL),
+	AND(Keywords.AND),
+	OR(Keywords.OR),
+	IN(Keywords.IN),
+	NOTIN(Keywords.NOT_IN);
 	
 	@Getter
 	private final String keyword;
@@ -33,10 +37,15 @@ public enum Operation {
 	private static Map<String, Operation> defaultMap() {
 		Map<String, Operation> map = new HashMap<>();
 		map.put(EQ.keyword, EQ);
+		map.put(NEQ.keyword, NEQ);
 		map.put(LT.keyword, LT);
 		map.put(LTE.keyword, LTE);
 		map.put(GT.keyword, GT);
 		map.put(GTE.keyword, GTE);
+		map.put(AND.keyword, AND);
+		map.put(OR.keyword, OR);
+		map.put(IN.keyword, IN);
+		map.put(NOTIN.keyword, NOTIN);
 		return map;
 	}
 }

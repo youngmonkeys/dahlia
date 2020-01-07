@@ -10,6 +10,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.tvd12.dahlia.math.Operation;
+
 import lombok.Getter;
 
 @SuppressWarnings("unchecked")
@@ -30,6 +32,7 @@ public abstract class Tree<K, V> implements Map<K, V> {
 	public abstract void insert(K key, V value);
 	public abstract V delete(K key);
 	public abstract Entry<K, V> search(K key);
+	public abstract Entry<K, V> search(K key, Operation op);
 	public abstract void walk(TreeWalker<K, V> walker);
 	public abstract void walkReverse(TreeWalker<K, V> walker);
 
@@ -43,7 +46,7 @@ public abstract class Tree<K, V> implements Map<K, V> {
 	@Override
 	public V put(K key, V value) {
 		insert(key, value);
-		return value;
+		return null;
 	}
 
 	@Override

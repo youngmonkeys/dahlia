@@ -14,11 +14,14 @@ public class Collection {
 	@Getter
 	protected long dataSize;
 	@Getter
+	protected final Indexes indexes;
+	@Getter
 	protected final CollectionSetting setting;
 	protected final Tree<Comparable, Record> indexById;
 	
 	public Collection(CollectionSetting setting) {
 		this.setting = setting;
+		this.indexes = new Indexes();
 		this.indexById = new BTree<>();
 	}
 	
