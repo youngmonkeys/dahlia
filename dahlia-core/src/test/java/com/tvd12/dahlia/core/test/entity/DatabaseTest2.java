@@ -23,6 +23,7 @@ import com.tvd12.dahlia.core.setting.DatabaseSetting;
 import com.tvd12.dahlia.core.setting.FieldLongSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.setting.FieldTextSetting;
+import com.tvd12.dahlia.core.setting.FieldUuidSetting;
 import com.tvd12.dahlia.exception.CollectionExistedException;
 import com.tvd12.dahlia.exception.DatabaseExistedException;
 import com.tvd12.dahlia.exception.DuplicatedIdException;
@@ -30,10 +31,10 @@ import com.tvd12.dahlia.query.FindOptions;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 
-public class DatabaseTest {
+public class DatabaseTest2 {
 
 	public static void main(String[] args) {
-//		deleteDataDir();
+		deleteDataDir();
 		DahliaCoreLoader loader = new DahliaCoreLoader()
 				.storageDirectory("data");
 		DahliaCore dahlia = loader.load();
@@ -52,11 +53,10 @@ public class DatabaseTest {
 		
 		CollectionSetting collectionSetting = new CollectionSetting();
 		collectionSetting.setCollectionId(1);
-		collectionSetting.setCollectionName("test");
+		collectionSetting.setCollectionName("test2");
 		Map<String, FieldSetting> fieldSettings = new HashMap<>();
-		FieldLongSetting fieldIdSetting = new FieldLongSetting();
+		FieldUuidSetting fieldIdSetting = new FieldUuidSetting();
 		fieldIdSetting.setNullable(true);
-		fieldIdSetting.setDefaultValue(100L);
 		fieldSettings.put("_id", fieldIdSetting);
 		
 		FieldLongSetting fieldValueSetting = new FieldLongSetting();
@@ -78,10 +78,9 @@ public class DatabaseTest {
 			collection = commandExecutor.execute(commandCreateCollection);
 		}
 		catch (CollectionExistedException e) {
-			collection = database.getCollection("test");
+			collection = database.getCollection("test2");
 		}
 		EzyObject insertOneData = newObjectBuilder()
-				.append("_id", 2L)
 				.append("value", 323L)
 				.append("name", "dungtv")
 				.build();
@@ -115,8 +114,7 @@ public class DatabaseTest {
 //				.build();
 		EzyObject query3 = newObjectBuilder()
 				.append(Keywords.OR, newArrayBuilder()
-						.append(newObjectBuilder().append(Keywords.LESS_THAN_EQUAL, newObjectBuilder().append("_id", 3L)))
-						.append(newObjectBuilder().append("value", 223))
+						.append(newObjectBuilder().append("value", 323))
 						)
 				.build();
 		FindOptions options = new FindOptions().setSkip(0).setLimit(10);
