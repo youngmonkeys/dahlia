@@ -12,11 +12,20 @@
 	<name>dahlia-local</name>
 	<url>http://maven.apache.org</url>
 
+	<properties>
+		<org.json.version>20190722</org.json.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.tvd12</groupId>
 			<artifactId>dahlia-core</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>${org.json.version}</version>
 		</dependency>
 	</dependencies>
 </project>
