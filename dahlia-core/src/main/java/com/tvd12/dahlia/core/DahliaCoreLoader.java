@@ -67,10 +67,10 @@ public class DahliaCoreLoader {
 		Map<String, List<CollectionSetting>> collectionSettingsMap = readCollectionSettings(collectionStoragesMap);
 		
 		Storage storage = newStorage(databaseStoreages, collectionStoragesMap, databaseSettings, collectionSettingsMap);
-		Databases databases = newDatabases(databaseSettings, collectionSettingsMap);
 		RuntimeSetting runtimeSetting = storage.readRuntimeSetting();
 		DatabaseFactory databaseFactory = new DatabaseFactory(runtimeSetting.getMaxDatabaseId());
 		CollectionFactory collectionFactory = new CollectionFactory(runtimeSetting.getMaxCollectionId());
+		Databases databases = newDatabases(databaseFactory, collectionFactory, databaseSettings, collectionSettingsMap);
 
 		loadAllCollections(databases, storage);
 		
@@ -103,15 +103,17 @@ public class DahliaCoreLoader {
 	}
 	
 	protected Databases newDatabases(
+			DatabaseFactory databaseFactory,
+			CollectionFactory collectionFactory,
 			Map<String, DatabaseSetting> databaseSettings,
 			Map<String, List<CollectionSetting>> collectionSettingsMap) {
 		Databases databases = new Databases();
 		for(String databaseName : databaseSettings.keySet()) {
 			DatabaseSetting databaseSetting = databaseSettings.get(databaseName);
-			Database database = new Database(databaseSetting);
+			Database database = databaseFactory.createDatabase(databaseSetting);
 			List<CollectionSetting> collectionSettings = collectionSettingsMap.get(databaseName);
 			for(CollectionSetting collectionSetting : collectionSettings) {
-				Collection collection = new Collection(collectionSetting);
+				Collection collection = collectionFactory.createCollection(collectionSetting);
 				database.addCollection(collection);
 				databases.addCollection(collection);
 			}

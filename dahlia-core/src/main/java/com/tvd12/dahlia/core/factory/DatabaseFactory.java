@@ -19,5 +19,10 @@ public class DatabaseFactory {
 		Database database = new Database(setting);
 		return database;
 	}
+
+	public Database createDatabase(DatabaseSetting setting) {
+		Database database = new Database(setting);
+		return database;
+	}
 	
 }

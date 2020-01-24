@@ -19,6 +19,7 @@ public final class Constants {
 	public static final String SETTING_FIELD_ITEM = "item";
 	public static final String SETTING_FIELD_NULLABLE = "nullable";
 	public static final String SETTING_FIELD_FIELDS = "fields";
+	public static final String SETTING_FIELD_INDEXES = "indexes";
 	public static final String SETTING_FIELD_DEFAULT = "default";
 	public static final String SETTING_FIELD_MAX_SIZE = "max_size";
 	public static final String SETTING_FIELD_RECORD_SIZE = "record_size";

@@ -72,6 +72,14 @@ public class Collection {
 		return indexById.size();
 	}
 	
+	public Index getIndex(Object key) {
+		return indexes.getIndex(key);
+	}
+	
+	public void addIndex(Index index) {
+		this.indexes.addIndex(index);
+	}
+	
 	@Override
 	public String toString() {
 		return setting.getCollectionName();

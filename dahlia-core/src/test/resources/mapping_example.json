@@ -44,7 +44,7 @@
 	        }
 	    }
 	},
-	"indicates" : [
+	"indexes" : [
 		[{"_id" : true}, {"info" : false}],
 		{"year" : true}
 	]

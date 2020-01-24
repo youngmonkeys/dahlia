@@ -1,53 +1,31 @@
 package com.tvd12.dahlia.core.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-import com.tvd12.dahlia.util.Pair;
+import com.tvd12.dahlia.core.setting.IndexSetting;
 
 public class Indexes {
 
 	protected final Map<Object, Index> indexes;
-	protected final Map<Object, Index> indexesByFields;
+	protected final Map<Object, Index> indexesByName;
 	
 	public Indexes() {
-		this.indexes = new ConcurrentHashMap<>();
-		this.indexesByFields = new ConcurrentHashMap<>();
+		this.indexes = new HashMap<>();
+		this.indexesByName = new HashMap<>();
 	}
 	
-	public void addIndex(Object key, Index index) {
-		indexes.put(key, index);
-		if(key instanceof Pair) {
-			indexesByFields.put(((Pair)key).getKey(), index);
-		}
-		else {
-			List<String> fields = getFields(key);
-			indexesByFields.put(fields, index);
-		}
+	public void addIndex(Index index) {
+		IndexSetting setting = index.getSetting();
+		String name = setting.getName();
+		Map<String, Boolean> fields = setting.getFields();
+		this.indexes.put(fields, index);
+		this.indexesByName.put(name, index);
 	}
 	
 	public Index getIndex(Object key) {
 		Index index = indexes.get(key);
 		return index;
-	}
-	
-	public Index getIndexByFields(Object fields) {
-		Index index = null;
-		if(fields instanceof String)
-			index = indexesByFields.get(fields);
-		else
-			index = indexesByFields.get(fields);
-		return index;
-	}
-	
-	protected List<String> getFields(Object key) {
-		List<Pair<String, Boolean>> pairs = (List)key;
-		List<String> fields = new ArrayList<>();
-		for(Pair<String, Boolean> pair : pairs) 
-			fields.add(pair.getKey());
-		return fields;
 	}
 	
 }

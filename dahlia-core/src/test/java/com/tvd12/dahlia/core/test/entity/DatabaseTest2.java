@@ -24,12 +24,15 @@ import com.tvd12.dahlia.core.setting.FieldLongSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.setting.FieldTextSetting;
 import com.tvd12.dahlia.core.setting.FieldUuidSetting;
+import com.tvd12.dahlia.core.setting.IndexSetting;
 import com.tvd12.dahlia.exception.CollectionExistedException;
 import com.tvd12.dahlia.exception.DatabaseExistedException;
 import com.tvd12.dahlia.exception.DuplicatedIdException;
 import com.tvd12.dahlia.query.FindOptions;
+import com.tvd12.ezyfox.collect.Lists;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
+import com.tvd12.ezyfox.io.EzyMaps;
 
 public class DatabaseTest2 {
 
@@ -69,6 +72,9 @@ public class DatabaseTest2 {
 		fieldSettings.put("name", fieldNameSetting);
 		
 		collectionSetting.setFields(fieldSettings);
+		
+		IndexSetting nameIndexSetting = new IndexSetting("nameIndex", EzyMaps.newHashMap("name", true));
+		collectionSetting.setIndexes(Lists.newArrayList(nameIndexSetting));
 		
 		System.out.println(collectionSetting.toMap());
 		
