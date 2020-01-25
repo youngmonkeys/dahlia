@@ -1,9 +1,8 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_DEFAULT;
-
 import java.math.BigDecimal;
 
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldBigDecimalSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
@@ -20,7 +19,7 @@ public class SettingObjectToBigDecimalField extends SettingObjectToField {
 	@Override
 	protected FieldBigDecimalSetting newSetting(SettingObjectToFields mappers, EzyObject object) {
 		FieldBigDecimalSetting setting = new FieldBigDecimalSetting();
-		setting.setDefaultValue(object.get(SETTING_FIELD_DEFAULT, BigDecimal.class));
+		setting.setDefaultValue(object.get(SettingFields.DEFAULT, BigDecimal.class));
 		return setting;
 	}
 	

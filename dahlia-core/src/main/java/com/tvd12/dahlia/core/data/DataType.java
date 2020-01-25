@@ -35,10 +35,10 @@ public enum DataType implements EzyConstant {
 	}
 	
 	public static DataType valueOfName(String name) {
-		DataType answer = valueOf(name);
+		DataType answer = MAP_BY_NAME.get(name);
 		if(answer != null)
 			return answer;
-		answer = MAP_BY_NAME.get(answer);
+		answer = valueOf(name);
 		return answer;
 	}
 	

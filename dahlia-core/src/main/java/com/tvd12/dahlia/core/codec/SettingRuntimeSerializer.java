@@ -1,8 +1,6 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_MAX_COLLECTION_ID;
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_MAX_DATABASE_ID;
-
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.RuntimeSetting;
 import com.tvd12.ezyfox.codec.EzyObjectSerializer;
 import com.tvd12.ezyfox.entity.EzyObject;
@@ -25,8 +23,8 @@ public class SettingRuntimeSerializer implements SettingSerializer<RuntimeSettin
 
 	protected EzyObject settingToObject(RuntimeSetting setting) {
 		return EzyEntityFactory.newObjectBuilder()
-				.append(SETTING_FIELD_MAX_DATABASE_ID, setting.getMaxDatabaseId())
-				.append(SETTING_FIELD_MAX_COLLECTION_ID, setting.getMaxCollectionId())
+				.append(SettingFields.MAX_DATABASE_ID, setting.getMaxDatabaseId())
+				.append(SettingFields.MAX_COLLECTION_ID, setting.getMaxCollectionId())
 				.build();
 	}
 	

@@ -1,11 +1,8 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_FIELDS;
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_ID;
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_RECORD_SIZE;
-
 import java.util.Map;
 
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.codec.EzyObjectDeserializer;
@@ -27,9 +24,9 @@ public class SettingCollectionDeserializer
 	public CollectionSetting deserialize(byte[] bytes) {
 		EzyObject object = objectDeserializer.deserialize(bytes);
 		CollectionSetting setting = new CollectionSetting();
-		setting.setCollectionId(object.get(SETTING_FIELD_ID, int.class));
-		setting.setRecordSize(object.get(SETTING_FIELD_RECORD_SIZE, int.class));
-		EzyArray fieldArray = object.get(SETTING_FIELD_FIELDS);
+		setting.setCollectionId(object.get(SettingFields.ID, int.class));
+		setting.setRecordSize(object.get(SettingFields.RECORD_SIZE, int.class));
+		EzyArray fieldArray = object.get(SettingFields.FIELDS);
 		Map<String, FieldSetting> fields = arrayToFields(fieldArray);
 		setting.setFields(fields);
 		return setting;

@@ -1,11 +1,9 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_NAME;
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_TYPE;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.data.DataType;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyArray;
@@ -20,7 +18,7 @@ public class SettingObjectToFields {
 	}
 	
 	public FieldSetting toSetting(EzyObject object) {
-		DataType type = DataType.valueOf(object.get(SETTING_FIELD_TYPE));
+		DataType type = DataType.valueOf(object.get(SettingFields.TYPE));
 		SettingObjectToField mapper = mappers.get(type);
 		FieldSetting answer = mapper.toSetting(this, object);
 		return answer;
@@ -30,7 +28,7 @@ public class SettingObjectToFields {
 		Map<String, FieldSetting> fields = new HashMap<>();
 		for(int i = 0 ; i < array.size() ; ++i) {
 			EzyObject object = array.get(i);
-			String name = object.get(SETTING_FIELD_NAME);
+			String name = object.get(SettingFields.NAME);
 			FieldSetting field = toSetting(object);
 			fields.put(name, field);
 		}

@@ -1,7 +1,6 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_ID;
-
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.DatabaseSetting;
 import com.tvd12.ezyfox.codec.EzyObjectSerializer;
 import com.tvd12.ezyfox.entity.EzyObject;
@@ -24,7 +23,7 @@ public class SettingDatabaseSerializer implements SettingSerializer<DatabaseSett
 
 	protected EzyObject databaseToObject(DatabaseSetting setting) {
 		return EzyEntityFactory.newObjectBuilder()
-				.append(SETTING_FIELD_ID, setting.getDatabaseId())
+				.append(SettingFields.ID, setting.getDatabaseId())
 				.build();
 	}
 

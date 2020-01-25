@@ -1,7 +1,6 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_DEFAULT;
-
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldDoubleSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
@@ -18,7 +17,7 @@ public class SettingObjectToDoubleField extends SettingObjectToField {
 	@Override
 	protected FieldDoubleSetting newSetting(SettingObjectToFields mappers, EzyObject object) {
 		FieldDoubleSetting setting = new FieldDoubleSetting();
-		setting.setDefaultValue(object.get(SETTING_FIELD_DEFAULT, double.class));
+		setting.setDefaultValue(object.get(SettingFields.DEFAULT, double.class));
 		return setting;
 	}
 	

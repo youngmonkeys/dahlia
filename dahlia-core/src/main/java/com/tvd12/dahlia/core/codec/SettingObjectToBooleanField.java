@@ -1,7 +1,6 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_DEFAULT;
-
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldBooleanSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
@@ -18,7 +17,7 @@ public class SettingObjectToBooleanField extends SettingObjectToField {
 	@Override
 	protected FieldBooleanSetting newSetting(SettingObjectToFields mappers, EzyObject object) {
 		FieldBooleanSetting setting = new FieldBooleanSetting();
-		setting.setDefaultValue(object.get(SETTING_FIELD_DEFAULT, boolean.class));
+		setting.setDefaultValue(object.get(SettingFields.DEFAULT, boolean.class));
 		return setting;
 	}
 	

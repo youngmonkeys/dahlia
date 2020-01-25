@@ -1,11 +1,10 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_NAME;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.data.DataType;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.builder.EzyArrayBuilder;
@@ -23,7 +22,7 @@ public class SettingFieldToObjects {
 	
 	public EzyObject toObject(String name, FieldSetting setting) {
 		EzyObject answer = toObject(setting);
-		answer.put(SETTING_FIELD_NAME, name);
+		answer.put(SettingFields.NAME, name);
 		return answer;
 	}
 	

@@ -3,6 +3,7 @@ package com.tvd12.dahlia.core.setting;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.data.DataType;
 
 import lombok.Getter;
@@ -22,7 +23,7 @@ public class FieldBigDecimalSetting extends FieldSetting {
 	@Override
 	public Map<Object, Object> toMap() {
 		Map<Object, Object> map = super.toMap();
-		map.put("defaultValue", defaultValue);
+		map.put(SettingFields.DEFAULT, defaultValue);
 		return map;
 	}
 	

@@ -1,4 +1,4 @@
-{
+{	"name" : "test",
 	"fields" : {
 	    "_id": {
 	        "type" : "int",

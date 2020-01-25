@@ -1,7 +1,6 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_DEFAULT;
-
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldShortSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
@@ -18,7 +17,7 @@ public class SettingObjectToShortField extends SettingObjectToField {
 	@Override
 	protected FieldShortSetting newSetting(SettingObjectToFields mappers, EzyObject object) {
 		FieldShortSetting setting = new FieldShortSetting();
-		setting.setDefaultValue(object.get(SETTING_FIELD_DEFAULT, short.class));
+		setting.setDefaultValue(object.get(SettingFields.DEFAULT, short.class));
 		return setting;
 	}
 	

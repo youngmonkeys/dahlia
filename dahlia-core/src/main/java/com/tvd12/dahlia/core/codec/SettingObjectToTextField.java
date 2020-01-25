@@ -1,7 +1,6 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.*;
-
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldTextSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
@@ -18,8 +17,8 @@ public class SettingObjectToTextField extends SettingObjectToField {
 	@Override
 	protected FieldTextSetting newSetting(SettingObjectToFields mappers, EzyObject object) {
 		FieldTextSetting setting = new FieldTextSetting();
-		setting.setMaxSize(object.get(SETTING_FIELD_MAX_SIZE, int.class));
-		setting.setDefaultValue(object.get(SETTING_FIELD_DEFAULT, String.class));
+		setting.setMaxSize(object.get(SettingFields.MAX_SIZE, int.class));
+		setting.setDefaultValue(object.get(SettingFields.DEFAULT, String.class));
 		return setting;
 	}
 	

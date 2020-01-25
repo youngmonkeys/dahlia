@@ -1,7 +1,6 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_DEFAULT;
-
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldShortSetting;
 import com.tvd12.ezyfox.builder.EzyObjectBuilder;
 
@@ -20,7 +19,7 @@ class SettingFieldShortToObject extends SettingFieldToObject<FieldShortSetting> 
 	protected EzyObjectBuilder newObjectBuilder(
 			SettingFieldToObjects mappers, FieldShortSetting setting) {
 		return super.newObjectBuilder(mappers, setting)
-				.append(SETTING_FIELD_DEFAULT, setting.getDefaultValue());
+				.append(SettingFields.DEFAULT, setting.getDefaultValue());
 	}
 
 }

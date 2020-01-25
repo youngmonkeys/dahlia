@@ -17,7 +17,7 @@ public class Indexes {
 	
 	public void addIndex(Index index) {
 		IndexSetting setting = index.getSetting();
-		String name = setting.getName();
+		String name = setting.getIndexName();
 		Map<String, Boolean> fields = setting.getFields();
 		this.indexes.put(fields, index);
 		this.indexesByName.put(name, index);

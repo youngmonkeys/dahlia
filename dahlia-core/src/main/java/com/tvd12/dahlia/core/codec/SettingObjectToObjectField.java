@@ -1,10 +1,8 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_FIELDS;
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_MAX_SIZE;
-
 import java.util.Map;
 
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldObjectSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyArray;
@@ -23,7 +21,7 @@ public class SettingObjectToObjectField extends SettingObjectToField {
 	@Override
 	protected FieldObjectSetting newSetting(SettingObjectToFields mappers, EzyObject object) {
 		FieldObjectSetting setting = new FieldObjectSetting();
-		EzyArray fieldSettings = object.get(SETTING_FIELD_FIELDS, EzyArray.class);
+		EzyArray fieldSettings = object.get(SettingFields.FIELDS, EzyArray.class);
 		Map<String, FieldSetting> fields = mappers.toFieldSettings(fieldSettings);
 		setting.setFields(fields);
 		return setting;

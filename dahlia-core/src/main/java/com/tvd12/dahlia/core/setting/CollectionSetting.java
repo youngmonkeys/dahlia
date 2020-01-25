@@ -1,16 +1,13 @@
 package com.tvd12.dahlia.core.setting;
 
 import static com.tvd12.dahlia.core.constant.Constants.FIELD_ID;
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_FIELDS;
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_ID;
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_INDEXES;
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_NAME;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.ezyfox.util.EzyToMap;
 
 import lombok.Getter;
@@ -45,26 +42,26 @@ public class CollectionSetting implements EzyToMap {
 	
 	public void setIndexes(List<IndexSetting> indexes) {
 		for(IndexSetting index : indexes)
-			this.indexes.put(index.getName(), index);
+			this.indexes.put(index.getIndexName(), index);
 	}
 	
 	@Override
 	public Map<Object, Object> toMap() {
 		Map<Object, Object> map = new HashMap<>();
-		map.put(SETTING_FIELD_ID, collectionId);
-		map.put(SETTING_FIELD_NAME, collectionName);
+		map.put(SettingFields.ID, collectionId);
+		map.put(SettingFields.NAME, collectionName);
 		Map<String, Map<Object, Object>> fieldsToMap = new HashMap<>();
-		fieldsToMap.put(FIELD_ID, id.toMap());
+		fieldsToMap.put(SettingFields.ID, id.toMap());
 		for(String fieldName : fields.keySet()) {
 			FieldSetting field = fields.get(fieldName);
 			fieldsToMap.put(fieldName, field.toMap());
 		}
-		map.put(SETTING_FIELD_FIELDS, fieldsToMap);
+		map.put(SettingFields.FIELDS, fieldsToMap);
 		List<Map<Object, Object>> indexesToList = new ArrayList<>();
 		for(IndexSetting index : indexes.values()) {
 			indexesToList.add(index.toMap());
 		}
-		map.put(SETTING_FIELD_INDEXES, indexesToList);
+		map.put(SettingFields.INDEXES, indexesToList);
 		return map;
 	}
 }

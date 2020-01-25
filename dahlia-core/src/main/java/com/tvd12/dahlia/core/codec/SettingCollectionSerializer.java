@@ -1,9 +1,6 @@
 package com.tvd12.dahlia.core.codec;
 
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_FIELDS;
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_ID;
-import static com.tvd12.dahlia.core.constant.Constants.SETTING_FIELD_RECORD_SIZE;
-
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.ezyfox.codec.EzyObjectSerializer;
 import com.tvd12.ezyfox.entity.EzyArray;
@@ -29,9 +26,9 @@ public class SettingCollectionSerializer implements SettingSerializer<Collection
 
 	protected EzyObject collectionToObject(CollectionSetting setting) {
 		return EzyEntityFactory.newObjectBuilder()
-				.append(SETTING_FIELD_ID, setting.getCollectionId())
-				.append(SETTING_FIELD_RECORD_SIZE, setting.getRecordSize())
-				.append(SETTING_FIELD_FIELDS, fieldsToArray(setting))
+				.append(SettingFields.ID, setting.getCollectionId())
+				.append(SettingFields.RECORD_SIZE, setting.getRecordSize())
+				.append(SettingFields.FIELDS, fieldsToArray(setting))
 				.build();
 	}
 
