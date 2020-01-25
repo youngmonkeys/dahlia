@@ -1,0 +1,13 @@
+{	"name" : "test",
+	"fields" : {
+	    "_id": {
+	        "type" : "uuid"
+	    },
+	    "value" : {
+	        "type" : "long"
+	    },
+	    "name" : {
+	        "type" : "text"
+	    }
+	}
+}

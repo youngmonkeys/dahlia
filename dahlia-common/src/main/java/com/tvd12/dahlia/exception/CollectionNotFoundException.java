@@ -7,4 +7,8 @@ public class CollectionNotFoundException extends RuntimeException {
 		super("collection with id: " + collectionId + " not found");
 	}
 	
+	public CollectionNotFoundException(String collectionName) {
+		super("collection with name: " + collectionName + " not found");
+	}
+	
 }

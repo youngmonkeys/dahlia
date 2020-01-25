@@ -14,7 +14,31 @@ public final class NumberComparator implements Comparator<Number> {
 	
 	@Override
 	public int compare(Number o1, Number o2) {
-		return Double.compare(o2.doubleValue(), o1.doubleValue());
+		int result = 0;
+		if(isFloatNumber(o1)) {
+			if(isFloatNumber(o2))
+				result = Double.compare(o1.doubleValue(), o2.doubleValue());
+			else
+				throw new IllegalArgumentException("can't compare a float number to int number");
+		}
+		else {
+			if(isIntNumber(o2))
+				result = Long.compare(o1.longValue(), o2.longValue());
+			else
+				throw new IllegalArgumentException("can't compare a int number to float number");
+		}
+		return result;
 	}
 	
+	protected boolean isIntNumber(Number number) {
+		return number instanceof Byte ||
+				number instanceof Integer ||
+				number instanceof Long ||
+				number instanceof Short;
+	}
+	
+	protected boolean isFloatNumber(Number number) {
+		return number instanceof Float ||
+				number instanceof Double;
+	}
 }

@@ -4,6 +4,9 @@ public final class Constants {
 
 	public static final String FIELD_ID = "_id";
 	
+	public static final String PREFIX_FILE = "file:";
+	public static final String PREFIX_CLASSPATH = "classpath:";
+	
 	public static final int MAX_UTF8_CHAR_BYTES = 4;
 	public static final int MAX_STRING_SIZE_BYTES = 4;
 	public static final int MAX_UUID_SIZE = 36;

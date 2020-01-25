@@ -8,4 +8,6 @@ public interface IDatabase {
 	
 	ICollection getCollection(String name);
 	
+	ICollection createCollection(Object setting);
+	
 }

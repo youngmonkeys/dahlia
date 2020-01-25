@@ -1,7 +1,7 @@
 package com.tvd12.dahlia.local.test;
 
 import com.tvd12.dahlia.core.setting.CollectionSetting;
-import com.tvd12.dahlia.local.LocalCollectionSettingReader;
+import com.tvd12.dahlia.local.setting.LocalCollectionSettingReader;
 
 public class LocalCollectionSettingReaderTest {
 

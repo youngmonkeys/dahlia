@@ -68,7 +68,7 @@ public class Collection {
 		return setting.getCollectionName();
 	}
 	
-	public long size() {
+	public int size() {
 		return indexById.size();
 	}
 	

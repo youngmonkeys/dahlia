@@ -96,7 +96,7 @@ public class LocalCollection implements ICollection {
 	@Override
 	public long count() {
 		CommandCount command = new CommandCount(store.getId());
-		long result = commandExecutor.execute(command);
+		long result = ((Number)commandExecutor.execute(command)).longValue();
 		return result;
 	}
 	

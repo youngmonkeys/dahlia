@@ -1,0 +1,14 @@
+{	"name" : "test",
+	"fields" : {
+	    "_id": {
+	        "type" : "int",
+	        "max_value" : 100
+	    },
+	    "value" : {
+	        "type" : "long"
+	    },
+	    "name" : {
+	        "type" : "text"
+	    }
+	}
+}

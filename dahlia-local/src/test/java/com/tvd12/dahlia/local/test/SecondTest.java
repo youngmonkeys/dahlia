@@ -17,7 +17,7 @@ import com.tvd12.dahlia.query.FindOptions;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 
-public class FirstTest {
+public class SecondTest {
 	
 	public static void main(String[] args) {
 		deleteDataDir();
@@ -35,13 +35,12 @@ public class FirstTest {
 		
 		ICollection collection = null;
 		try {
-			collection = database.createCollection("classpath:hello_test_setting.json");
+			collection = database.createCollection("classpath:hello_test_setting2.json");
 		}
 		catch (CollectionExistedException e) {
 			collection = database.getCollection("test");
 		}
 		EzyObject insertOneData = newObjectBuilder()
-				.append("_id", 2)
 				.append("value", 323L)
 				.append("name", "dungtv")
 				.build();
@@ -74,7 +73,6 @@ public class FirstTest {
 //				.build();
 		EzyObject query3 = newObjectBuilder()
 				.append(Keywords.OR, newArrayBuilder()
-						.append(newObjectBuilder().append(Keywords.LESS_THAN_EQUAL, newObjectBuilder().append("_id", 3L)))
 						.append(newObjectBuilder().append("value", 323L))
 						)
 				.build();

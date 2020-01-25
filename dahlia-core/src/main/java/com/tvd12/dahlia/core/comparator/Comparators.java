@@ -29,7 +29,7 @@ public final class Comparators {
 		map.put(Float.class, NumberComparator.getInstance());
 		map.put(Double.class, NumberComparator.getInstance());
 		map.put(Integer.class, NumberComparator.getInstance());
-		map.put(Long.class, LongComparator.getInstance());
+		map.put(Long.class, NumberComparator.getInstance());
 		map.put(Short.class, NumberComparator.getInstance());
 		return map;
 	}
