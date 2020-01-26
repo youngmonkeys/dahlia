@@ -10,5 +10,9 @@
 	    "name" : {
 	        "type" : "text"
 	    }
+	},
+	"indexes" : {
+		"value" : {"year" : true},
+		"value-name" : {"value" : true, "name" : false}
 	}
 }

@@ -18,8 +18,7 @@ public class IndexSetting implements EzyToMap {
 	@Override
 	public Map<Object, Object> toMap() {
 		Map<Object, Object> map = new HashMap<>();
-		map.put("name", indexName);
-		map.put("fields", fields);
+		map.put(indexName, fields);
 		return map;
 	}
 	

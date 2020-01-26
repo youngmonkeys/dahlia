@@ -3,7 +3,9 @@ package com.tvd12.dahlia.local.setting;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -24,6 +26,7 @@ import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.setting.FieldShortSetting;
 import com.tvd12.dahlia.core.setting.FieldTextSetting;
 import com.tvd12.dahlia.core.setting.FieldUuidSetting;
+import com.tvd12.dahlia.core.setting.IndexSetting;
 import com.tvd12.ezyfox.io.EzyStrings;
 import com.tvd12.ezyfox.stream.EzyAnywayInputStreamLoader;
 import com.tvd12.ezyfox.stream.EzyInputStreamLoader;
@@ -63,27 +66,38 @@ public class LocalCollectionSettingReader {
 	}
 	
 	public CollectionSetting readJsonSetting(String json) {
-		JSONObject object = new JSONObject(json);
+		JSONObject rawSetting = new JSONObject(json);
 		CollectionSetting setting = new CollectionSetting();
-		String collectionName = object.getString(SettingFields.NAME);
+		String collectionName = null;
+		if(rawSetting.has(SettingFields.NAME))
+			collectionName = rawSetting.getString(SettingFields.NAME);
+		else
+			throw new IllegalArgumentException("collection 'name' is required");
 		setting.setCollectionName(collectionName);
-		JSONObject fieldSettings = object.getJSONObject(SettingFields.FIELDS);
-		Map<String, FieldSetting> fields = readFieldSettings(fieldSettings);
-		setting.setFields(fields);
+		JSONObject fieldSettings = null;
+		if(rawSetting.has(SettingFields.FIELDS))
+			fieldSettings = rawSetting.getJSONObject(SettingFields.FIELDS);
+		else
+			throw new IllegalArgumentException("'fields' is required");
+		setting.setFields(readFieldSettings(fieldSettings));
+		if(rawSetting.has(SettingFields.INDEXES)) {
+			JSONObject indexSettings = rawSetting.getJSONObject(SettingFields.INDEXES);
+			setting.setIndexes(readIndexSettings(indexSettings));
+		}
 		System.out.println("settings: " + setting.toMap());
 		return setting;
 	}
 	
-	protected Map<String, FieldSetting> readFieldSettings(JSONObject fieldSettings) {
+	protected Map<String, FieldSetting> readFieldSettings(JSONObject settings) {
 		Map<String, FieldSetting> answer = new HashMap<>();
-		for(String fieldName : fieldSettings.keySet()) {
-			JSONObject fieldSetting = fieldSettings.getJSONObject(fieldName);
+		for(String fieldName : settings.keySet()) {
+			JSONObject setting = settings.getJSONObject(fieldName);
 			DataType type = null;
-			if(fieldSetting.has(SettingFields.TYPE)) 
-				type = DataType.valueOfName(fieldSetting.getString(SettingFields.TYPE));
+			if(setting.has(SettingFields.TYPE)) 
+				type = DataType.valueOfName(setting.getString(SettingFields.TYPE));
 			else
 				throw new IllegalArgumentException("'type' is required at field: " + fieldName);
-			answer.put(fieldName, readFieldSetting(type, fieldSetting));
+			answer.put(fieldName, readFieldSetting(type, setting));
 		}
 		return answer;
 	}
@@ -223,5 +237,23 @@ public class LocalCollectionSettingReader {
 			field.setDefaultValue(setting.getBigDecimal(SettingFields.DEFAULT));
 		return field;
 	}
-
+	
+	protected List<IndexSetting> readIndexSettings(JSONObject settings) {
+		List<IndexSetting> answer = new ArrayList<>();
+		for(String indexName : settings.keySet()) {
+			JSONObject fieldSettings = settings.getJSONObject(indexName);
+			Map<String, Boolean> fields = readIndexFieldSettings(fieldSettings);
+			answer.add(new IndexSetting(indexName, fields));
+		}
+		return answer;
+	}
+	
+	protected Map<String, Boolean> readIndexFieldSettings(JSONObject fields) {
+		Map<String, Boolean> answer = new HashMap<>();
+		for(String fieldName : fields.keySet()) {
+			boolean asc = fields.getBoolean(fieldName);
+			answer.put(fieldName, asc);
+		}
+		return answer;
+	}
 }

@@ -2,7 +2,6 @@ package com.tvd12.dahlia.core.setting;
 
 import static com.tvd12.dahlia.core.constant.Constants.FIELD_ID;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,11 +56,11 @@ public class CollectionSetting implements EzyToMap {
 			fieldsToMap.put(fieldName, field.toMap());
 		}
 		map.put(SettingFields.FIELDS, fieldsToMap);
-		List<Map<Object, Object>> indexesToList = new ArrayList<>();
+		Map<Object, Object> indexesToMap = new HashMap<>();
 		for(IndexSetting index : indexes.values()) {
-			indexesToList.add(index.toMap());
+			indexesToMap.putAll(index.toMap());
 		}
-		map.put(SettingFields.INDEXES, indexesToList);
+		map.put(SettingFields.INDEXES, indexesToMap);
 		return map;
 	}
 }
