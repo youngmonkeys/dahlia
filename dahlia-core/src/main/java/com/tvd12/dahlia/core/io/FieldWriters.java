@@ -6,7 +6,7 @@ import java.util.Map;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
-public interface FieldWriters {
+interface FieldWriters {
 
 	void write(
 			FileProxy file, 

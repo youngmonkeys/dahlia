@@ -4,7 +4,7 @@ import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldLongSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
-public class SettingObjectToLongField extends SettingObjectToField {
+final class SettingObjectToLongField extends SettingObjectToField {
 
 	private static final SettingObjectToLongField INSTANCE = new SettingObjectToLongField();
 	

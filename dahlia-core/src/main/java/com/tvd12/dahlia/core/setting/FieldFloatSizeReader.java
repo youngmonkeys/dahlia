@@ -1,6 +1,6 @@
 package com.tvd12.dahlia.core.setting;
 
-public class FieldFloatSizeReader extends FieldSizeReader<FieldFloatSetting> {
+final class FieldFloatSizeReader extends FieldSizeReader<FieldFloatSetting> {
 	
 	private static final FieldFloatSizeReader INSTANCE = new FieldFloatSizeReader();
 	

@@ -1,6 +1,6 @@
 package com.tvd12.dahlia.core.setting;
 
-public class FieldByteSizeReader extends FieldSizeReader<FieldByteSetting> {
+final class FieldByteSizeReader extends FieldSizeReader<FieldByteSetting> {
 	
 	private static final FieldByteSizeReader INSTANCE = new FieldByteSizeReader();
 	

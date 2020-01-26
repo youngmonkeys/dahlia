@@ -4,7 +4,7 @@ import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldTextSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
-public class SettingObjectToTextField extends SettingObjectToField {
+final class SettingObjectToTextField extends SettingObjectToField {
 
 	private static final SettingObjectToTextField INSTANCE = new SettingObjectToTextField();
 	

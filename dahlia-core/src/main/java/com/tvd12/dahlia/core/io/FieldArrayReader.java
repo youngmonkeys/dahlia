@@ -7,7 +7,7 @@ import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
-public final class FieldArrayReader extends FieldAbstractReader<EzyArray> {
+final class FieldArrayReader extends FieldAbstractReader<EzyArray> {
 
 	private static final FieldArrayReader INSTANCE = new FieldArrayReader();
 	

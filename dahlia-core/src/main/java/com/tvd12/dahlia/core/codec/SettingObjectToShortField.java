@@ -4,7 +4,7 @@ import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldShortSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
-public class SettingObjectToShortField extends SettingObjectToField {
+final class SettingObjectToShortField extends SettingObjectToField {
 
 	private static final SettingObjectToShortField INSTANCE = new SettingObjectToShortField();
 	

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public abstract class FieldAbstractReader<T> implements FieldReader<T> {
+abstract class FieldAbstractReader<T> implements FieldReader<T> {
 
 	@Override
 	public T read(

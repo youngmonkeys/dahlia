@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public final class FieldIntegerReader extends FieldAbstractReader<Integer> {
+final class FieldIntegerReader extends FieldAbstractReader<Integer> {
 
 	private static final FieldIntegerReader INSTANCE = new FieldIntegerReader();
 	

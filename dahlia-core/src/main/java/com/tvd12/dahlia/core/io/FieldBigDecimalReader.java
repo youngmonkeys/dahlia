@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public final class FieldBigDecimalReader extends FieldAbstractReader<BigDecimal> {
+final class FieldBigDecimalReader extends FieldAbstractReader<BigDecimal> {
 
 	private static final FieldBigDecimalReader INSTANCE = new FieldBigDecimalReader();
 	

@@ -2,7 +2,7 @@ package com.tvd12.dahlia.core.setting;
 
 import com.tvd12.dahlia.core.constant.Constants;
 
-public class FieldBigDecimalSizeReader extends FieldSizeReader<FieldBigDecimalSetting> {
+final class FieldBigDecimalSizeReader extends FieldSizeReader<FieldBigDecimalSetting> {
 	
 	private static final FieldBigDecimalSizeReader INSTANCE = new FieldBigDecimalSizeReader();
 	

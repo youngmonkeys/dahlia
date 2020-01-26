@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public final class FieldShortReader extends FieldAbstractReader<Short> {
+final class FieldShortReader extends FieldAbstractReader<Short> {
 
 	private static final FieldShortReader INSTANCE = new FieldShortReader();
 	

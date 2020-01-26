@@ -2,7 +2,7 @@ package com.tvd12.dahlia.core.setting;
 
 import com.tvd12.dahlia.core.constant.Constants;
 
-public class FieldUuidSizeReader extends FieldSizeReader<FieldUuidSetting> {
+final class FieldUuidSizeReader extends FieldSizeReader<FieldUuidSetting> {
 	
 	private static final FieldUuidSizeReader INSTANCE = new FieldUuidSizeReader();
 	

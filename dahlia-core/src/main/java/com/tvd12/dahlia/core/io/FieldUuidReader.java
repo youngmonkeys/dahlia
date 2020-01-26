@@ -6,7 +6,7 @@ import java.util.UUID;
 import com.tvd12.dahlia.core.constant.Constants;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public final class FieldUuidReader extends FieldAbstractReader<UUID> {
+final class FieldUuidReader extends FieldAbstractReader<UUID> {
 
 	private static final FieldUuidReader INSTANCE = new FieldUuidReader();
 	

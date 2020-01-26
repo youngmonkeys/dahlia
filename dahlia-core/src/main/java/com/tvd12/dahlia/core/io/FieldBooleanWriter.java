@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public final class FieldBooleanWriter extends FieldAbstractWriter<Boolean> {
+final class FieldBooleanWriter extends FieldAbstractWriter<Boolean> {
 
 	private static final FieldBooleanWriter INSTANCE = new FieldBooleanWriter();
 	

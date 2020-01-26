@@ -7,7 +7,7 @@ import com.tvd12.dahlia.core.setting.FieldObjectSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
-public final class FieldObjectWriter extends FieldAbstractWriter<EzyObject> {
+final class FieldObjectWriter extends FieldAbstractWriter<EzyObject> {
 
 	private static final FieldObjectWriter INSTANCE = new FieldObjectWriter();
 	

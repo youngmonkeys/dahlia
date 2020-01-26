@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.io.EzyStrings;
 
-public final class FieldTextWriter extends FieldAbstractWriter<String> {
+final class FieldTextWriter extends FieldAbstractWriter<String> {
 
 	private static final FieldTextWriter INSTANCE = new FieldTextWriter();
 	

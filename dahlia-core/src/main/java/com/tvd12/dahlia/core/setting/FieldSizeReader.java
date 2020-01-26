@@ -1,6 +1,6 @@
 package com.tvd12.dahlia.core.setting;
 
-public abstract class FieldSizeReader<S extends FieldSetting> {
+abstract class FieldSizeReader<S extends FieldSetting> {
 	
 	public final int read(FieldSizeReaders readers, S setting) {
 		int size = 0;

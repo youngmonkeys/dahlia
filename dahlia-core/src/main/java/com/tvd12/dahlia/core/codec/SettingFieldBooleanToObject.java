@@ -4,7 +4,7 @@ import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldBooleanSetting;
 import com.tvd12.ezyfox.builder.EzyObjectBuilder;
 
-class SettingFieldBooleanToObject extends SettingFieldToObject<FieldBooleanSetting> {
+final class SettingFieldBooleanToObject extends SettingFieldToObject<FieldBooleanSetting> {
 
 	private static final SettingFieldBooleanToObject INSTANCE 
 			= new SettingFieldBooleanToObject();

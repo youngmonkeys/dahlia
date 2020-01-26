@@ -4,7 +4,7 @@ import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldByteSetting;
 import com.tvd12.ezyfox.builder.EzyObjectBuilder;
 
-class SettingFieldByteToObject extends SettingFieldToObject<FieldByteSetting> {
+final class SettingFieldByteToObject extends SettingFieldToObject<FieldByteSetting> {
 
 	private static final SettingFieldByteToObject INSTANCE 
 			= new SettingFieldByteToObject();

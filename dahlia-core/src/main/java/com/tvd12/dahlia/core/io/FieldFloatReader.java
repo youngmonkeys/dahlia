@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public final class FieldFloatReader extends FieldAbstractReader<Float> {
+final class FieldFloatReader extends FieldAbstractReader<Float> {
 
 	private static final FieldFloatReader INSTANCE = new FieldFloatReader();
 	

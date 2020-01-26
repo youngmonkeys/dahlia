@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public final class FieldUuidWriter extends FieldAbstractWriter<UUID> {
+final class FieldUuidWriter extends FieldAbstractWriter<UUID> {
 
 	private static final FieldUuidWriter INSTANCE = new FieldUuidWriter();
 	

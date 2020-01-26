@@ -1,6 +1,6 @@
 package com.tvd12.dahlia.core.setting;
 
-public class FieldDoubleSizeReader extends FieldSizeReader<FieldDoubleSetting> {
+final class FieldDoubleSizeReader extends FieldSizeReader<FieldDoubleSetting> {
 	
 	private static final FieldDoubleSizeReader INSTANCE = new FieldDoubleSizeReader();
 	

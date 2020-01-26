@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public final class FieldFloatWriter extends FieldAbstractWriter<Number> {
+final class FieldFloatWriter extends FieldAbstractWriter<Number> {
 
 	private static final FieldFloatWriter INSTANCE = new FieldFloatWriter();
 	

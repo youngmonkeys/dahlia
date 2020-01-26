@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public interface FieldWriter<T> {
+interface FieldWriter<T> {
 	
 	void write(
 			FieldWriters writers,

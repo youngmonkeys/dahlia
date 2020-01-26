@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.io.EzyStrings;
 
-public final class FieldTextReader extends FieldAbstractReader<String> {
+final class FieldTextReader extends FieldAbstractReader<String> {
 
 	private static final FieldTextReader INSTANCE = new FieldTextReader();
 	

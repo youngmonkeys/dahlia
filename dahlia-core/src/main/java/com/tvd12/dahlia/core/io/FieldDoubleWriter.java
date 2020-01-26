@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public final class FieldDoubleWriter extends FieldAbstractWriter<Number> {
+final class FieldDoubleWriter extends FieldAbstractWriter<Number> {
 
 	private static final FieldDoubleWriter INSTANCE = new FieldDoubleWriter();
 	

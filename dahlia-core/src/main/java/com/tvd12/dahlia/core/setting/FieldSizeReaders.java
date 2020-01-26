@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import com.tvd12.dahlia.core.data.DataType;
 
-public class FieldSizeReaders {
+class FieldSizeReaders {
 	
 	protected final Map<DataType, FieldSizeReader> readers;
 	

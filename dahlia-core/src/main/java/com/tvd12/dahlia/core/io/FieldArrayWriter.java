@@ -6,7 +6,7 @@ import com.tvd12.dahlia.core.setting.FieldArraySetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyArray;
 
-public final class FieldArrayWriter extends FieldAbstractWriter<EzyArray> {
+final class FieldArrayWriter extends FieldAbstractWriter<EzyArray> {
 
 	private static final FieldArrayWriter INSTANCE = new FieldArrayWriter();
 	

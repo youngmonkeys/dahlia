@@ -9,7 +9,7 @@ import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 
-public class SettingObjectToFields {
+class SettingObjectToFields {
 	
 	protected final Map<DataType, SettingObjectToField> mappers;
 	

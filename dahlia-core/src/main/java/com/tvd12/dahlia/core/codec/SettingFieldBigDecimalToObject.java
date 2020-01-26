@@ -4,7 +4,7 @@ import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldBigDecimalSetting;
 import com.tvd12.ezyfox.builder.EzyObjectBuilder;
 
-public class SettingFieldBigDecimalToObject extends SettingFieldToObject<FieldBigDecimalSetting> {
+final class SettingFieldBigDecimalToObject extends SettingFieldToObject<FieldBigDecimalSetting> {
 
 	private static final SettingFieldBigDecimalToObject INSTANCE 
 			= new SettingFieldBigDecimalToObject();

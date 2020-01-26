@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import com.tvd12.dahlia.core.constant.Constants;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public final class FieldBigDecimalWriter extends FieldAbstractWriter<BigDecimal> {
+final class FieldBigDecimalWriter extends FieldAbstractWriter<BigDecimal> {
 
 	private static final FieldBigDecimalWriter INSTANCE = new FieldBigDecimalWriter();
 	

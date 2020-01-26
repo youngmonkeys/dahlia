@@ -1,6 +1,6 @@
 package com.tvd12.dahlia.core.setting;
 
-public class FieldLongSizeReader extends FieldSizeReader<FieldLongSetting> {
+final class FieldLongSizeReader extends FieldSizeReader<FieldLongSetting> {
 	
 	private static final FieldLongSizeReader INSTANCE = new FieldLongSizeReader();
 	

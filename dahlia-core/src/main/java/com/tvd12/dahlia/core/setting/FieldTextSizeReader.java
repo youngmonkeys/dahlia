@@ -2,7 +2,7 @@ package com.tvd12.dahlia.core.setting;
 
 import com.tvd12.dahlia.core.constant.Constants;
 
-public class FieldTextSizeReader extends FieldSizeReader<FieldTextSetting> {
+final class FieldTextSizeReader extends FieldSizeReader<FieldTextSetting> {
 	
 	private static final FieldTextSizeReader INSTANCE = new FieldTextSizeReader();
 	

@@ -4,7 +4,7 @@ import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldObjectSetting;
 import com.tvd12.ezyfox.builder.EzyObjectBuilder;
 
-class SettingFieldObjectToObject extends SettingFieldToObject<FieldObjectSetting> {
+final class SettingFieldObjectToObject extends SettingFieldToObject<FieldObjectSetting> {
 
 	private static final SettingFieldObjectToObject INSTANCE 
 			= new SettingFieldObjectToObject();

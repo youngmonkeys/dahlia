@@ -6,7 +6,7 @@ import com.tvd12.ezyfox.builder.EzyObjectBuilder;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
-public abstract class SettingFieldToObject<S extends FieldSetting> {
+abstract class SettingFieldToObject<S extends FieldSetting> {
 
 	public final EzyObject toObject(SettingFieldToObjects mappers, S setting) {
 		return newObjectBuilder(mappers, setting)

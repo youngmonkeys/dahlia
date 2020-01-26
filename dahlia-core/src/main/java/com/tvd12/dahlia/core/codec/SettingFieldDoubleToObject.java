@@ -4,7 +4,7 @@ import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldDoubleSetting;
 import com.tvd12.ezyfox.builder.EzyObjectBuilder;
 
-class SettingFieldDoubleToObject extends SettingFieldToObject<FieldDoubleSetting> {
+final class SettingFieldDoubleToObject extends SettingFieldToObject<FieldDoubleSetting> {
 
 	private static final SettingFieldDoubleToObject INSTANCE 
 			= new SettingFieldDoubleToObject();

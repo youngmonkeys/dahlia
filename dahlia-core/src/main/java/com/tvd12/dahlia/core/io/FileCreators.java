@@ -3,7 +3,7 @@ package com.tvd12.dahlia.core.io;
 import java.io.File;
 import java.io.RandomAccessFile;
 
-public final class FileCreators {
+final class FileCreators {
 
 	private FileCreators() {}
 	

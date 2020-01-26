@@ -1,6 +1,6 @@
 package com.tvd12.dahlia.core.setting;
 
-public class FieldBooleanSizeReader extends FieldSizeReader<FieldBooleanSetting> {
+final class FieldBooleanSizeReader extends FieldSizeReader<FieldBooleanSetting> {
 	
 	private static final FieldBooleanSizeReader INSTANCE = new FieldBooleanSizeReader();
 	

@@ -4,7 +4,7 @@ import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.FieldIntegerSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
-public class SettingObjectToIntegerField extends SettingObjectToField {
+final class SettingObjectToIntegerField extends SettingObjectToField {
 
 	private static final SettingObjectToIntegerField INSTANCE = new SettingObjectToIntegerField();
 	

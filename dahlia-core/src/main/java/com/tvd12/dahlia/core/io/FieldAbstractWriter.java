@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.tvd12.dahlia.core.setting.FieldSetting;
 
-public abstract class FieldAbstractWriter<T> implements FieldWriter<T> {
+abstract class FieldAbstractWriter<T> implements FieldWriter<T> {
 
 	@Override
 	public void write(
