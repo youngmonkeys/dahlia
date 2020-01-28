@@ -14,10 +14,10 @@ import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
 import com.tvd12.dahlia.exception.CollectionNotFoundException;
-import com.tvd12.dahlia.util.Pair;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
+import com.tvd12.ezyfox.util.EzyPair;
 
 public class CommandDeleteHandler extends CommandQueryHandler<CommandDelete> {
 
@@ -36,7 +36,7 @@ public class CommandDeleteHandler extends CommandQueryHandler<CommandDelete> {
 		FieldSetting sId = setting.getId();
 		Map<String, FieldSetting> sFields = setting.getFields();
 
-		List<Pair<Record, EzyObject>> deletedItems = new ArrayList<>();
+		List<EzyPair<Record, EzyObject>> deletedItems = new ArrayList<>();
 		synchronized (collection) {
 			collection.forEach(new RecordConsumer() {
 				@Override
@@ -44,10 +44,10 @@ public class CommandDeleteHandler extends CommandQueryHandler<CommandDelete> {
 					EzyObject value = collectionStorage.readRecord(r, sId, sFields);
 					boolean accepted = predicate.test(value);
 					if(accepted)
-						deletedItems.add(new Pair<>(r, value));
+						deletedItems.add(new EzyPair<>(r, value));
 				}
 			});
-			for(Pair<Record, EzyObject> pair : deletedItems) {
+			for(EzyPair<Record, EzyObject> pair : deletedItems) {
 				Record deletedRecord = pair.getKey();
 				EzyObject deletedValue = pair.getValue();
 				Comparable id = deletedRecord.getId();
@@ -57,7 +57,7 @@ public class CommandDeleteHandler extends CommandQueryHandler<CommandDelete> {
 			}
 		}
 		EzyArray answer = EzyEntityFactory.newArray();
-		for(Pair<Record, EzyObject> pair : deletedItems) {
+		for(EzyPair<Record, EzyObject> pair : deletedItems) {
 			EzyObject answerItem = EzyEntityFactory.newObject();
 			EzyObject updateItem = pair.getValue();
 			answerItem.put(Constants.FIELD_ID, updateItem.get(Constants.FIELD_ID));

@@ -14,10 +14,10 @@ import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
 import com.tvd12.dahlia.exception.CollectionNotFoundException;
-import com.tvd12.dahlia.util.Pair;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
+import com.tvd12.ezyfox.util.EzyPair;
 
 public class CommandUpdateHandler extends CommandQueryHandler<CommandUpdate> {
 
@@ -37,7 +37,7 @@ public class CommandUpdateHandler extends CommandQueryHandler<CommandUpdate> {
 		Map<String, FieldSetting> sFields = setting.getFields();
 		
 		EzyObject update = command.getUpdate();
-		List<Pair<Record, EzyObject>> updateItems = new ArrayList<>();
+		List<EzyPair<Record, EzyObject>> updateItems = new ArrayList<>();
 		synchronized (collection) {
 			collection.forEach(new RecordConsumer() {
 				@Override
@@ -45,10 +45,10 @@ public class CommandUpdateHandler extends CommandQueryHandler<CommandUpdate> {
 					EzyObject value = collectionStorage.readRecord(r, sId, sFields);
 					boolean accepted = predicate.test(value);
 					if(accepted)
-						updateItems.add(new Pair<>(r, value));
+						updateItems.add(new EzyPair<>(r, value));
 				}
 			});
-			for(Pair<Record, EzyObject> pair : updateItems) {
+			for(EzyPair<Record, EzyObject> pair : updateItems) {
 				Record record = pair.getKey();
 				EzyObject updateItem = pair.getValue();
 				updateItem(updateItem, update);
@@ -56,7 +56,7 @@ public class CommandUpdateHandler extends CommandQueryHandler<CommandUpdate> {
 			}
 		}
 		EzyArray answer = EzyEntityFactory.newArray();
-		for(Pair<Record, EzyObject> pair : updateItems) {
+		for(EzyPair<Record, EzyObject> pair : updateItems) {
 			EzyObject answerItem = EzyEntityFactory.newObject();
 			EzyObject updateItem = pair.getValue();
 			answerItem.put(Constants.FIELD_ID, updateItem.get(Constants.FIELD_ID));

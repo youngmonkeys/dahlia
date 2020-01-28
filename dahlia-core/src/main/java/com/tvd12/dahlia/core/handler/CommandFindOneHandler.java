@@ -11,8 +11,8 @@ import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
 import com.tvd12.dahlia.exception.CollectionNotFoundException;
-import com.tvd12.dahlia.util.Ref;
 import com.tvd12.ezyfox.entity.EzyObject;
+import com.tvd12.ezyfox.util.EzyWrap;
 
 public class CommandFindOneHandler extends CommandQueryHandler<CommandFindOne> {
 
@@ -30,7 +30,7 @@ public class CommandFindOneHandler extends CommandQueryHandler<CommandFindOne> {
 		CollectionStorage collectionStorage = storage.getCollectionStorage(collectionId);
 		FieldSetting sId = setting.getId();
 		Map<String, FieldSetting> sFields = setting.getFields();
-		Ref<EzyObject> ref = new Ref<>();
+		EzyWrap<EzyObject> ref = new EzyWrap<>();
 		synchronized (collection) {
 			collection.forEach(new RecordConsumer() {
 				@Override

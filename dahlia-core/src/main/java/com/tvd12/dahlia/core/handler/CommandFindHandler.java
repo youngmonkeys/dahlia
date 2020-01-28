@@ -1,7 +1,5 @@
 package com.tvd12.dahlia.core.handler;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -14,10 +12,10 @@ import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
 import com.tvd12.dahlia.exception.CollectionNotFoundException;
-import com.tvd12.dahlia.util.Ref;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
+import com.tvd12.ezyfox.util.EzyWrap;
 
 public class CommandFindHandler extends CommandQueryHandler<CommandFind> {
 
@@ -36,7 +34,7 @@ public class CommandFindHandler extends CommandQueryHandler<CommandFind> {
 		FieldSetting sId = setting.getId();
 		Map<String, FieldSetting> sFields = setting.getFields();
 		
-		Ref<Integer> count = new Ref<>(0);
+		EzyWrap<Integer> count = new EzyWrap<>(0);
 		EzyObject options = command.getOptions();
 		int skip = options.get(OptionFields.SKIP, int.class, 0);
 		int limit = options.get(OptionFields.LIMIT, int.class, 25);

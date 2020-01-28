@@ -25,6 +25,12 @@
 			<groupId>com.tvd12</groupId>
 			<artifactId>ezyfox-tools</artifactId>
 			<version>${ezy.tools.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.tvd12</groupId>
+					<artifactId>ezyfox-util</artifactId>
+				</exclusion>
+			</exclusions>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
