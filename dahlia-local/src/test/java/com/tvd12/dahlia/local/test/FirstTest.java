@@ -40,14 +40,44 @@ public class FirstTest {
 		catch (CollectionExistedException e) {
 			collection = database.getCollection("test");
 		}
-		EzyObject insertOneData = newObjectBuilder()
+		EzyObject insertOneData1 = newObjectBuilder()
 				.append("_id", 2)
 				.append("value", 323L)
 				.append("name", "dungtv")
 				.build();
 		try {
-			EzyObject insertOneResult = collection.insert(insertOneData);
-			System.out.println("insert one result: " + insertOneResult);
+			EzyObject insertOneResult = collection.insert(insertOneData1);
+			System.out.println("insert one result 1: " + insertOneResult);
+		}
+		catch (DuplicatedIdException e) {
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		EzyObject insertOneData2 = newObjectBuilder()
+				.append("_id", 3)
+				.append("value", 325L)
+				.append("name", "dungtv")
+				.build();
+		try {
+			EzyObject insertOneResult = collection.insert(insertOneData2);
+			System.out.println("insert one result 2: " + insertOneResult);
+		}
+		catch (DuplicatedIdException e) {
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		EzyObject insertOneData3 = newObjectBuilder()
+				.append("_id", 4)
+				.append("value", 321L)
+				.append("name", "dungtv")
+				.build();
+		try {
+			EzyObject insertOneResult = collection.insert(insertOneData3);
+			System.out.println("insert one result 3: " + insertOneResult);
 		}
 		catch (DuplicatedIdException e) {
 		}
@@ -74,11 +104,14 @@ public class FirstTest {
 //				.build();
 		EzyObject query3 = newObjectBuilder()
 				.append(Keywords.OR, newArrayBuilder()
-						.append(newObjectBuilder().append(Keywords.LESS_THAN_EQUAL, newObjectBuilder().append("_id", 3L)))
+						.append(newObjectBuilder().append(Keywords.LESS_THAN_EQUAL, newObjectBuilder().append("_id", 100L)))
 						.append(newObjectBuilder().append("value", 323L))
 						)
 				.build();
-		FindOptions options = new FindOptions().setSkip(0).setLimit(10);
+		FindOptions options = new FindOptions()
+				.setSkip(0)
+				.setLimit(10)
+				.sortBy("value");
 		EzyArray findResult = collection.find(query3, options);
 		System.out.println("findResult = " + findResult);
 		

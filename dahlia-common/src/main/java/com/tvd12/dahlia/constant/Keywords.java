@@ -4,7 +4,7 @@ public final class Keywords {
 
 	public static final String AND = "$and";
 	public static final String OR = "$or";
-	public static final String ORDER_BY = "$orderby";
+	public static final String SORT_BY = "$sortby";
 	public static final String EQUAL = "$eq";
 	public static final String NOT_EQUAL = "$neq";
 	public static final String LESS_THAN = "$lt";
