@@ -40,25 +40,23 @@ public class BTree<K, V> extends Tree<K, V> {
 	@Override
 	public void insert(K key, V value) {
 		Entry<K, V> entry = new Tree.Entry<>(key, value);
-		if(root == null) {
+		if (root == null) {
 			root = new Node<>(maxDegree);
 			root.entries[0] = entry;
 			root.entryCount = 1;
-		}
-		else {
+		} else {
 			insertToNode(root, entry);
 		}
 	}
 	
 	private void insertToNode(Node<K, V> node, Entry<K, V> entry) {
-		if(node.leaf) {
-			insertNewEntry(node, entry);
-			postInsert(node);
+		Node<K, V> currentNode = node;
+		while (!currentNode.leaf) {
+			currentNode = findChildToInsert(currentNode, entry);
 		}
-		else {
-			Node<K, V> childToInsert = findChildToInsert(node, entry);
-			insertToNode(childToInsert, entry);
-		}
+		
+		insertNewEntry(currentNode, entry);
+		postInsert(currentNode);
 	}
 	
 	private void insertNewEntry(Node<K, V> node, Entry<K, V> entry) {
@@ -86,14 +84,14 @@ public class BTree<K, V> extends Tree<K, V> {
 	}
 	
 	private void postInsert(Node<K, V> node) {
-		if(node.entryCount < maxDegree)
-			return;
-		if(node.parent == null) {
-			root = splitNode(node);
-		}
-		else {
-			Node<K, V> newNode = splitNode(node);
-			postInsert(newNode);
+		Node<K, V> currentNode = node;
+		
+		while (currentNode.entryCount >= maxDegree) {
+			if (currentNode.parent == null) {
+				root = splitNode(currentNode);
+				break;
+			}
+			currentNode = splitNode(currentNode);
 		}
 	}
 	
@@ -210,7 +208,7 @@ public class BTree<K, V> extends Tree<K, V> {
 		else {
 			Node<K, V> parentNode = node.parent;
 			int indexOfNode = indexOfNodeInParent(node);
-			if(indexOfNode > 0 && 
+			if(indexOfNode > 0 &&
 					parentNode.children[indexOfNode - 1].entryCount > minEntry) {
 				stealFromLeft(node, indexOfNode);
 			}
