@@ -12,3 +12,4 @@ bin
 */bin
 test-output/
 */test-output/
+.idea/*
