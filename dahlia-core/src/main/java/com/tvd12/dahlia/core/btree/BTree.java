@@ -283,29 +283,39 @@ public class BTree<K, V> extends Tree<K, V> {
 	}
 	
 	private Entry<K, V> searchInNode(Node<K, V> node, K key) {
-		if(node == null)
-			return null;
-		int entryIndex = 0;
-		int compareResult = 0;
-		while(entryIndex < node.entryCount) {
-			compareResult = compareEntryKey(node.entries[entryIndex], key);
-			if(compareResult < 0)
-				++ entryIndex;
-			else
-				break;
+		Node<K, V> currentNode = node;
+		
+		while (currentNode != null) {
+			
+			int entryIndex = 0;
+			int compareResult = 0;
+			while (entryIndex < currentNode.entryCount) {
+				compareResult = compareEntryKey(currentNode.entries[entryIndex], key);
+				if (compareResult < 0) {
+					++entryIndex;
+				} else {
+					break;
+				}
+			}
+			
+			if (entryIndex == currentNode.entryCount) {
+				if (currentNode.leaf) {
+					return null;
+				}
+				currentNode = currentNode.children[currentNode.entryCount];
+				continue;
+			}
+			if (compareResult > 0) {
+				if (currentNode.leaf) {
+					return null;
+				}
+				currentNode = currentNode.children[entryIndex];
+				continue;
+			}
+			Entry<K, V> entry = currentNode.entries[entryIndex];
+			return entry;
 		}
-		if(entryIndex == node.entryCount) {
-			if(node.leaf)
-				return null;
-			return searchInNode(node.children[node.entryCount], key);
-		}
-		if(compareResult > 0) {
-			if(node.leaf)
-				return null;
-			return searchInNode(node.children[entryIndex], key);
-		}
-		Entry<K, V> entry = node.entries[entryIndex];
-		return entry;
+		return null;
 	}
 	
 	@Override
