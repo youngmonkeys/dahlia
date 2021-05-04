@@ -40,25 +40,23 @@ public class BTree<K, V> extends Tree<K, V> {
 	@Override
 	public void insert(K key, V value) {
 		Entry<K, V> entry = new Tree.Entry<>(key, value);
-		if(root == null) {
+		if (root == null) {
 			root = new Node<>(maxDegree);
 			root.entries[0] = entry;
 			root.entryCount = 1;
-		}
-		else {
+		} else {
 			insertToNode(root, entry);
 		}
 	}
 	
 	private void insertToNode(Node<K, V> node, Entry<K, V> entry) {
-		if(node.leaf) {
-			insertNewEntry(node, entry);
-			postInsert(node);
+		Node<K, V> currentNode = node;
+		while (!currentNode.leaf) {
+			currentNode = findChildToInsert(currentNode, entry);
 		}
-		else {
-			Node<K, V> childToInsert = findChildToInsert(node, entry);
-			insertToNode(childToInsert, entry);
-		}
+		
+		insertNewEntry(currentNode, entry);
+		postInsert(currentNode);
 	}
 	
 	private void insertNewEntry(Node<K, V> node, Entry<K, V> entry) {
@@ -86,14 +84,14 @@ public class BTree<K, V> extends Tree<K, V> {
 	}
 	
 	private void postInsert(Node<K, V> node) {
-		if(node.entryCount < maxDegree)
-			return;
-		if(node.parent == null) {
-			root = splitNode(node);
-		}
-		else {
-			Node<K, V> newNode = splitNode(node);
-			postInsert(newNode);
+		Node<K, V> currentNode = node;
+		
+		while (currentNode.entryCount >= maxDegree) {
+			if (currentNode.parent == null) {
+				root = splitNode(currentNode);
+				break;
+			}
+			currentNode = splitNode(currentNode);
 		}
 	}
 	
@@ -151,43 +149,52 @@ public class BTree<K, V> extends Tree<K, V> {
 	}
 	
 	private V deleteFromNode(Node<K, V> node, K key) {
-		if(node == null)
-			return null;
-		int entryIndex = 0;
-		int compareResult = 0;
-		while(entryIndex < node.entryCount) {
-			compareResult = compareEntryKey(node.entries[entryIndex], key);
-			if(compareResult < 0)
-				++ entryIndex;
-			else
-				break;
-		}
-		if(entryIndex == node.entryCount) {
-			if(node.leaf)
-				return null;
-			return deleteFromNode(node.children[node.entryCount], key);
-		}
-		else if(compareResult > 0) {
-			if(node.leaf)
-				return null;
-			return deleteFromNode(node.children[entryIndex], key);
-		}
-		else {
-			Entry<K, V> deletedEntry = node.entries[entryIndex];
-			if(node.leaf) {
-				moveEntriesToLeft(node, entryIndex);
-				-- node.entryCount;
-				postDelete(node);
+		Node<K, V> currentNode = node;
+		
+		while (currentNode != null) {
+			
+			int entryIndex = 0;
+			int compareResult = 0;
+			while (entryIndex < currentNode.entryCount) {
+				compareResult = compareEntryKey(currentNode.entries[entryIndex], key);
+				if (compareResult < 0) {
+					++entryIndex;
+				} else {
+					break;
+				}
 			}
-			else {
-				Node<K, V> maxNode = getMaxLeafNode(node.children[entryIndex]);
-				node.entries[entryIndex] = maxNode.entries[maxNode.entryCount - 1];
-				-- maxNode.entryCount;
+			
+			if (entryIndex == currentNode.entryCount) {
+				if (currentNode.leaf) {
+					return null;
+				}
+				currentNode = currentNode.children[currentNode.entryCount];
+				continue;
+			}
+			else if (compareResult > 0) {
+				if (currentNode.leaf) {
+					return null;
+				}
+				currentNode = currentNode.children[entryIndex];
+				continue;
+			}
+			
+			Entry<K, V> deletedEntry = currentNode.entries[entryIndex];
+			if (currentNode.leaf) {
+				moveEntriesToLeft(currentNode, entryIndex);
+				--currentNode.entryCount;
+				postDelete(currentNode);
+			} else {
+				Node<K, V> maxNode = getMaxLeafNode(currentNode.children[entryIndex]);
+				currentNode.entries[entryIndex] = maxNode.entries[maxNode.entryCount - 1];
+				--maxNode.entryCount;
 				postDelete(maxNode);
 			}
 			V value = deletedEntry.getValue();
 			return value;
 		}
+		
+		return null;
 	}
 	
 	private Node<K, V> getMaxLeafNode(Node<K, V> node) {
@@ -198,33 +205,35 @@ public class BTree<K, V> extends Tree<K, V> {
 	}
 	
 	private void postDelete(Node<K, V> node) {
-		if(node.entryCount >= minEntry)
-			return;
-		if(node.parent == null) {
-			if(node.entryCount == 0) {
-				root = root.children[0];
-				if(root != null)
-					root.parent = null;
+		Node<K, V> currentNode = node;
+		
+		while (currentNode.entryCount < minEntry) {
+			if (currentNode.parent == null) {
+				if (currentNode.entryCount == 0) {
+					root = root.children[0];
+					if (root != null) {
+						root.parent = null;
+					}
+				}
+				return;
 			}
-		}
-		else {
-			Node<K, V> parentNode = node.parent;
-			int indexOfNode = indexOfNodeInParent(node);
-			if(indexOfNode > 0 && 
+			
+			Node<K, V> parentNode = currentNode.parent;
+			int indexOfNode = indexOfNodeInParent(currentNode);
+			if (indexOfNode > 0 &&
 					parentNode.children[indexOfNode - 1].entryCount > minEntry) {
-				stealFromLeft(node, indexOfNode);
-			}
-			else if(indexOfNode < parentNode.entryCount &&
+				stealFromLeft(currentNode, indexOfNode);
+				break;
+			} else if (indexOfNode < parentNode.entryCount &&
 					parentNode.children[indexOfNode + 1].entryCount > minEntry) {
-				stealFromRight(node, indexOfNode);
-			}
-			else if(indexOfNode == 0) {
-				Node<K, V> nextNode = mergeRight(node);
-				postDelete(nextNode.parent);
-			}
-			else {
+				stealFromRight(currentNode, indexOfNode);
+				break;
+			} else if (indexOfNode == 0) {
+				Node<K, V> nextNode = mergeRight(currentNode);
+				currentNode = nextNode.parent;
+			} else {
 				Node<K, V> nextNode = mergeRight(parentNode.children[indexOfNode - 1]);
-				postDelete(nextNode.parent);
+				currentNode = nextNode.parent;
 			}
 		}
 	}
@@ -285,29 +294,39 @@ public class BTree<K, V> extends Tree<K, V> {
 	}
 	
 	private Entry<K, V> searchInNode(Node<K, V> node, K key) {
-		if(node == null)
-			return null;
-		int entryIndex = 0;
-		int compareResult = 0;
-		while(entryIndex < node.entryCount) {
-			compareResult = compareEntryKey(node.entries[entryIndex], key);
-			if(compareResult < 0)
-				++ entryIndex;
-			else
-				break;
+		Node<K, V> currentNode = node;
+		
+		while (currentNode != null) {
+			int entryIndex = 0;
+			int compareResult = 0;
+			while (entryIndex < currentNode.entryCount) {
+				compareResult = compareEntryKey(currentNode.entries[entryIndex], key);
+				if (compareResult < 0) {
+					++entryIndex;
+				} else {
+					break;
+				}
+			}
+			
+			if (entryIndex == currentNode.entryCount) {
+				if (currentNode.leaf) {
+					return null;
+				}
+				currentNode = currentNode.children[currentNode.entryCount];
+				continue;
+			}
+			
+			if (compareResult > 0) {
+				if (currentNode.leaf) {
+					return null;
+				}
+				currentNode = currentNode.children[entryIndex];
+				continue;
+			}
+			Entry<K, V> entry = currentNode.entries[entryIndex];
+			return entry;
 		}
-		if(entryIndex == node.entryCount) {
-			if(node.leaf)
-				return null;
-			return searchInNode(node.children[node.entryCount], key);
-		}
-		if(compareResult > 0) {
-			if(node.leaf)
-				return null;
-			return searchInNode(node.children[entryIndex], key);
-		}
-		Entry<K, V> entry = node.entries[entryIndex];
-		return entry;
+		return null;
 	}
 	
 	@Override
