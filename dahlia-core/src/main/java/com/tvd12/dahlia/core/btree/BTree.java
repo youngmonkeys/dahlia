@@ -297,7 +297,6 @@ public class BTree<K, V> extends Tree<K, V> {
 		Node<K, V> currentNode = node;
 		
 		while (currentNode != null) {
-			
 			int entryIndex = 0;
 			int compareResult = 0;
 			while (entryIndex < currentNode.entryCount) {
@@ -316,6 +315,7 @@ public class BTree<K, V> extends Tree<K, V> {
 				currentNode = currentNode.children[currentNode.entryCount];
 				continue;
 			}
+			
 			if (compareResult > 0) {
 				if (currentNode.leaf) {
 					return null;
