@@ -8,6 +8,7 @@ import java.io.File;
 import com.tvd12.dahlia.ICollection;
 import com.tvd12.dahlia.IDatabase;
 import com.tvd12.dahlia.constant.Keywords;
+import com.tvd12.dahlia.constant.SettingFields;
 import com.tvd12.dahlia.core.setting.DatabaseSetting;
 import com.tvd12.dahlia.exception.CollectionExistedException;
 import com.tvd12.dahlia.exception.DatabaseExistedException;
@@ -41,7 +42,7 @@ public class FirstTest {
 			collection = database.getCollection("test");
 		}
 		EzyObject insertOneData1 = newObjectBuilder()
-				.append("_id", 2)
+				.append(SettingFields.ID, 2)
 				.append("value", 323L)
 				.append("name", "dungtv")
 				.build();
@@ -56,7 +57,7 @@ public class FirstTest {
 		}
 		
 		EzyObject insertOneData2 = newObjectBuilder()
-				.append("_id", 3)
+				.append(SettingFields.ID, 3)
 				.append("value", 325L)
 				.append("name", "dungtv")
 				.build();
@@ -71,7 +72,7 @@ public class FirstTest {
 		}
 		
 		EzyObject insertOneData3 = newObjectBuilder()
-				.append("_id", 4)
+				.append(SettingFields.ID, 4)
 				.append("value", 321L)
 				.append("name", "dungtv")
 				.build();

@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("rawtypes")
 public final class Comparators {
 	
 	private final Map<Class<?>, Comparator> comparators;

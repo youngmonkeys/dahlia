@@ -12,8 +12,6 @@
 	<url>http://maven.apache.org</url>
 	
 	<properties>
-		<ezy.codec.version>1.1.1</ezy.codec.version>
-		<ezy.msgpack.version>1.1.1</ezy.msgpack.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	
@@ -26,12 +24,12 @@
 		<dependency>
 			<groupId>com.tvd12</groupId>
 			<artifactId>ezyfox-codec</artifactId>
-			<version>${ezy.codec.version}</version>
+			<version>${ezy.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.tvd12</groupId>
 			<artifactId>ezyfox-msgpack</artifactId>
-			<version>${ezy.msgpack.version}</version>
+			<version>${ezy.version}</version>
 		</dependency>
 	</dependencies>
 </project>

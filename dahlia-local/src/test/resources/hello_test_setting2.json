@@ -1,6 +1,6 @@
 {	"name" : "test",
 	"fields" : {
-	    "_id": {
+	    "id": {
 	        "type" : "uuid"
 	    },
 	    "value" : {

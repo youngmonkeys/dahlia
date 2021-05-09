@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@SuppressWarnings("rawtypes")
 public class Record {
 
 	@Setter

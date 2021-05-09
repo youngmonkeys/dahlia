@@ -9,6 +9,7 @@ import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
 import static com.tvd12.dahlia.core.constant.Constants.*;
 
+@SuppressWarnings("rawtypes")
 public class RecordReader {
 
 	protected final FileProxy file;

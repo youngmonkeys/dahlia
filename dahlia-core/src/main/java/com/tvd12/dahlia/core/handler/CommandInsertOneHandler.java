@@ -12,6 +12,7 @@ import com.tvd12.dahlia.exception.DuplicatedIdException;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
+@SuppressWarnings("rawtypes")
 public class CommandInsertOneHandler extends CommandAbstractHandler<CommandInsertOne> {
 
 	@Override

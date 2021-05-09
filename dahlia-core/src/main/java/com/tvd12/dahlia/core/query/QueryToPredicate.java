@@ -17,6 +17,7 @@ import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.function.EzyPredicates;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class QueryToPredicate {
 	
 	protected final Map<String, Function<Object, Predicate<EzyObject>>> builders;

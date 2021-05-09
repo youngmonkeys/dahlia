@@ -1,8 +1,10 @@
 package com.tvd12.dahlia.core.constant;
 
+import com.tvd12.dahlia.constant.SettingFields;
+
 public final class Constants {
 
-	public static final String FIELD_ID = "_id";
+	public static final String FIELD_ID = SettingFields.ID;
 	
 	public static final String PREFIX_FILE = "file:";
 	public static final String PREFIX_CLASSPATH = "classpath:";

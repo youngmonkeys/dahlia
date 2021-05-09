@@ -23,6 +23,7 @@ import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
 import com.tvd12.ezyfox.util.EzyWrap;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class CommandFindHandler extends CommandQueryHandler<CommandFind> {
 
 	@Override

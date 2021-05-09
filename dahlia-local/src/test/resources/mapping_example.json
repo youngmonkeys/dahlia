@@ -1,6 +1,6 @@
 {	"name" : "test",
 	"fields" : {
-	    "_id": {
+	    "id": {
 	        "type" : "int",
 	        "max_value" : 100
 	    },
@@ -46,6 +46,6 @@
 	},
 	"indexes" : {
 		"year" : {"year" : true},
-		"id-info" : {"_id" : true, "info" : false}
+		"id-info" : {"id" : true, "info" : false}
 	}
 }

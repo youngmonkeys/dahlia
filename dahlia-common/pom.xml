@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.tvd12</groupId>
@@ -9,15 +11,13 @@
 	</parent>
 	<artifactId>dahlia-common</artifactId>
 	<name>dahlia-common</name>
-	<url>http://maven.apache.org</url>
-	<properties>
-		<ezy.common.version>1.1.1</ezy.common.version>
-	</properties>
+	<url>https://youngmonkeys.org/</url>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.tvd12</groupId>
 			<artifactId>ezyfox-common</artifactId>
-			<version>${ezy.common.version}</version>
+			<version>${ezy.version}</version>
 		</dependency>
 	</dependencies>
 </project>

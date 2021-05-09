@@ -19,6 +19,7 @@ import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
 import com.tvd12.ezyfox.util.EzyPair;
 
+@SuppressWarnings("rawtypes")
 public class CommandDeleteHandler extends CommandQueryHandler<CommandDelete> {
 
 	@Override

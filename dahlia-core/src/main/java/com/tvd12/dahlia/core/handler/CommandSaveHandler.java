@@ -14,6 +14,7 @@ import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
+@SuppressWarnings("rawtypes")
 public class CommandSaveHandler extends CommandAbstractHandler<CommandSave> {
 
 	@Override

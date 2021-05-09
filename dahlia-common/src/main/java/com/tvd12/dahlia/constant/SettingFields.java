@@ -2,7 +2,7 @@ package com.tvd12.dahlia.constant;
 
 public final class SettingFields {
 
-	public static final String ID = "_id";
+	public static final String ID = "id";
 	public static final String NAME = "name";
 	public static final String TYPE = "type";
 	public static final String ITEM = "item";

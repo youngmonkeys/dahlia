@@ -35,6 +35,7 @@ import com.tvd12.dahlia.core.storage.Storage;
 import com.tvd12.dahlia.core.storage.StorageAware;
 import com.tvd12.ezyfox.builder.EzyBuilder;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class CommandExecutor {
 
 	protected final Storage storage;

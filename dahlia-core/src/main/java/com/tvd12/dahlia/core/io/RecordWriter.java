@@ -8,6 +8,7 @@ import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 import static com.tvd12.dahlia.core.constant.Constants.*;
 
+@SuppressWarnings("rawtypes")
 public class RecordWriter {
 
 	protected final FileProxy file;

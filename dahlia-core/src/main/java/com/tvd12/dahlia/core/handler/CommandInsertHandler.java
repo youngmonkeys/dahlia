@@ -10,11 +10,11 @@ import com.tvd12.dahlia.core.entity.Record;
 import com.tvd12.dahlia.core.setting.CollectionSetting;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.dahlia.core.storage.CollectionStorage;
-import com.tvd12.dahlia.exception.DuplicatedIdException;
 import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
+@SuppressWarnings("rawtypes")
 public class CommandInsertHandler extends CommandAbstractHandler<CommandInsert> {
 
 	@Override

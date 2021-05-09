@@ -15,6 +15,7 @@ import com.tvd12.ezyfox.entity.EzyObject;
 
 import lombok.Getter;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class Index {
 
 	@Getter
@@ -24,6 +25,10 @@ public class Index {
 	public Index(IndexSetting setting) {
 		this.setting = setting;
 		this.tree = new BTree<>(newKeyComparator(setting.getFields()));
+	}
+	
+	public static Index ofId() {
+		return new Index(IndexSetting.ID_SETTING);
 	}
 	
 	public Comparable find(Comparable key) {
@@ -92,5 +97,5 @@ public class Index {
 			return 0;
 		};
 	}
-	
+
 }

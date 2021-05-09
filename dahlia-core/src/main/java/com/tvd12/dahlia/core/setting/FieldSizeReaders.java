@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import com.tvd12.dahlia.core.data.DataType;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 class FieldSizeReaders {
 	
 	protected final Map<DataType, FieldSizeReader> readers;

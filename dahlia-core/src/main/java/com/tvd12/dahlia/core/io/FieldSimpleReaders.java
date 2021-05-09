@@ -8,6 +8,7 @@ import com.tvd12.dahlia.core.data.DataType;
 import com.tvd12.dahlia.core.setting.FieldSetting;
 import com.tvd12.ezyfox.entity.EzyObject;
 
+@SuppressWarnings("rawtypes")
 class FieldSimpleReaders implements FieldReaders {
 
 	protected final Map<DataType, FieldReader> readers;

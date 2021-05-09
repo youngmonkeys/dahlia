@@ -11,6 +11,7 @@ import com.tvd12.dahlia.core.storage.CollectionStorage;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
+@SuppressWarnings("rawtypes")
 public class CommandSaveOneHandler extends CommandAbstractHandler<CommandSaveOne> {
 
 	@Override
