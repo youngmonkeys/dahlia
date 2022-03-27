@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.tvd12</groupId>
 		<artifactId>ezyfox</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.3</version>
 	</parent>
 	<version>0.0.2</version>
 	<artifactId>dahlia</artifactId>
@@ -15,8 +15,7 @@
 	<url>https://youngmonkeys.org/</url>
 
 	<properties>
-		<ezy.version>1.1.6</ezy.version>
-		<test.util.version>1.1.0</test.util.version>
+		<ezy.version>1.2.2</ezy.version>
 	</properties>
 
 	<dependencies>
@@ -24,12 +23,6 @@
 			<groupId>com.tvd12</groupId>
 			<artifactId>ezyfox-tools</artifactId>
 			<version>${ezy.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.tvd12</groupId>
-			<artifactId>test-util</artifactId>
-			<version>${test.util.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
