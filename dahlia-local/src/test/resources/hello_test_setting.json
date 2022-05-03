@@ -1,18 +1,24 @@
-{	"name" : "test",
-	"fields" : {
-	    "id": {
-	        "type" : "int",
-	        "max_value" : 100
-	    },
-	    "value" : {
-	        "type" : "long"
-	    },
-	    "name" : {
-	        "type" : "text"
-	    }
-	},
-	"indexes" : {
-		"value" : {"year" : true},
-		"value-name" : {"value" : true, "name" : false}
-	}
+{
+  "name": "test",
+  "fields": {
+    "id": {
+      "type": "int",
+      "max_value": 100
+    },
+    "value": {
+      "type": "long"
+    },
+    "name": {
+      "type": "text"
+    }
+  },
+  "indexes": {
+    "value": {
+      "year": true
+    },
+    "value-name": {
+      "value": true,
+      "name": false
+    }
+  }
 }

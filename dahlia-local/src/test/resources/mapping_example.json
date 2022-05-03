@@ -1,51 +1,57 @@
-{	"name" : "test",
-	"fields" : {
-	    "id": {
-	        "type" : "int",
-	        "max_value" : 100
-	    },
-	    "info" : {
-	        "type" : "object",
-	        "fields" : {
-	            "name" : {
-	                "type" : "text"
-	            }
-	        }
-	    },
-	    "year" : {
-	        "type" : "array",
-	        "max_size" : 100,
-	        "item" : {
-	        	"type" : "int",
-	        	"max_value" : 100
-	        }
-	    },
-	    "year1" : {
-	        "type" : "array",
-	        "max_size" : 100,
-	        "item" : {
-	        	"type" : "object",
-		        "fields" : {
-		            "name" : {
-		                "type" : "text"
-		            }
-		        }
-	        }
-	    },
-	    "year2" : {
-	        "type" : "array",
-	        "max_size" : 100,
-	        "item" : {
-	        	"type" : "array",
-		        "item" : {
-	        		"type" : "int",
-	        		"max_value" : 100
-	        	}
-	        }
-	    }
-	},
-	"indexes" : {
-		"year" : {"year" : true},
-		"id-info" : {"id" : true, "info" : false}
-	}
+{
+  "name": "test",
+  "fields": {
+    "id": {
+      "type": "int",
+      "max_value": 100
+    },
+    "info": {
+      "type": "object",
+      "fields": {
+        "name": {
+          "type": "text"
+        }
+      }
+    },
+    "year": {
+      "type": "array",
+      "max_size": 100,
+      "item": {
+        "type": "int",
+        "max_value": 100
+      }
+    },
+    "year1": {
+      "type": "array",
+      "max_size": 100,
+      "item": {
+        "type": "object",
+        "fields": {
+          "name": {
+            "type": "text"
+          }
+        }
+      }
+    },
+    "year2": {
+      "type": "array",
+      "max_size": 100,
+      "item": {
+        "type": "array",
+        "item": {
+          "type": "int",
+          "max_value": 100
+        }
+      }
+    }
+  },
+  "indexes": {
+    "year": {
+      "year": true
+    },
+    "id-info": {
+      "id": true,
+      "info": false
+    }
+  }
 }

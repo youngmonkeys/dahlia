@@ -5,16 +5,20 @@ import java.io.RandomAccessFile;
 
 final class FileCreators {
 
-	private FileCreators() {}
-	
-	public static RandomAccessFile newRandomAccessFile(File file, String mode) {
-		try {
-			if(!file.exists())
-				file.createNewFile();
-			return new RandomAccessFile(file, mode);
-		} catch (Exception e) {
-			throw new IllegalArgumentException("can create random access file: " + file + " with mode: " + mode, e);
-		}
-	}
-	
+    private FileCreators() {}
+
+    public static RandomAccessFile newRandomAccessFile(File file, String mode) {
+        try {
+            if (!file.exists()) {
+                //noinspection ResultOfMethodCallIgnored
+                file.createNewFile();
+            }
+            return new RandomAccessFile(file, mode);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(
+                "can create random access file: " + file + " with mode: " + mode,
+                e
+            );
+        }
+    }
 }

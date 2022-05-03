@@ -1,11 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="AllTests">
-	<test name="All">
-		<packages>
-			<package name="com.tvd12.dahlia.core.test"></package>
-			<package name="com.tvd12.dahlia.core.test.tree"></package>
-			<package name="com.tvd12.dahlia.core.test.btree"></package>
-		</packages>
-	</test>
+    <test name="All">
+        <packages>
+            <package name="com.tvd12.dahlia.core.test" />
+            <package name="com.tvd12.dahlia.core.test.tree" />
+            <package name="com.tvd12.dahlia.core.test.btree" />
+        </packages>
+    </test>
 </suite>

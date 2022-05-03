@@ -8,23 +8,21 @@ import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
 public class SettingDatabaseSerializer implements SettingSerializer<DatabaseSetting> {
 
-	protected final EzyObjectSerializer objectSerializer;
-	
-	public SettingDatabaseSerializer(EzyObjectSerializer objectSerializer) {
-		this.objectSerializer = objectSerializer;
-	}
-	
-	@Override
-	public byte[] serialize(DatabaseSetting setting) {
-		EzyObject object = databaseToObject(setting);
-		byte[] bytes = objectSerializer.serialize(object);
-		return bytes;
-	}
+    protected final EzyObjectSerializer objectSerializer;
 
-	protected EzyObject databaseToObject(DatabaseSetting setting) {
-		return EzyEntityFactory.newObjectBuilder()
-				.append(SettingFields.ID, setting.getDatabaseId())
-				.build();
-	}
+    public SettingDatabaseSerializer(EzyObjectSerializer objectSerializer) {
+        this.objectSerializer = objectSerializer;
+    }
 
+    @Override
+    public byte[] serialize(DatabaseSetting setting) {
+        EzyObject object = databaseToObject(setting);
+        return objectSerializer.serialize(object);
+    }
+
+    protected EzyObject databaseToObject(DatabaseSetting setting) {
+        return EzyEntityFactory.newObjectBuilder()
+            .append(SettingFields.ID, setting.getDatabaseId())
+            .build();
+    }
 }

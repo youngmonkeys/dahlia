@@ -6,19 +6,21 @@ import com.tvd12.ezyfox.builder.EzyObjectBuilder;
 
 final class SettingFieldBooleanToObject extends SettingFieldToObject<FieldBooleanSetting> {
 
-	private static final SettingFieldBooleanToObject INSTANCE 
-			= new SettingFieldBooleanToObject();
+    private static final SettingFieldBooleanToObject INSTANCE
+        = new SettingFieldBooleanToObject();
 
-	private SettingFieldBooleanToObject() {}
+    private SettingFieldBooleanToObject() {}
 
-	public static SettingFieldBooleanToObject getInstance() {
-		return INSTANCE;
-	}
+    public static SettingFieldBooleanToObject getInstance() {
+        return INSTANCE;
+    }
 
-	@Override
-	protected EzyObjectBuilder newObjectBuilder(
-			SettingFieldToObjects mappers, FieldBooleanSetting setting) {
-		return super.newObjectBuilder(mappers, setting)
-				.append(SettingFields.DEFAULT, setting.getDefaultValue());
-	}
+    @Override
+    protected EzyObjectBuilder newObjectBuilder(
+        SettingFieldToObjects mappers,
+        FieldBooleanSetting setting
+    ) {
+        return super.newObjectBuilder(mappers, setting)
+            .append(SettingFields.DEFAULT, setting.getDefaultValue());
+    }
 }

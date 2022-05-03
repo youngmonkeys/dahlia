@@ -4,6 +4,5 @@ import com.tvd12.dahlia.core.command.Command;
 
 public interface CommandHandler<C extends Command> {
 
-	Object handle(C command);
-	
+    Object handle(C command);
 }

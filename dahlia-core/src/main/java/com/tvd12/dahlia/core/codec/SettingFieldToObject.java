@@ -8,15 +8,14 @@ import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
 abstract class SettingFieldToObject<S extends FieldSetting> {
 
-	public final EzyObject toObject(SettingFieldToObjects mappers, S setting) {
-		return newObjectBuilder(mappers, setting)
-		        .append(SettingFields.TYPE, setting.getType())
-		        .append(SettingFields.NULLABLE, setting.isNullable())
-		        .build();
-	}
+    public final EzyObject toObject(SettingFieldToObjects mappers, S setting) {
+        return newObjectBuilder(mappers, setting)
+            .append(SettingFields.TYPE, setting.getType())
+            .append(SettingFields.NULLABLE, setting.isNullable())
+            .build();
+    }
 
-	protected EzyObjectBuilder newObjectBuilder(SettingFieldToObjects mappers, S setting) {
-		return EzyEntityFactory.newObjectBuilder();
-	}
-
+    protected EzyObjectBuilder newObjectBuilder(SettingFieldToObjects mappers, S setting) {
+        return EzyEntityFactory.newObjectBuilder();
+    }
 }

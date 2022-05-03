@@ -6,19 +6,18 @@ import com.tvd12.ezyfox.entity.EzyObject;
 
 final class SettingObjectToLongField extends SettingObjectToField {
 
-	private static final SettingObjectToLongField INSTANCE = new SettingObjectToLongField();
-	
-	private SettingObjectToLongField() {}
-	
-	public static SettingObjectToLongField getInstance() {
-		return INSTANCE;
-	}
-	
-	@Override
-	protected FieldLongSetting newSetting(SettingObjectToFields mappers, EzyObject object) {
-		FieldLongSetting setting = new FieldLongSetting();
-		setting.setDefaultValue(object.get(SettingFields.DEFAULT, long.class));
-		return setting;
-	}
-	
+    private static final SettingObjectToLongField INSTANCE = new SettingObjectToLongField();
+
+    private SettingObjectToLongField() {}
+
+    public static SettingObjectToLongField getInstance() {
+        return INSTANCE;
+    }
+
+    @Override
+    protected FieldLongSetting newSetting(SettingObjectToFields mappers, EzyObject object) {
+        FieldLongSetting setting = new FieldLongSetting();
+        setting.setDefaultValue(object.get(SettingFields.DEFAULT, long.class));
+        return setting;
+    }
 }

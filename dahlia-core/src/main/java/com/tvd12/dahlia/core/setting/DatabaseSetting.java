@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter
 public class DatabaseSetting {
 
-	protected int databaseId;
-	protected String databaseName;
-	
+    protected int databaseId;
+    protected String databaseName;
 }

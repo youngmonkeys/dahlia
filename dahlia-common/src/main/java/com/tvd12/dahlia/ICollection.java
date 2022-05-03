@@ -6,27 +6,27 @@ import com.tvd12.ezyfox.entity.EzyObject;
 
 public interface ICollection {
 
-	int getId();
-	
-	String getName();
-	
-	EzyArray save(EzyArray records);
-	
-	EzyObject save(EzyObject record);
-	
-	EzyArray insert(EzyArray records);
-	
-	EzyObject insert(EzyObject record);
-	
-	EzyObject findOne(EzyObject query);
-	
-	EzyArray find(EzyObject query, FindOptions options);
+    int getId();
 
-	EzyArray update(EzyObject query, EzyObject update);
-	
-	EzyArray delete(EzyObject query);
-	
-	long count();
-	
-	long count(EzyObject query);
+    String getName();
+
+    EzyArray save(EzyArray records);
+
+    EzyObject save(EzyObject record);
+
+    EzyArray insert(EzyArray records);
+
+    EzyObject insert(EzyObject record);
+
+    EzyObject findOne(EzyObject query);
+
+    EzyArray find(EzyObject query, FindOptions options);
+
+    EzyArray update(EzyObject query, EzyObject update);
+
+    EzyArray delete(EzyObject query);
+
+    long count();
+
+    long count(EzyObject query);
 }

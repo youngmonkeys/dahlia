@@ -6,20 +6,21 @@ import com.tvd12.ezyfox.builder.EzyObjectBuilder;
 
 final class SettingFieldShortToObject extends SettingFieldToObject<FieldShortSetting> {
 
-	private static final SettingFieldShortToObject INSTANCE 
-			= new SettingFieldShortToObject();
+    private static final SettingFieldShortToObject INSTANCE
+        = new SettingFieldShortToObject();
 
-	private SettingFieldShortToObject() {}
+    private SettingFieldShortToObject() {}
 
-	public static SettingFieldShortToObject getInstance() {
-		return INSTANCE;
-	}
-	
-	@Override
-	protected EzyObjectBuilder newObjectBuilder(
-			SettingFieldToObjects mappers, FieldShortSetting setting) {
-		return super.newObjectBuilder(mappers, setting)
-				.append(SettingFields.DEFAULT, setting.getDefaultValue());
-	}
+    public static SettingFieldShortToObject getInstance() {
+        return INSTANCE;
+    }
 
+    @Override
+    protected EzyObjectBuilder newObjectBuilder(
+        SettingFieldToObjects mappers,
+        FieldShortSetting setting
+    ) {
+        return super.newObjectBuilder(mappers, setting)
+            .append(SettingFields.DEFAULT, setting.getDefaultValue());
+    }
 }

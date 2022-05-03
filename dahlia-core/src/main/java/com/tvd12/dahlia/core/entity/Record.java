@@ -7,15 +7,14 @@ import lombok.Setter;
 @SuppressWarnings("rawtypes")
 public class Record {
 
-	@Setter
-	protected boolean alive;
-	protected final Comparable id;
-	protected final long position;
-	
-	public Record(Comparable id, long position) {
-		this.id = id;
-		this.alive = true;
-		this.position = position;
-	}
-	
+    protected final Comparable id;
+    protected final long position;
+    @Setter
+    protected boolean alive;
+
+    public Record(Comparable id, long position) {
+        this.id = id;
+        this.alive = true;
+        this.position = position;
+    }
 }

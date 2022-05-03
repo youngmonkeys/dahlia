@@ -6,20 +6,22 @@ import com.tvd12.ezyfox.builder.EzyObjectBuilder;
 
 final class SettingFieldByteToObject extends SettingFieldToObject<FieldByteSetting> {
 
-	private static final SettingFieldByteToObject INSTANCE 
-			= new SettingFieldByteToObject();
+    private static final SettingFieldByteToObject INSTANCE
+        = new SettingFieldByteToObject();
 
-	private SettingFieldByteToObject() {}
+    private SettingFieldByteToObject() {}
 
-	public static SettingFieldByteToObject getInstance() {
-		return INSTANCE;
-	}
-	
-	@Override
-	protected EzyObjectBuilder newObjectBuilder(
-			SettingFieldToObjects mappers, FieldByteSetting setting) {
-		return super.newObjectBuilder(mappers, setting)
-				.append(SettingFields.DEFAULT, setting.getDefaultValue());
-	}
+    public static SettingFieldByteToObject getInstance() {
+        return INSTANCE;
+    }
+
+    @Override
+    protected EzyObjectBuilder newObjectBuilder(
+        SettingFieldToObjects mappers,
+        FieldByteSetting setting
+    ) {
+        return super.newObjectBuilder(mappers, setting)
+            .append(SettingFields.DEFAULT, setting.getDefaultValue());
+    }
 
 }

@@ -1,13 +1,14 @@
-{	"name" : "test",
-	"fields" : {
-	    "id": {
-	        "type" : "uuid"
-	    },
-	    "value" : {
-	        "type" : "long"
-	    },
-	    "name" : {
-	        "type" : "text"
-	    }
-	}
+{
+  "name": "test",
+  "fields": {
+    "id": {
+      "type": "uuid"
+    },
+    "value": {
+      "type": "long"
+    },
+    "name": {
+      "type": "text"
+    }
+  }
 }

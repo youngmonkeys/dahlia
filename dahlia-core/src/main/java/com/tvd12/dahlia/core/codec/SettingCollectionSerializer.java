@@ -9,31 +9,29 @@ import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
 public class SettingCollectionSerializer implements SettingSerializer<CollectionSetting> {
 
-	protected final SettingFieldToObjects fieldToObjects;
-	protected final EzyObjectSerializer objectSerializer;
-	
-	public SettingCollectionSerializer(EzyObjectSerializer objectSerializer) {
-		this.objectSerializer = objectSerializer;
-		this.fieldToObjects = new SettingFieldToObjects();
-	}
-	
-	@Override
-	public byte[] serialize(CollectionSetting setting) {
-		EzyObject object = collectionToObject(setting);
-		byte[] bytes = objectSerializer.serialize(object);
-		return bytes;
-	}
+    protected final SettingFieldToObjects fieldToObjects;
+    protected final EzyObjectSerializer objectSerializer;
 
-	protected EzyObject collectionToObject(CollectionSetting setting) {
-		return EzyEntityFactory.newObjectBuilder()
-				.append(SettingFields.ID, setting.getCollectionId())
-				.append(SettingFields.RECORD_SIZE, setting.getRecordSize())
-				.append(SettingFields.FIELDS, fieldsToArray(setting))
-				.build();
-	}
+    public SettingCollectionSerializer(EzyObjectSerializer objectSerializer) {
+        this.objectSerializer = objectSerializer;
+        this.fieldToObjects = new SettingFieldToObjects();
+    }
 
-	protected EzyArray fieldsToArray(CollectionSetting setting) {
-		EzyArray answer = fieldToObjects.toArray(setting.getAllFields());
-		return answer;
-	}
+    @Override
+    public byte[] serialize(CollectionSetting setting) {
+        EzyObject object = collectionToObject(setting);
+        return objectSerializer.serialize(object);
+    }
+
+    protected EzyObject collectionToObject(CollectionSetting setting) {
+        return EzyEntityFactory.newObjectBuilder()
+            .append(SettingFields.ID, setting.getCollectionId())
+            .append(SettingFields.RECORD_SIZE, setting.getRecordSize())
+            .append(SettingFields.FIELDS, fieldsToArray(setting))
+            .build();
+    }
+
+    protected EzyArray fieldsToArray(CollectionSetting setting) {
+        return fieldToObjects.toArray(setting.getAllFields());
+    }
 }

@@ -8,24 +8,22 @@ import com.tvd12.ezyfox.factory.EzyEntityFactory;
 
 public class SettingRuntimeSerializer implements SettingSerializer<RuntimeSetting> {
 
-	protected final EzyObjectSerializer objectSerializer;
-	
-	public SettingRuntimeSerializer(EzyObjectSerializer objectSerializer) {
-		this.objectSerializer = objectSerializer;
-	}
-	
-	@Override
-	public byte[] serialize(RuntimeSetting setting) {
-		EzyObject object = settingToObject(setting);
-		byte[] bytes = objectSerializer.serialize(object);
-		return bytes;
-	}
+    protected final EzyObjectSerializer objectSerializer;
 
-	protected EzyObject settingToObject(RuntimeSetting setting) {
-		return EzyEntityFactory.newObjectBuilder()
-				.append(SettingFields.MAX_DATABASE_ID, setting.getMaxDatabaseId())
-				.append(SettingFields.MAX_COLLECTION_ID, setting.getMaxCollectionId())
-				.build();
-	}
-	
+    public SettingRuntimeSerializer(EzyObjectSerializer objectSerializer) {
+        this.objectSerializer = objectSerializer;
+    }
+
+    @Override
+    public byte[] serialize(RuntimeSetting setting) {
+        EzyObject object = settingToObject(setting);
+        return objectSerializer.serialize(object);
+    }
+
+    protected EzyObject settingToObject(RuntimeSetting setting) {
+        return EzyEntityFactory.newObjectBuilder()
+            .append(SettingFields.MAX_DATABASE_ID, setting.getMaxDatabaseId())
+            .append(SettingFields.MAX_COLLECTION_ID, setting.getMaxCollectionId())
+            .build();
+    }
 }

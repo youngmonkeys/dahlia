@@ -4,8 +4,7 @@ import java.util.function.Consumer;
 
 public interface NextConsumer<T> extends Consumer<T> {
 
-	default boolean next() {
-		return true;
-	}
-	
+    default boolean next() {
+        return true;
+    }
 }

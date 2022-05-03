@@ -6,20 +6,19 @@ import com.tvd12.ezyfox.builder.EzyObjectBuilder;
 
 final class SettingFieldBigDecimalToObject extends SettingFieldToObject<FieldBigDecimalSetting> {
 
-	private static final SettingFieldBigDecimalToObject INSTANCE 
-			= new SettingFieldBigDecimalToObject();
+    private static final SettingFieldBigDecimalToObject INSTANCE
+        = new SettingFieldBigDecimalToObject();
 
-	private SettingFieldBigDecimalToObject() {}
+    private SettingFieldBigDecimalToObject() {}
 
-	public static SettingFieldBigDecimalToObject getInstance() {
-		return INSTANCE;
-	}
-	
-	@Override
-	protected EzyObjectBuilder newObjectBuilder(
-			SettingFieldToObjects mappers, FieldBigDecimalSetting setting) {
-		return super.newObjectBuilder(mappers, setting)
-				.append(SettingFields.DEFAULT, setting.getDefaultValue());
-	}
+    public static SettingFieldBigDecimalToObject getInstance() {
+        return INSTANCE;
+    }
 
+    @Override
+    protected EzyObjectBuilder newObjectBuilder(
+        SettingFieldToObjects mappers, FieldBigDecimalSetting setting) {
+        return super.newObjectBuilder(mappers, setting)
+            .append(SettingFields.DEFAULT, setting.getDefaultValue());
+    }
 }

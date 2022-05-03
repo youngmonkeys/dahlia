@@ -5,10 +5,9 @@ import com.tvd12.dahlia.local.setting.LocalCollectionSettingReader;
 
 public class LocalCollectionSettingReaderTest {
 
-	public static void main(String[] args) {
-		LocalCollectionSettingReader reader = new LocalCollectionSettingReader();
-		CollectionSetting collectionSetting = reader.readFileSetting("mapping_example.json");
-		System.out.println(collectionSetting.toMap());
-	}
-	
+    public static void main(String[] args) {
+        LocalCollectionSettingReader reader = new LocalCollectionSettingReader();
+        CollectionSetting collectionSetting = reader.readFileSetting("mapping_example.json");
+        System.out.println(collectionSetting.toMap());
+    }
 }
