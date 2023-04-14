@@ -13,7 +13,7 @@
     <url>http://maven.apache.org</url>
 
     <properties>
-        <org.json.version>20190722</org.json.version>
+        <org.json.version>20230227</org.json.version>
     </properties>
 
     <dependencies>
